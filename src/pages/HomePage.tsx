@@ -1,3 +1,3 @@
 export default function HomePage() {
-  return <div>HomePage</div>;
+  return <div className="text-2xl font-bold">Welcome to Codelang</div>;
 }
