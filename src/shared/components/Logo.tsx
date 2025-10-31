@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function Logo() {
   return (
-    <Link to="/" className="inline-center gap-2" aria-label="Codelang">
+    <Link to="/" className="flex items-center gap-2" aria-label="Codelang">
       <PiCodeBold
         className="size-6 text-white"
         aria-hidden="true"

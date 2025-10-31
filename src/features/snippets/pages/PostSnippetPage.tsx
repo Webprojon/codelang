@@ -1,3 +1,3 @@
 export default function PostSnippetPage() {
-	return <div>PostSnippetPage</div>;
+  return <div>PostSnippetPage</div>;
 }
