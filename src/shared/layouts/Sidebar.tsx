@@ -23,7 +23,7 @@ export default function Sidebar() {
       className={`flex flex-col h-full overflow-y-auto overflow-x-hidden transition-all duration-300 shrink-0 select-none text-slate-300 bg-brand-700 ${isCollapsed ? 'w-20' : 'w-64'}`}
     >
       <div
-        className={`flex items-center pl-4 pr-2 py-4 border-b border-blue-700 ${isCollapsed ? 'justify-center' : 'justify-between'}`}
+        className={`flex items-center border py-2 border-b border-blue-700 ${isCollapsed ? 'pl-0 pr-0 justify-center' : 'pl-4 pr-2 justify-between'}`}
       >
         <div className="gap-3 flex items-center">
           <Avatar
@@ -33,10 +33,7 @@ export default function Sidebar() {
             imageUrl={user.userImg}
           />
           {!isCollapsed && (
-            <Link
-              to={`/user/${user.id}`}
-              className="cursor-pointer hover:underline"
-            >
+            <Link to={`/user/${user.id}`} className="cursor-pointer">
               {user.name}
             </Link>
           )}
