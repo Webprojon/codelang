@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import Button from '../../../shared/components/Button';
 import Input from '../../../shared/components/Input';
 
@@ -7,51 +7,32 @@ interface AuthFormProps {
   type: 'login' | 'register';
 }
 
+interface FormData {
+  username: string;
+  password: string;
+  confirmPassword?: string;
+}
+
 export default function AuthForm({ type }: AuthFormProps) {
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-    confirmPassword: '',
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>({
+    mode: 'onChange',
+    defaultValues: {
+      username: '',
+      password: '',
+      confirmPassword: '',
+    },
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const password = watch('password');
 
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const newErrors: Record<string, string> = {};
-
-    if (!formData.username.trim()) {
-      newErrors.username = 'Username is required';
-    }
-
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (type === 'register' && formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
-    }
-
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Confirm password is required';
-    }
-
-    if (type === 'register' && formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
-    }
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
+  const onSubmit = async (data: FormData) => {
+    console.log(data);
+    await new Promise(resolve => setTimeout(resolve, 500));
   };
 
   const labelClasses = 'text-gray-700 text-sm';
@@ -59,7 +40,7 @@ export default function AuthForm({ type }: AuthFormProps) {
     'text-gray-800 placeholder:text-gray-400 focus:border-brand-500';
 
   return (
-    <form onSubmit={handleSubmit} className="w-full">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full">
       <div className="mb-6">
         <h2 className="text-2xl font-semibold text-gray-800 mb-2 font-sans">
           {type === 'login' ? 'Welcome Back' : 'Create Account'}
@@ -75,41 +56,50 @@ export default function AuthForm({ type }: AuthFormProps) {
         <Input
           label="Username"
           id="username"
-          name="username"
           type="text"
-          value={formData.username}
-          onChange={handleChange}
           placeholder="Enter your username"
-          error={errors.username}
+          error={errors.username?.message}
           labelClassName={labelClasses}
           inputClassName={inputClasses}
+          {...register('username', {
+            required: 'Username is required',
+            minLength: {
+              value: 3,
+              message: 'Username must be at least 3 characters',
+            },
+          })}
         />
 
         <Input
           label="Password"
           id="password"
-          name="password"
           type="password"
-          value={formData.password}
-          onChange={handleChange}
           placeholder="Enter your password"
-          error={errors.password}
+          error={errors.password?.message}
           labelClassName={labelClasses}
           inputClassName={inputClasses}
+          {...register('password', {
+            required: 'Password is required',
+            minLength: {
+              value: 6,
+              message: 'Password must be at least 6 characters',
+            },
+          })}
         />
 
         {type === 'register' && (
           <Input
             label="Confirm Password"
             id="confirmPassword"
-            name="confirmPassword"
             type="password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
             placeholder="Confirm your password"
-            error={errors.confirmPassword}
+            error={errors.confirmPassword?.message}
             labelClassName={labelClasses}
             inputClassName={inputClasses}
+            {...register('confirmPassword', {
+              required: 'Please confirm your password',
+              validate: value => value === password || 'Passwords do not match',
+            })}
           />
         )}
       </div>
@@ -117,10 +107,14 @@ export default function AuthForm({ type }: AuthFormProps) {
       <div className="mt-6">
         <Button
           type="submit"
-          variant="white"
-          className="w-full py-3 bg-brand-500 text-white font-medium font-sans"
+          className="w-full py-3 bg-brand-500 text-white font-medium font-sans hover:bg-brand2-500"
+          disabled={isSubmitting}
         >
-          {type === 'login' ? 'Sign In' : 'Sign Up'}
+          {isSubmitting
+            ? 'Processing...'
+            : type === 'login'
+              ? 'Sign In'
+              : 'Sign Up'}
         </Button>
       </div>
 
