@@ -1,3 +1,3 @@
 export default function QuestionsPage() {
-	return <div>QuestionsPage</div>;
+  return <div>QuestionsPage</div>;
 }
