@@ -2,6 +2,7 @@ import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import { Outlet } from 'react-router-dom';
 import { Suspense, useState } from 'react';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 export default function Layout() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -23,7 +24,7 @@ export default function Layout() {
       <div className="flex flex-1 w-full min-w-0 min-h-0 relative">
         {isMobileSidebarOpen && (
           <div
-            className="fixed inset-0 bg-black/30 bg-opacity-50 z-40 lg:hidden"
+            className="fixed inset-0 bg-black/30 z-40 lg:hidden"
             onClick={closeMobileSidebar}
             aria-hidden="true"
           />
@@ -42,7 +43,11 @@ export default function Layout() {
 
         <main className="flex-1 bg-white p-4 md:p-6 overflow-y-auto overscroll-contain min-w-0 min-h-0">
           <Suspense
-            fallback={<div className="p-4 text-gray-500">Loading...</div>}
+            fallback={
+              <div className="flex-center p-8">
+                <LoadingSpinner size="lg" />
+              </div>
+            }
           >
             <Outlet />
           </Suspense>

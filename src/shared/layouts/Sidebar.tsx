@@ -119,13 +119,13 @@ export default function Sidebar({ onClose }: SidebarProps) {
               type="button"
               onClick={handleCollapse}
               aria-label="Expand sidebar"
-              className="p-4 transition-all hover:bg-brand-500 flex justify-center items-center"
+              className="p-4 transition-all hover:bg-brand-500 flex-center"
             >
               <FaChevronRight className="cursor-pointer" />
             </button>
           )}
         </ul>
-        <Button className="mx-2 sm:hidden" aria-label="Sign out">
+        <Button className="mx-2 sm:hidden btn-white" aria-label="Sign out">
           Sign Out
         </Button>
       </nav>

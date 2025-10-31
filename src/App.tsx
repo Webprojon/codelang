@@ -9,6 +9,7 @@ import MySnippetsPage from './features/snippets/pages/MySnippetsPage';
 import QuestionsPage from './features/questions/pages/QuestionsPage';
 import LoginPage from './features/auth/pages/LoginPage';
 import RegisterPage from './features/auth/pages/RegisterPage';
+import NotFound from './shared/components/NotFound';
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
       </Route>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

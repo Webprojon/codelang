@@ -3,6 +3,7 @@
 :root {
   --brand-700: #0d47a1;
   --brand-600: #0955ac;
+  --brand2-500: #3974ce;
   --brand-500: #1f5ebd;
 }
 
@@ -40,15 +41,20 @@
   .bg-brand-500 {
     background-color: var(--brand-500);
   }
+  .bg-brand2-500 {
+    background-color: var(--brand2-500);
+  }
   .hover\:bg-brand-500:hover {
     background-color: var(--brand-500);
+  }
+  .hover\:bg-brand2-500:hover {
+    background-color: var(--brand2-500);
   }
 
   /* Shadow utilities */
   .shadow-auth {
     box-shadow:
-      rgba(0, 0, 0, 0.4) 0px 2px 4px,
-      rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
-      rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+      rgba(17, 17, 26, 0.1) 0px 4px 16px,
+      rgba(17, 17, 26, 0.05) 0px 8px 32px;
   }
 }

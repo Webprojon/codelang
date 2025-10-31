@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 interface AvatarProps {
@@ -23,17 +24,19 @@ export default function Avatar({
 }: AvatarProps) {
   const sizeClass = sizeClasses[size];
   const initials = name ? name.slice(0, 1).toUpperCase() : '?';
+  const [imageError, setImageError] = useState(false);
 
   const avatarContent = (
     <div
-      className={`${sizeClass} rounded-full bg-blue-400 font-semibold text-blue-900 flex justify-center items-center ${className}`}
+      className={`${sizeClass} rounded-full bg-blue-400 font-semibold text-blue-900 flex-center ${className}`}
     >
-      {imageUrl ? (
+      {imageUrl && !imageError ? (
         <img
           src={imageUrl}
           alt={name || 'User avatar'}
           loading="lazy"
           className={`${sizeClass} rounded-full object-cover`}
+          onError={() => setImageError(true)}
         />
       ) : (
         initials

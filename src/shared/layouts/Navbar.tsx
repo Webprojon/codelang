@@ -20,26 +20,32 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
         <Logo />
         <button
           onClick={onMenuClick}
-          className="lg:hidden p-2 rounded-md hover:bg-brand-500 transition-colors"
+          className="lg:hidden p-2 sidebar-btn"
           aria-label="Toggle sidebar menu"
         >
           <HiMenu className="size-6 text-white" />
         </button>
       </div>
 
-      <div className="hidden sm:flex items-center gap-2 md:gap-5">
+      <div className="hidden sm:flex items-center gap-2">
         <div className="flex gap-1 md:gap-2">
           {location === '/questions' && (
-            <Button variant="white" aria-label="Ask a question">
+            <Button
+              className="bg-white text-gray-600 hover:bg-gray-100"
+              aria-label="Ask a question"
+            >
               Ask Question
             </Button>
           )}
-          <Button variant="white-uppercase" aria-label="Sign out">
+          <Button
+            className="bg-white text-gray-600 hover:bg-gray-100 uppercase"
+            aria-label="Sign out"
+          >
             Sign Out
           </Button>
         </div>
         <Button
-          variant="icon"
+          className="flex items-center"
           icon={
             <IoLanguage
               className="size-6 text-white"
