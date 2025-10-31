@@ -1,19 +1,34 @@
 import { IoLanguage } from 'react-icons/io5';
+import { HiMenu } from 'react-icons/hi';
 import Logo from '../components/Logo';
 import Button from '../components/Button';
 import { useLocation } from 'react-router-dom';
 
-export default function Navbar() {
+interface NavbarProps {
+  onMenuClick: () => void;
+}
+
+export default function Navbar({ onMenuClick }: NavbarProps) {
   const location = useLocation().pathname;
 
   return (
     <nav
-      className="flex items-center justify-between pl-4 pr-6 h-[70px] w-full min-w-0 select-none text-slate-300 bg-brand-600"
+      className="flex items-center justify-between pl-4 pr-2 md:pr-6 h-[70px] w-full min-w-0 select-none text-slate-300 bg-brand-600"
       aria-label="Top Navigation Bar"
     >
-      <Logo />
-      <div className="flex items-center gap-5">
-        <div className="flex gap-2">
+      <div className="flex items-center justify-between w-full sm:w-auto gap-3">
+        <Logo />
+        <button
+          onClick={onMenuClick}
+          className="lg:hidden p-2 rounded-md hover:bg-brand-500 transition-colors"
+          aria-label="Toggle sidebar menu"
+        >
+          <HiMenu className="size-6 text-white" />
+        </button>
+      </div>
+
+      <div className="hidden sm:flex items-center gap-2 md:gap-5">
+        <div className="flex gap-1 md:gap-2">
           {location === '/questions' && (
             <Button variant="white" aria-label="Ask a question">
               Ask Question

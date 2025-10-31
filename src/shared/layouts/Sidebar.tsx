@@ -1,9 +1,11 @@
 import { Link, NavLink } from 'react-router-dom';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { HiX } from 'react-icons/hi';
 import UserImg from '../../assets/images/1.jpg';
 import { sidebarNavigationLinks } from '../config/navigation';
 import Avatar from '../components/Avatar';
+import Button from '../components/Button';
 
 const user = {
   id: 1,
@@ -11,19 +13,35 @@ const user = {
   userImg: UserImg,
 };
 
-export default function Sidebar() {
+interface SidebarProps {
+  onClose?: () => void;
+}
+
+export default function Sidebar({ onClose }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const handleCollapse = useCallback(() => {
     setIsCollapsed(prev => !prev);
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setIsCollapsed(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <div
-      className={`flex flex-col h-full overflow-y-auto overflow-x-hidden transition-all duration-300 shrink-0 select-none text-slate-300 bg-brand-700 ${isCollapsed ? 'w-20' : 'w-64'}`}
+      className={`flex flex-col h-full overflow-y-auto overflow-x-hidden transition-all duration-300 shrink-0 select-none text-slate-300 bg-brand-700 ${
+        isCollapsed ? 'w-20' : 'w-64'
+      }`}
     >
       <div
-        className={`flex items-center border py-2 border-b border-blue-700 ${isCollapsed ? 'pl-0 pr-0 justify-center' : 'pl-4 pr-2 justify-between'}`}
+        className={`flex items-center py-2 border-b border-blue-700 ${isCollapsed ? 'pl-0 pr-0 justify-center' : 'pl-4 pr-2 justify-between'}`}
       >
         <div className="gap-3 flex items-center">
           <Avatar
@@ -33,23 +51,40 @@ export default function Sidebar() {
             imageUrl={user.userImg}
           />
           {!isCollapsed && (
-            <Link to={`/user/${user.id}`} className="cursor-pointer">
+            <Link
+              to={`/user/${user.id}`}
+              className="cursor-pointer"
+              onClick={onClose}
+            >
               {user.name}
             </Link>
           )}
         </div>
-        {!isCollapsed && (
-          <button
-            type="button"
-            onClick={handleCollapse}
-            aria-label="Collapse sidebar"
-          >
-            <FaChevronLeft className="cursor-pointer" />
-          </button>
-        )}
+        <div className="flex items-center gap-2">
+          {!isCollapsed && onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              className="lg:hidden p-1 rounded-md hover:bg-brand-500 transition-colors"
+              aria-label="Close sidebar"
+            >
+              <HiX className="cursor-pointer size-5" />
+            </button>
+          )}
+          {!isCollapsed && (
+            <button
+              type="button"
+              onClick={handleCollapse}
+              className="hidden lg:block"
+              aria-label="Collapse sidebar"
+            >
+              <FaChevronLeft className="cursor-pointer" />
+            </button>
+          )}
+        </div>
       </div>
 
-      <nav className="flex-1 mt-2">
+      <nav className="flex-1 mt-2 flex flex-col justify-between pb-2">
         <ul className="flex flex-col">
           {sidebarNavigationLinks.map(link => {
             const IconComponent = link.icon;
@@ -65,6 +100,7 @@ export default function Sidebar() {
                       isActive ? 'bg-brand-500' : 'hover:bg-brand-500'
                     } ${isCollapsed ? 'justify-center' : ''}`
                   }
+                  onClick={onClose}
                 >
                   <div className="w-6">
                     <IconComponent className={link.iconSize || 'size-6'} />
@@ -89,6 +125,9 @@ export default function Sidebar() {
             </button>
           )}
         </ul>
+        <Button className="mx-2 sm:hidden" aria-label="Sign out">
+          Sign Out
+        </Button>
       </nav>
     </div>
   );
