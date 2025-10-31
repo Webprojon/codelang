@@ -26,10 +26,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     ref
   ) => {
     return (
-      <div className={containerClassName}>
+      <div className={`font-sans ${containerClassName}`}>
         <label
           htmlFor={id}
-          className={`block text-base text-black mb-1 font-sans ${labelClassName}`}
+          className={`block text-base mb-1 font-medium ${labelClassName}`}
         >
           {label}
         </label>
@@ -37,14 +37,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={id}
           type={type}
-          className={`w-full text-base text-black bg-transparent border-0 border-b border-gray-300 py-2 outline-none font-sans ${
-            error ? 'border-red-500' : ''
+          className={`w-full text-sm bg-transparent border-b py-2 px-0 outline-none transition-colors ${
+            error ? 'border-red-500' : 'border-gray-300'
           } ${inputClassName}`}
           {...rest}
         />
-        {error && (
-          <p className="mt-1 text-sm text-red-500 font-sans">{error}</p>
-        )}
+        {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
       </div>
     );
   }

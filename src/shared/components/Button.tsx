@@ -26,7 +26,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
       switch (variant) {
         case 'white':
-          return `${baseClasses} bg-white text-gray-600 hover:bg-gray-200`;
+          return `${baseClasses} bg-white text-gray-600 hover:bg-[#3974ce]`;
         case 'white-uppercase':
           return `${baseClasses} bg-white text-gray-600 hover:bg-gray-200 uppercase`;
         case 'icon':

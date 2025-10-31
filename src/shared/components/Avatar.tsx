@@ -26,7 +26,7 @@ export default function Avatar({
 
   const avatarContent = (
     <div
-      className={`${sizeClass} cursor-pointer rounded-full bg-blue-400 font-semibold text-blue-900 flex justify-center items-center ${className}`}
+      className={`${sizeClass} rounded-full bg-blue-400 font-semibold text-blue-900 flex justify-center items-center ${className}`}
     >
       {imageUrl ? (
         <img
