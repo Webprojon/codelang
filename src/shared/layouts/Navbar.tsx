@@ -18,7 +18,11 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
   const { logoutMutation, isLoggingOut } = useAuth();
 
   const handleLogout = () => {
-    logoutMutation.mutate(undefined);
+    logoutMutation.mutate(undefined, {
+      onSuccess: () => {
+        navigate('/');
+      },
+    });
   };
 
   const handleLogin = () => {

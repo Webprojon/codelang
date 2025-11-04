@@ -2,7 +2,7 @@ import type { InputHTMLAttributes } from 'react';
 import { forwardRef } from 'react';
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className'> {
-  label: string;
+  label?: string;
   id: string;
   error?: string;
   containerClassName?: string;
@@ -26,9 +26,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ) => {
     return (
       <div className={`font-sans ${containerClassName}`}>
-        <label htmlFor={id} className={`block text-base mb-1 font-medium ${labelClassName}`}>
-          {label}
-        </label>
+        {label && (
+          <label htmlFor={id} className={`block text-base mb-1 font-medium ${labelClassName}`}>
+            {label}
+          </label>
+        )}
         <input
           ref={ref}
           id={id}
