@@ -32,11 +32,7 @@ export default function Layout() {
 
         <aside
           className={`fixed lg:static inset-y-0 left-0 z-50 transition-transform duration-300
-             ${
-               isMobileSidebarOpen
-                 ? 'translate-x-0'
-                 : '-translate-x-full lg:translate-x-0'
-             }`}
+             ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
         >
           <Sidebar onClose={closeMobileSidebar} />
         </aside>

@@ -27,7 +27,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
 
   return (
     <nav
-      className="flex items-center justify-between pl-4 pr-2 md:pr-6 h-[70px] w-full min-w-0 select-none text-slate-300 bg-brand-600"
+      className="flex items-center justify-between pl-4 pr-2 md:pr-4  h-[70px] w-full min-w-0 select-none text-slate-300 bg-brand-600"
       aria-label="Top Navigation Bar"
     >
       <div className="flex items-center justify-between w-full sm:w-auto gap-3">

@@ -14,7 +14,7 @@ interface SidebarProps {
 export default function Sidebar({ onClose }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const user = useAuthStore(state => state.user);
-  console.log(user);
+
   const handleCollapse = useCallback(() => {
     setIsCollapsed(prev => !prev);
   }, []);
