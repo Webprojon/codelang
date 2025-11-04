@@ -2,14 +2,31 @@ import { IoLanguage } from 'react-icons/io5';
 import { HiMenu } from 'react-icons/hi';
 import Logo from '../components/Logo';
 import Button from '../components/Button';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../features/auth/store/authStore';
+import { useAuth } from '../../features/auth/hooks/useAuth';
 
 interface NavbarProps {
   onMenuClick: () => void;
 }
 
 export default function Navbar({ onMenuClick }: NavbarProps) {
-  const location = useLocation().pathname;
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const { logoutMutation, isLoggingOut } = useAuth();
+
+  const handleLogout = () => {
+    logoutMutation.mutate(undefined, {
+      onSuccess: () => {
+        navigate('/');
+      },
+    });
+  };
+
+  const handleLogin = () => {
+    navigate('/login');
+  };
 
   return (
     <nav
@@ -29,7 +46,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
 
       <div className="hidden sm:flex items-center gap-2">
         <div className="flex gap-1 md:gap-2">
-          {location === '/questions' && (
+          {pathname === '/questions' && (
             <Button
               className="bg-white text-gray-600 hover:bg-gray-100"
               aria-label="Ask a question"
@@ -37,22 +54,28 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
               Ask Question
             </Button>
           )}
-          <Button
-            className="bg-white text-gray-600 hover:bg-gray-100 uppercase"
-            aria-label="Sign out"
-          >
-            Sign Out
-          </Button>
+          {isAuthenticated ? (
+            <Button
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              className="bg-white text-gray-600 hover:bg-gray-100 uppercase"
+              aria-label="Sign out"
+            >
+              {isLoggingOut ? 'Signing out...' : 'Sign Out'}
+            </Button>
+          ) : (
+            <Button
+              onClick={handleLogin}
+              className="bg-white text-gray-600 hover:bg-gray-100 uppercase"
+              aria-label="Log in"
+            >
+              Sign in
+            </Button>
+          )}
         </div>
         <Button
           className="flex items-center"
-          icon={
-            <IoLanguage
-              className="size-6 text-white"
-              aria-hidden="true"
-              focusable="false"
-            />
-          }
+          icon={<IoLanguage className="size-6 text-white" aria-hidden="true" focusable="false" />}
           aria-label="Change language"
         >
           <span>EN</span>

@@ -9,6 +9,8 @@ export interface NavigationLink {
   label: string;
   icon: IconType;
   iconSize?: string;
+  protected?: boolean;
+  requiresAuth?: boolean;
 }
 
 export const sidebarNavigationLinks: NavigationLink[] = [
@@ -17,35 +19,47 @@ export const sidebarNavigationLinks: NavigationLink[] = [
     label: 'Home',
     icon: MdHome,
     iconSize: 'size-6',
+    protected: false,
+    requiresAuth: false,
   },
   {
     to: '/my-account',
     label: 'My Account',
     icon: FaUserLarge,
     iconSize: 'size-5',
+    protected: true,
+    requiresAuth: true,
   },
   {
     to: '/post-snippet',
     label: 'Post snippet',
     icon: HiFolderOpen,
     iconSize: 'size-6',
+    protected: true,
+    requiresAuth: true,
   },
   {
     to: '/my-snippets',
     label: 'My snippets',
     icon: HiFolder,
     iconSize: 'size-6',
+    protected: true,
+    requiresAuth: true,
   },
   {
     to: '/questions',
     label: 'Questions',
     icon: FaCircleQuestion,
     iconSize: 'size-5',
+    protected: false,
+    requiresAuth: false,
   },
   {
     to: '/users',
     label: 'Users',
     icon: FaUsers,
     iconSize: 'size-6',
+    protected: false,
+    requiresAuth: false,
   },
 ];

@@ -1,19 +1,25 @@
-// API client setup - to be implemented later
-// This is a placeholder for future API integration
 import axios from 'axios';
+import { useAuthStore } from '../../features/auth/store/authStore';
+import { navigateTo } from '../utils/navigation';
+
+const isDevelopment = import.meta.env.DEV;
+const baseURL = isDevelopment ? '/api' : import.meta.env.VITE_API_BASE_URL || '/api';
 
 export const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  baseURL,
   timeout: 10000,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Request interceptor - to be implemented
 apiClient.interceptors.request.use(
   config => {
-    // Add auth token, etc. later
+    const token = useAuthStore.getState().token;
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   error => {
@@ -21,13 +27,15 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Response interceptor - to be implemented
 apiClient.interceptors.response.use(
   response => {
     return response;
   },
   error => {
-    // Handle errors globally later
+    if (error.response?.status === 401) {
+      useAuthStore.getState().logout();
+      navigateTo('/login');
+    }
     return Promise.reject(error);
   }
 );
