@@ -1,20 +1,42 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { loginUser, registerUser, logoutUser } from '../services/authService';
+import { loginUser, registerUser, logoutUser, getCurrentUser } from '../services/authService';
 import { useAuthStore } from '../store/authStore';
 import type { LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from '../types';
 
 export const useAuth = () => {
   const queryClient = useQueryClient();
+  const setUser = useAuthStore(state => state.setUser);
   const logout = useAuthStore(state => state.logout);
+
+  const fetchAndSetUser = async () => {
+    try {
+      const user = await getCurrentUser();
+      setUser(user);
+      return user;
+    } catch (error) {
+      setUser(null);
+      throw error;
+    }
+  };
 
   const loginMutation = useMutation<LoginResponse, Error, LoginRequest>({
     mutationFn: loginUser,
     mutationKey: ['login'],
+    onSuccess: async () => {
+      await fetchAndSetUser();
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.invalidateQueries({ queryKey: ['auth'] });
+    },
   });
 
   const registerMutation = useMutation<RegisterResponse, Error, RegisterRequest>({
     mutationFn: registerUser,
     mutationKey: ['register'],
+    onSuccess: async () => {
+      await fetchAndSetUser();
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.invalidateQueries({ queryKey: ['auth'] });
+    },
   });
 
   const logoutMutation = useMutation<void, Error, void>({
@@ -22,12 +44,14 @@ export const useAuth = () => {
     mutationKey: ['logout'],
     onSuccess: () => {
       logout();
+      queryClient.removeQueries({ queryKey: ['auth', 'me'] });
       queryClient.invalidateQueries({ queryKey: ['user'] });
       queryClient.invalidateQueries({ queryKey: ['auth'] });
     },
     onError: error => {
       console.error('Logout error:', error);
       logout();
+      queryClient.removeQueries({ queryKey: ['auth', 'me'] });
     },
   });
 

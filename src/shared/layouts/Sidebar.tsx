@@ -5,6 +5,7 @@ import { HiX } from 'react-icons/hi';
 import { sidebarNavigationLinks } from '../config/navigation';
 import Button from '../components/Button';
 import UserAvatar from '../components/UserAvatar';
+import { useAuthStore } from '../../features/auth/store/authStore';
 
 interface SidebarProps {
   onClose?: () => void;
@@ -12,7 +13,8 @@ interface SidebarProps {
 
 export default function Sidebar({ onClose }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
-
+  const user = useAuthStore(state => state.user);
+  console.log(user);
   const handleCollapse = useCallback(() => {
     setIsCollapsed(prev => !prev);
   }, []);
@@ -33,34 +35,36 @@ export default function Sidebar({ onClose }: SidebarProps) {
         isCollapsed ? 'w-20' : 'w-64'
       }`}
     >
-      <div
-        className={`flex items-center py-2 border-b border-blue-700 ${isCollapsed ? 'pl-0 pr-0 justify-center' : 'pl-3 pr-2 justify-between'}`}
-      >
-        <UserAvatar isCollapsed={isCollapsed} onLinkClick={onClose} />
+      {user && (
+        <div
+          className={`flex items-center py-2 border-b border-blue-700 ${isCollapsed ? 'pl-0 pr-0 justify-center' : 'pl-3 pr-2 justify-between'}`}
+        >
+          <UserAvatar isCollapsed={isCollapsed} onLinkClick={onClose} />
 
-        <div className="flex items-center gap-2">
-          {!isCollapsed && onClose && (
-            <button
-              type="button"
-              onClick={onClose}
-              className="lg:hidden p-1 rounded-md hover:bg-brand-500 transition-colors"
-              aria-label="Close sidebar"
-            >
-              <HiX className="cursor-pointer size-5" />
-            </button>
-          )}
-          {!isCollapsed && (
-            <button
-              type="button"
-              onClick={handleCollapse}
-              className="hidden lg:block"
-              aria-label="Collapse sidebar"
-            >
-              <FaChevronLeft className="cursor-pointer" />
-            </button>
-          )}
+          <div className="flex items-center gap-2">
+            {!isCollapsed && onClose && (
+              <button
+                type="button"
+                onClick={onClose}
+                className="lg:hidden p-1 rounded-md hover:bg-brand-500 transition-colors"
+                aria-label="Close sidebar"
+              >
+                <HiX className="cursor-pointer size-5" />
+              </button>
+            )}
+            {!isCollapsed && (
+              <button
+                type="button"
+                onClick={handleCollapse}
+                className="hidden lg:block"
+                aria-label="Collapse sidebar"
+              >
+                <FaChevronLeft className="cursor-pointer" />
+              </button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       <nav className="flex-1 mt-2 flex flex-col justify-between pb-2">
         <ul className="flex flex-col">

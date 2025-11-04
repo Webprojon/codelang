@@ -14,14 +14,11 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const isInitializing = useAuthStore(state => state.isInitializing);
   const { logoutMutation, isLoggingOut } = useAuth();
 
   const handleLogout = () => {
-    logoutMutation.mutate(undefined, {
-      onSuccess: () => {
-        navigate('/');
-      },
-    });
+    logoutMutation.mutate(undefined);
   };
 
   const handleLogin = () => {
@@ -54,7 +51,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
               Ask Question
             </Button>
           )}
-          {isAuthenticated ? (
+          {isInitializing ? null : isAuthenticated ? (
             <Button
               onClick={handleLogout}
               disabled={isLoggingOut}

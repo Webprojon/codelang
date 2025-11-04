@@ -1,6 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
 import Layout from './shared/layouts/Layout';
 import ProtectedRoute from './shared/components/ProtectedRoute';
+import { useInitAuth } from './features/auth/hooks/useInitAuth';
+import { useAuthStore } from './features/auth/store/authStore';
+import LoadingSpinner from './shared/components/LoadingSpinner';
 
 import HomePage from './features/home/pages/HomePage';
 import MyAccountPage from './features/account/pages/MyAccountPage';
@@ -13,6 +16,20 @@ import RegisterPage from './features/auth/pages/RegisterPage';
 import NotFound from './shared/components/NotFound';
 
 export default function App() {
+  useInitAuth();
+  const isInitializing = useAuthStore(state => state.isInitializing);
+
+  if (isInitializing) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <div className="flex flex-col items-center gap-4">
+          <LoadingSpinner size="lg" />
+          <p className="text-gray-600 text-sm">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Routes>
       {/* Public routes */}

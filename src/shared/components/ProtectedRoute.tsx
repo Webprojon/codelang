@@ -8,6 +8,11 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute = ({ reverse = false, redirectTo = '/' }: ProtectedRouteProps) => {
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const isInitializing = useAuthStore(state => state.isInitializing);
+
+  if (isInitializing) {
+    return null;
+  }
 
   if (reverse) {
     return isAuthenticated ? <Navigate to={redirectTo} replace /> : <Outlet />;

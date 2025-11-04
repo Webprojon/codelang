@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../shared/components/Button';
 import Input from '../../../shared/components/Input';
 import { useAuth } from '../hooks/useAuth';
-import { useAuthStore } from '../store/authStore';
 
 interface AuthFormProps {
   type: 'login' | 'register';
@@ -46,7 +45,6 @@ const FORM_DEFAULT_VALUES: FormData = {
 
 export default function AuthForm({ type }: AuthFormProps) {
   const navigate = useNavigate();
-  const login = useAuthStore(state => state.login);
   const { loginMutation, registerMutation, isLoggingIn, isRegistering, loginError, registerError } =
     useAuth();
 
@@ -78,7 +76,11 @@ export default function AuthForm({ type }: AuthFormProps) {
   const handleRegister = (data: FormData) => {
     registerMutation.mutate(
       { username: data.username, password: data.password },
-      { onSuccess: () => navigate('/login') }
+      {
+        onSuccess: () => {
+          navigate('/login');
+        },
+      }
     );
   };
 
@@ -86,11 +88,7 @@ export default function AuthForm({ type }: AuthFormProps) {
     loginMutation.mutate(
       { username: data.username, password: data.password },
       {
-        onSuccess: response => {
-          login(
-            { id: response.id, username: response.username, role: response.role },
-            response.token
-          );
+        onSuccess: () => {
           navigate('/');
         },
       }
