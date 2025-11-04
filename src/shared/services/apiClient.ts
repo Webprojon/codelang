@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useAuthStore } from '../../features/auth/store/authStore';
-import { navigateTo } from '../utils/navigation';
 
 const isDevelopment = import.meta.env.DEV;
 const baseURL = isDevelopment ? '/api' : import.meta.env.VITE_API_BASE_URL || '/api';
@@ -16,10 +15,6 @@ export const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   config => {
-    const token = useAuthStore.getState().token;
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
     return config;
   },
   error => {
@@ -34,7 +29,6 @@ apiClient.interceptors.response.use(
   error => {
     if (error.response?.status === 401) {
       useAuthStore.getState().logout();
-      navigateTo('/login');
     }
     return Promise.reject(error);
   }
