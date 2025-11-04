@@ -18,12 +18,12 @@ const queryClient = new QueryClient({
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
+    <BrowserRouter>
+      <ErrorBoundary>
+        <QueryClientProvider client={queryClient}>
           <App />
-        </BrowserRouter>
-      </QueryClientProvider>
-    </ErrorBoundary>
+        </QueryClientProvider>
+      </ErrorBoundary>
+    </BrowserRouter>
   </StrictMode>
 );

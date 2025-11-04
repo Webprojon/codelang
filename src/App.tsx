@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import Layout from './shared/layouts/Layout';
+import ProtectedRoute from './shared/components/ProtectedRoute';
 
 import HomePage from './features/home/pages/HomePage';
 import MyAccountPage from './features/account/pages/MyAccountPage';
@@ -14,16 +15,28 @@ import NotFound from './shared/components/NotFound';
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<HomePage />} />
-        <Route path="/my-account" element={<MyAccountPage />} />
-        <Route path="/post-snippet" element={<PostSnippetPage />} />
-        <Route path="/my-snippets" element={<MySnippetsPage />} />
+      {/* Public routes */}
+      <Route element={<Layout />}>
+        <Route path="/" element={<HomePage />} />
         <Route path="/questions" element={<QuestionsPage />} />
         <Route path="/users" element={<UsersPage />} />
       </Route>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+
+      {/* Protected routes */}
+      <Route element={<ProtectedRoute redirectTo="/login" />}>
+        <Route element={<Layout />}>
+          <Route path="/my-account" element={<MyAccountPage />} />
+          <Route path="/post-snippet" element={<PostSnippetPage />} />
+          <Route path="/my-snippets" element={<MySnippetsPage />} />
+        </Route>
+      </Route>
+
+      {/* Auth routes */}
+      <Route element={<ProtectedRoute reverse redirectTo="/" />}>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+      </Route>
+
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

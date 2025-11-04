@@ -1,17 +1,10 @@
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useCallback, useState, useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { HiX } from 'react-icons/hi';
-import UserImg from '../../assets/images/1.jpg';
 import { sidebarNavigationLinks } from '../config/navigation';
-import Avatar from '../components/Avatar';
 import Button from '../components/Button';
-
-const user = {
-  id: 1,
-  name: 'Danis',
-  userImg: UserImg,
-};
+import UserAvatar from '../components/UserAvatar';
 
 interface SidebarProps {
   onClose?: () => void;
@@ -41,25 +34,10 @@ export default function Sidebar({ onClose }: SidebarProps) {
       }`}
     >
       <div
-        className={`flex items-center py-2 border-b border-blue-700 ${isCollapsed ? 'pl-0 pr-0 justify-center' : 'pl-4 pr-2 justify-between'}`}
+        className={`flex items-center py-2 border-b border-blue-700 ${isCollapsed ? 'pl-0 pr-0 justify-center' : 'pl-3 pr-2 justify-between'}`}
       >
-        <div className="gap-3 flex items-center">
-          <Avatar
-            size="md"
-            name={user.name}
-            userId={user.id}
-            imageUrl={user.userImg}
-          />
-          {!isCollapsed && (
-            <Link
-              to={`/user/${user.id}`}
-              className="cursor-pointer"
-              onClick={onClose}
-            >
-              {user.name}
-            </Link>
-          )}
-        </div>
+        <UserAvatar isCollapsed={isCollapsed} onLinkClick={onClose} />
+
         <div className="flex items-center gap-2">
           {!isCollapsed && onClose && (
             <button
@@ -89,10 +67,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
           {sidebarNavigationLinks.map(link => {
             const IconComponent = link.icon;
             return (
-              <li
-                key={link.to}
-                className={`${isCollapsed ? 'px-0 pb-2' : 'px-2 pb-2 rounded-md'}`}
-              >
+              <li key={link.to} className={`${isCollapsed ? 'px-0 pb-2' : 'px-2 pb-2 rounded-md'}`}>
                 <NavLink
                   to={link.to}
                   className={({ isActive }: { isActive: boolean }) =>
@@ -105,11 +80,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
                   <div className="w-6">
                     <IconComponent className={link.iconSize || 'size-6'} />
                   </div>
-                  <span
-                    className={`font-extralight ${isCollapsed && 'hidden'}`}
-                  >
-                    {link.label}
-                  </span>
+                  <span className={`font-extralight ${isCollapsed && 'hidden'}`}>{link.label}</span>
                 </NavLink>
               </li>
             );
