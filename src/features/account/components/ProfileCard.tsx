@@ -1,0 +1,54 @@
+import { FaUser } from 'react-icons/fa';
+import { IoLogOutOutline } from 'react-icons/io5';
+import { RiDeleteBinLine } from 'react-icons/ri';
+import Button from '../../../shared/components/Button';
+import UserStats from './UserStats';
+import type { User } from '../../auth/types';
+import type { UserStats as UserStatsType } from '../types';
+
+interface ProfileCardProps {
+  user: User;
+  stats: UserStatsType;
+  onLogout?: () => void;
+  onDeleteAccount?: () => void;
+}
+
+export default function ProfileCard({ user, stats, onLogout, onDeleteAccount }: ProfileCardProps) {
+  return (
+    <article className="border border-gray-200 rounded-lg shadow-sm p-4 sm:p-6 md:p-8">
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-18">
+        <figure
+          className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full bg-gray-100 flex items-center justify-center shrink-0"
+          aria-label="Profile picture"
+        >
+          <FaUser
+            className="w-14 h-14 sm:w-20 sm:h-20 md:size-28 text-gray-400"
+            aria-hidden="true"
+          />
+        </figure>
+
+        <section className="text-center sm:text-left w-full sm:w-auto">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">{user.username}</h2>
+          <p className="text-xs text-gray-500">Id: {user.id}</p>
+          <p className="text-xs text-gray-500">Role: {user.role}</p>
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-4 justify-center sm:justify-start">
+            <Button
+              icon={<IoLogOutOutline className="text-orange-100" aria-hidden="true" />}
+              className="bg-orange-500 hover:bg-orange-600 rounded w-full sm:w-auto justify-center"
+              aria-label="Logout"
+              onClick={onLogout}
+            />
+            <Button
+              icon={<RiDeleteBinLine className="text-red-200" aria-hidden="true" />}
+              className="bg-red-600 hover:bg-red-700 rounded shadow-2xl w-full sm:w-auto justify-center"
+              aria-label="Delete account"
+              onClick={onDeleteAccount}
+            />
+          </div>
+        </section>
+      </div>
+
+      <UserStats stats={stats} />
+    </article>
+  );
+}
