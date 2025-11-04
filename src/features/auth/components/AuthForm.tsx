@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../shared/components/Button';
 import Input from '../../../shared/components/Input';
 import { useAuth } from '../hooks/useAuth';
+import { USERNAME_VALIDATION, PASSWORD_VALIDATION } from '../../../shared/utils/validations';
 
 interface AuthFormProps {
   type: 'login' | 'register';
@@ -14,28 +15,6 @@ interface FormData {
   password: string;
   confirmPassword?: string;
 }
-
-const USERNAME_VALIDATION = {
-  required: 'Username is required',
-  minLength: { value: 3, message: 'Username must be at least 3 characters' },
-  maxLength: { value: 30, message: 'Username must be less than 30 characters' },
-  pattern: {
-    value: /^[a-zA-Z0-9_-]+$/,
-    message: 'Username can only contain letters, numbers, underscores, and hyphens',
-  },
-};
-
-const PASSWORD_VALIDATION = {
-  required: 'Password is required',
-  minLength: { value: 6, message: 'Password must be at least 6 characters' },
-  maxLength: { value: 128, message: 'Password must be less than 128 characters' },
-  validate: {
-    hasLetter: (value?: string) =>
-      value ? /[a-zA-Z]/.test(value) || 'Password must contain at least one letter' : true,
-    hasNumber: (value?: string) =>
-      value ? /[0-9]/.test(value) || 'Password must contain at least one number' : true,
-  },
-};
 
 const FORM_DEFAULT_VALUES: FormData = {
   username: '',

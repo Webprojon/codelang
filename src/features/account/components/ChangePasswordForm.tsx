@@ -1,57 +1,85 @@
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import type { ChangePasswordFormData } from '../types';
+import Button from '../../../shared/components/Button';
+import Input from '../../../shared/components/Input';
+import { PASSWORD_VALIDATION } from '../../../shared/utils/validations';
 
 interface ChangePasswordFormProps {
   onSubmit: (data: ChangePasswordFormData) => void;
+  isLoading?: boolean;
 }
 
-export default function ChangePasswordForm({ onSubmit }: ChangePasswordFormProps) {
-  const [oldPassword, setOldPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+export default function ChangePasswordForm({
+  onSubmit,
+  isLoading = false,
+}: ChangePasswordFormProps) {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ChangePasswordFormData>({
+    mode: 'onChange',
+    defaultValues: { oldPassword: '', newPassword: '', confirmPassword: '' },
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit({ oldPassword, newPassword, confirmPassword });
-    setOldPassword('');
-    setNewPassword('');
-    setConfirmPassword('');
+  const newPassword = watch('newPassword');
+
+  const confirmPasswordValidation = {
+    required: 'Please confirm your password',
+    validate: (value?: string) => value === newPassword || 'Passwords do not match',
   };
 
-  const inputClasses =
-    'w-full rounded border border-gray-400 px-3 py-[10px] mb-3 text-black placeholder:text-gray-400 outline-none';
+  const onSubmitForm = (data: ChangePasswordFormData) => {
+    if (isLoading) return;
+    onSubmit(data);
+    reset();
+  };
+
+  const isSubmittingForm = isSubmitting || isLoading;
 
   return (
     <div className="flex-1">
       <h3 className="text-black font-bold mb-3 mt-6">Change your password:</h3>
-      <form onSubmit={handleSubmit}>
-        <input
+      <form onSubmit={handleSubmit(onSubmitForm)}>
+        <Input
+          id="oldPassword"
           type="password"
           placeholder="Old password"
-          value={oldPassword}
-          onChange={e => setOldPassword(e.target.value)}
-          className={inputClasses}
+          error={errors.oldPassword?.message}
+          inputClassName="text-black placeholder:text-gray-400 border border-gray-400 rounded px-3 py-[10px]"
+          containerClassName="mb-3"
+          disabled={isSubmittingForm}
+          {...register('oldPassword', { required: 'Old password is required' })}
         />
-        <input
+        <Input
+          id="newPassword"
           type="password"
           placeholder="New password"
-          value={newPassword}
-          onChange={e => setNewPassword(e.target.value)}
-          className={inputClasses}
+          error={errors.newPassword?.message}
+          inputClassName="text-black placeholder:text-gray-400 border border-gray-400 rounded px-3 py-[10px]"
+          containerClassName="mb-3"
+          disabled={isSubmittingForm}
+          {...register('newPassword', PASSWORD_VALIDATION)}
         />
-        <input
+        <Input
+          id="confirmPassword"
           type="password"
           placeholder="Confirm password"
-          value={confirmPassword}
-          onChange={e => setConfirmPassword(e.target.value)}
-          className={inputClasses}
+          error={errors.confirmPassword?.message}
+          inputClassName="text-black placeholder:text-gray-400 border border-gray-400 rounded px-3 py-[10px]"
+          containerClassName="mb-3"
+          disabled={isSubmittingForm}
+          {...register('confirmPassword', confirmPasswordValidation)}
         />
-        <button
+        <Button
           type="submit"
-          className="w-full rounded cursor-pointer bg-[#4CAF50] hover:bg-[#4CAF50]/90 text-slate-200 uppercase py-[8px] shadow-md"
+          disabled={isSubmittingForm}
+          className="w-full bg-[#4CAF50] hover:bg-[#4CAF50]/90 text-white py-[8px] disabled:hover:bg-[#4CAF50] disabled:text-slate-300"
         >
-          CHANGE PASSWORD
-        </button>
+          {isSubmittingForm ? 'Changing password...' : 'CHANGE PASSWORD'}
+        </Button>
       </form>
     </div>
   );

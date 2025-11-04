@@ -1,36 +1,57 @@
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import type { ChangeUsernameFormData } from '../types';
+import Button from '../../../shared/components/Button';
+import Input from '../../../shared/components/Input';
+import { USERNAME_VALIDATION } from '../../../shared/utils/validations';
 
 interface ChangeUsernameFormProps {
   onSubmit: (data: ChangeUsernameFormData) => void;
+  isLoading?: boolean;
 }
 
-export default function ChangeUsernameForm({ onSubmit }: ChangeUsernameFormProps) {
-  const [newUsername, setNewUsername] = useState('');
+export default function ChangeUsernameForm({
+  onSubmit,
+  isLoading = false,
+}: ChangeUsernameFormProps) {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ChangeUsernameFormData>({
+    mode: 'onChange',
+    defaultValues: { newUsername: '' },
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit({ newUsername });
-    setNewUsername('');
+  const onSubmitForm = (data: ChangeUsernameFormData) => {
+    if (isLoading) return;
+    onSubmit(data);
+    reset();
   };
+
+  const isSubmittingForm = isSubmitting || isLoading;
 
   return (
     <div className="flex-1">
       <h3 className="text-black font-bold mb-3 mt-6">Change your username:</h3>
-      <form onSubmit={handleSubmit}>
-        <input
+      <form onSubmit={handleSubmit(onSubmitForm)}>
+        <Input
+          id="newUsername"
           type="text"
           placeholder="New username"
-          value={newUsername}
-          onChange={e => setNewUsername(e.target.value)}
-          className="w-full rounded border border-gray-400 px-3 py-[10px] mb-4 text-black placeholder:text-gray-400 outline-none"
+          error={errors.newUsername?.message}
+          inputClassName="text-black placeholder:text-gray-400 border border-gray-400 rounded px-3 py-[10px]"
+          containerClassName="mb-4"
+          disabled={isSubmittingForm}
+          {...register('newUsername', USERNAME_VALIDATION)}
         />
-        <button
+        <Button
           type="submit"
-          className="w-full rounded cursor-pointer bg-[#4CAF50] hover:bg-[#4CAF50]/90 text-slate-200 uppercase py-[8px] shadow-md"
+          disabled={isSubmittingForm}
+          className="w-full bg-[#4CAF50] hover:bg-[#4CAF50]/90 text-white py-[8px] disabled:hover:bg-[#4CAF50] disabled:text-slate-300"
         >
-          SAVE
-        </button>
+          {isSubmittingForm ? 'Saving...' : 'SAVE'}
+        </Button>
       </form>
     </div>
   );

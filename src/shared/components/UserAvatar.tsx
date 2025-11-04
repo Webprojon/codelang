@@ -18,14 +18,14 @@ export default function UserAvatar({ isCollapsed = false, onLinkClick }: UserAva
 
   return (
     <div className="flex items-center gap-3">
-      <Link to={`/user/${user.id}`} className="cursor-pointer" onClick={onLinkClick}>
+      <Link to="/my-account" className="cursor-pointer" onClick={onLinkClick}>
         <div className="w-9 h-9 rounded-full bg-blue-400 flex items-center justify-center text-blue-900 font-semibold text-base">
           {firstLetter}
         </div>
       </Link>
       {!isCollapsed && (
         <Link
-          to={`/user/${user.id}`}
+          to="/my-account"
           className="cursor-pointer hover:text-white transition-colors"
           onClick={onLinkClick}
         >
