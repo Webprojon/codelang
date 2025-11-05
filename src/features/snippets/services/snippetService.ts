@@ -111,3 +111,13 @@ export const markSnippet = async (id: number, mark: 'like' | 'dislike'): Promise
     throw createApiError(apiError);
   }
 };
+
+export const getSnippetById = async (id: number): Promise<ApiSnippet> => {
+  try {
+    const response = await apiClient.get<{ data: ApiSnippet }>(`${SNIPPETS_ENDPOINT}/${id}`);
+    return response.data.data;
+  } catch (error) {
+    const apiError = handleApiError(error);
+    throw createApiError(apiError);
+  }
+};

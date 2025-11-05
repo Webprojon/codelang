@@ -50,6 +50,7 @@ export interface ApiMark {
 export interface ApiComment {
   id: string;
   content: string;
+  user: ApiUser;
 }
 
 export interface ApiSnippet {
