@@ -35,7 +35,7 @@ export default function MyAccountPage() {
   }
 
   return (
-    <section className="min-h-screen bg-white px-4">
+    <section className="min-h-screen bg-white">
       <ProfileHeader user={userWithStats.user} />
 
       <ProfileCard

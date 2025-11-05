@@ -42,6 +42,7 @@ export interface CodeEditorProps {
   language?: string;
   placeholder?: string;
   className?: string;
+  readOnly?: boolean;
 }
 
 type LanguageSupportFunction = () => Extension;
@@ -62,6 +63,7 @@ export default function CodeEditor({
   onChange,
   language = 'javascript',
   className = '',
+  readOnly = false,
 }: CodeEditorProps) {
   const editorRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
@@ -71,11 +73,15 @@ export default function CodeEditor({
 
     const langSupport = languageMap[language.toLowerCase()] || javascript;
 
-    const state = EditorState.create({
-      doc: value,
-      extensions: [
-        lineNumbers(),
-        highlightSpecialChars(),
+    const extensions: Extension[] = [
+      lineNumbers(),
+      highlightSpecialChars(),
+      syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+      langSupport(),
+    ];
+
+    if (!readOnly) {
+      extensions.push(
         history(),
         foldGutter(),
         drawSelection(),
@@ -97,49 +103,57 @@ export default function CodeEditor({
           ...foldKeymap,
           ...completionKeymap,
         ]),
-        syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
-        langSupport(),
         EditorView.updateListener.of(update => {
           if (update.docChanged) {
             const newValue = update.state.doc.toString();
             onChange(newValue);
           }
-        }),
-        EditorView.theme({
-          '&': {
-            fontSize: '14px',
-            fontFamily: "'Courier New', Courier, monospace",
-          },
-          '.cm-content': {
-            padding: '12px',
-            minHeight: '300px',
-          },
-          '.cm-editor': {
-            border: '1px solid #d1d5db',
-            borderRadius: '4px',
-            backgroundColor: '#ffffff',
-          },
-          '.cm-editor.cm-focused': {
-            borderColor: '#1f5ebd',
-          },
-          '.cm-focused': {
-            outline: 'none',
-          },
-          '.cm-scroller': {
-            overflow: 'auto',
-          },
-          '.cm-gutters': {
-            backgroundColor: '#f3f4f6',
-            borderRight: 'none',
-          },
-          '.cm-lineNumbers': {
-            padding: '0 4px',
-          },
-          '.cm-line': {
-            padding: '0 4px',
-          },
-        }),
-      ],
+        })
+      );
+    } else {
+      extensions.push(EditorState.readOnly.of(true));
+    }
+
+    extensions.push(
+      EditorView.theme({
+        '&': {
+          fontSize: '14px',
+          fontFamily: "'Courier New', Courier, monospace",
+        },
+        '.cm-content': {
+          padding: '12px',
+          minHeight: '300px',
+        },
+        '.cm-editor': {
+          border: '1px solid #d1d5db',
+          borderRadius: '4px',
+          backgroundColor: '#ffffff',
+        },
+        '.cm-editor.cm-focused': {
+          borderColor: '#1f5ebd',
+        },
+        '.cm-focused': {
+          outline: 'none',
+        },
+        '.cm-scroller': {
+          overflow: 'auto',
+        },
+        '.cm-gutters': {
+          backgroundColor: '#f3f4f6',
+          borderRight: 'none',
+        },
+        '.cm-lineNumbers': {
+          padding: '0 4px',
+        },
+        '.cm-line': {
+          padding: '0 4px',
+        },
+      })
+    );
+
+    const state = EditorState.create({
+      doc: value,
+      extensions,
     });
 
     const view = new EditorView({
@@ -153,7 +167,7 @@ export default function CodeEditor({
       view.destroy();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language]);
+  }, [language, readOnly]);
 
   useEffect(() => {
     if (viewRef.current && value !== viewRef.current.state.doc.toString()) {

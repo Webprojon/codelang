@@ -3,24 +3,16 @@ import { useForm } from 'react-hook-form';
 import Select from '../../../shared/components/Select';
 import CodeEditor from '../../../shared/components/CodeEditor';
 import Button from '../../../shared/components/Button';
+import { usePostSnippet } from '../hooks/usePostSnippet';
+import { LANGUAGE_OPTIONS, DEFAULT_LANGUAGE } from '../constants';
+import type { PostSnippetFormData } from '../types';
 
-interface PostSnippetFormData {
-  language: string;
-  code: string;
-}
-
-const LANGUAGE_OPTIONS = [
-  { value: 'javascript', label: 'JavaScript' },
-  { value: 'python', label: 'Python' },
-  { value: 'java', label: 'Java' },
-  { value: 'cpp', label: 'C++' },
-  { value: 'html', label: 'HTML' },
-  { value: 'css', label: 'CSS' },
-  { value: 'json', label: 'JSON' },
-];
+const SELECT_CLASSES = 'text-black placeholder:text-gray-400 focus:border-brand-500';
 
 export default function PostSnippetPage() {
   const [code, setCode] = useState('');
+  const { isSubmitting, error: submitError, submitSnippet } = usePostSnippet();
+
   const {
     register,
     handleSubmit,
@@ -29,26 +21,40 @@ export default function PostSnippetPage() {
   } = useForm<PostSnippetFormData>({
     mode: 'onChange',
     defaultValues: {
-      language: 'javascript',
+      language: DEFAULT_LANGUAGE,
       code: '',
     },
   });
 
   const selectedLanguage = watch('language');
 
-  const onSubmit = (data: PostSnippetFormData) => {
+  const onSubmit = async (data: PostSnippetFormData) => {
     if (!code.trim()) {
       return;
     }
-    console.log('Submit:', { ...data, code });
-    // TODO: Implement API call
+
+    try {
+      await submitSnippet({
+        code: code.trim(),
+        language: data.language,
+      });
+      // TODO: Navigate to success page or show success message
+      console.log('Snippet created successfully');
+    } catch (error) {
+      // Error is handled by the hook
+      console.error('Failed to create snippet:', error);
+    }
   };
 
-  const selectClasses = 'text-black placeholder:text-gray-400 focus:border-brand-500';
-
   return (
-    <div className="mx-4">
+    <>
       <h1 className="text-2xl font-bold text-center mb-10">Create new snippet!</h1>
+
+      {submitError && (
+        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+          {submitError}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
@@ -59,7 +65,7 @@ export default function PostSnippetPage() {
             id="language"
             options={LANGUAGE_OPTIONS}
             error={errors.language?.message}
-            selectClassName={selectClasses}
+            selectClassName={SELECT_CLASSES}
             value={selectedLanguage}
             {...register('language', {
               required: 'Please select a language',
@@ -75,18 +81,19 @@ export default function PostSnippetPage() {
             <CodeEditor
               value={code}
               onChange={setCode}
-              language={selectedLanguage || 'javascript'}
+              language={selectedLanguage || DEFAULT_LANGUAGE}
             />
           </div>
         </div>
 
         <Button
           type="submit"
-          className="w-full py-2 bg-brand-700 text-slate-300 hover:bg-brand-500 uppercase tracking-wide"
+          disabled={isSubmitting || !code.trim()}
+          className="w-full py-2 bg-brand-700 text-slate-300 hover:bg-brand-500 uppercase tracking-wide disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Create snippet
+          {isSubmitting ? 'Creating...' : 'Create snippet'}
         </Button>
       </form>
-    </div>
+    </>
   );
 }
