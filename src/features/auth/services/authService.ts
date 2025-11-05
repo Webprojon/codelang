@@ -17,7 +17,7 @@ export const registerUser = async (credentials: RegisterRequest): Promise<Regist
   try {
     const response = await apiClient.post<RegisterResponse>(REGISTER_ENDPOINT, credentials);
     return response.data;
-  } catch (error: unknown) {
+  } catch (error) {
     const apiError = handleApiError(error);
     throw createApiError(apiError);
   }
@@ -27,7 +27,7 @@ export const loginUser = async (credentials: LoginRequest): Promise<LoginRespons
   try {
     const response = await apiClient.post<LoginResponse>(LOGIN_ENDPOINT, credentials);
     return response.data;
-  } catch (error: unknown) {
+  } catch (error) {
     const apiError = handleApiError(error);
     throw createApiError(apiError);
   }
@@ -36,7 +36,7 @@ export const loginUser = async (credentials: LoginRequest): Promise<LoginRespons
 export const logoutUser = async (): Promise<void> => {
   try {
     await apiClient.post(LOGOUT_ENDPOINT, {});
-  } catch (error: unknown) {
+  } catch (error) {
     const apiError = handleApiError(error);
     throw createApiError(apiError);
   }
@@ -47,7 +47,7 @@ export const getCurrentUser = async (): Promise<User> => {
     const response = await apiClient.get<{ data: User }>(ME_ENDPOINT);
     const user = response.data?.data ?? response.data;
     return user;
-  } catch (error: unknown) {
+  } catch (error) {
     const apiError = handleApiError(error);
     throw createApiError(apiError);
   }

@@ -32,11 +32,6 @@ export const useAuth = () => {
   const registerMutation = useMutation<RegisterResponse, Error, RegisterRequest>({
     mutationFn: registerUser,
     mutationKey: ['register'],
-    onSuccess: async () => {
-      await fetchAndSetUser();
-      queryClient.invalidateQueries({ queryKey: ['user'] });
-      queryClient.invalidateQueries({ queryKey: ['auth'] });
-    },
   });
 
   const logoutMutation = useMutation<void, Error, void>({
