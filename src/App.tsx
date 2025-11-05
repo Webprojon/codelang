@@ -10,6 +10,7 @@ import MyAccountPage from './features/account/pages/MyAccountPage';
 import UsersPage from './features/users/pages/UsersPage';
 import PostSnippetPage from './features/snippets/pages/PostSnippetPage';
 import MySnippetsPage from './features/snippets/pages/MySnippetsPage';
+import SnippetDetailPage from './features/snippets/pages/SnippetDetailPage';
 import QuestionsPage from './features/questions/pages/QuestionsPage';
 import LoginPage from './features/auth/pages/LoginPage';
 import RegisterPage from './features/auth/pages/RegisterPage';
@@ -35,6 +36,7 @@ export default function App() {
       {/* Public routes */}
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/snippets/:id" element={<SnippetDetailPage />} />
         <Route path="/questions" element={<QuestionsPage />} />
         <Route path="/users" element={<UsersPage />} />
       </Route>
