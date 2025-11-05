@@ -22,6 +22,9 @@ export {
   DEFAULT_LIMIT,
 } from './constants';
 
+// Components
+export { default as SnippetCard } from './components/SnippetCard';
+
 // Pages
 export { default as PostSnippetPage } from './pages/PostSnippetPage';
 export { default as MySnippetsPage } from './pages/MySnippetsPage';

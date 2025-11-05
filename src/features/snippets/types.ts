@@ -9,6 +9,7 @@ export interface Snippet {
   likes?: number;
   dislikes?: number;
   comments?: number;
+  currentUserMark?: 'like' | 'dislike' | null;
 }
 
 export interface PaginationMeta {

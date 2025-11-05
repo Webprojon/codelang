@@ -1,5 +1,6 @@
 import apiClient from '../../../shared/services/apiClient';
 import { handleApiError, createApiError } from '../../../shared/utils/errorHandler';
+import { useAuthStore } from '../../../features/auth/store/authStore';
 import type {
   Snippet,
   SnippetsResponse,
@@ -17,10 +18,21 @@ const DEFAULT_META: ApiPaginationMeta = {
   totalPages: 1,
 };
 
-const transformApiSnippetToSnippet = (apiSnippet: ApiSnippet): Snippet => {
+const transformApiSnippetToSnippet = (apiSnippet: ApiSnippet, currentUserId?: number): Snippet => {
   const likes = apiSnippet.marks.filter(mark => mark.type === 'like').length;
   const dislikes = apiSnippet.marks.filter(mark => mark.type === 'dislike').length;
   const commentsCount = apiSnippet.comments.length;
+
+  let currentUserMark: 'like' | 'dislike' | null = null;
+  if (currentUserId !== undefined) {
+    const userMark = apiSnippet.marks.find(
+      mark =>
+        parseInt(mark.user.id, 10) === currentUserId || mark.user.id === currentUserId.toString()
+    );
+    if (userMark) {
+      currentUserMark = userMark.type;
+    }
+  }
 
   return {
     id: parseInt(apiSnippet.id, 10),
@@ -32,15 +44,21 @@ const transformApiSnippetToSnippet = (apiSnippet: ApiSnippet): Snippet => {
     likes,
     dislikes,
     comments: commentsCount,
+    currentUserMark,
   };
 };
 
-const transformApiResponse = (apiResponse: ApiResponse): SnippetsResponse => {
+const transformApiResponse = (
+  apiResponse: ApiResponse,
+  currentUserId?: number
+): SnippetsResponse => {
   const responseData = apiResponse.data;
   const apiSnippets = responseData?.data || [];
   const meta = responseData?.meta || DEFAULT_META;
 
-  const snippets = apiSnippets.map(transformApiSnippetToSnippet);
+  const snippets = apiSnippets.map(apiSnippet =>
+    transformApiSnippetToSnippet(apiSnippet, currentUserId)
+  );
 
   return {
     snippets,
@@ -58,6 +76,9 @@ export const getSnippets = async (
   limit: number = DEFAULT_LIMIT
 ): Promise<SnippetsResponse> => {
   try {
+    const state = useAuthStore.getState();
+    const currentUserId = state.user?.id;
+
     const response = await apiClient.get<ApiResponse>(SNIPPETS_ENDPOINT, {
       params: {
         page,
@@ -66,7 +87,7 @@ export const getSnippets = async (
       },
     });
 
-    return transformApiResponse(response.data as ApiResponse);
+    return transformApiResponse(response.data as ApiResponse, currentUserId);
   } catch (error) {
     const apiError = handleApiError(error);
     throw createApiError(apiError);
@@ -76,6 +97,15 @@ export const getSnippets = async (
 export const createSnippet = async (request: PostSnippetRequest): Promise<void> => {
   try {
     await apiClient.post(SNIPPETS_ENDPOINT, request);
+  } catch (error) {
+    const apiError = handleApiError(error);
+    throw createApiError(apiError);
+  }
+};
+
+export const markSnippet = async (id: number, mark: 'like' | 'dislike'): Promise<void> => {
+  try {
+    await apiClient.post(`${SNIPPETS_ENDPOINT}/${id}/mark`, { mark });
   } catch (error) {
     const apiError = handleApiError(error);
     throw createApiError(apiError);

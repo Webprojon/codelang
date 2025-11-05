@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { getSnippets } from '../../snippets/services/snippetService';
 import type { Snippet } from '../../snippets/types';
-import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../constants';
+import { getErrorMessage } from '../utils/errorHandler';
 
 interface UseHomeSnippetsReturn {
   snippets: Snippet[];
@@ -13,41 +14,25 @@ interface UseHomeSnippetsReturn {
 }
 
 export const useHomeSnippets = (
-  initialPage: number = DEFAULT_PAGE,
-  limit: number = DEFAULT_LIMIT
+  initialPage: number = 1,
+  limit: number = 15
 ): UseHomeSnippetsReturn => {
   const [currentPage, setCurrentPage] = useState(initialPage);
-  const [snippets, setSnippets] = useState<Snippet[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    const fetchSnippets = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const response = await getSnippets(currentPage, limit);
-        setSnippets(response.snippets);
-        setTotalPages(response.meta.totalPages);
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Failed to fetch snippets';
-        setError(errorMessage);
-        setSnippets([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchSnippets();
-  }, [currentPage, limit]);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['snippets', currentPage, limit],
+    queryFn: () => getSnippets(currentPage, limit),
+    staleTime: 0,
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+  });
 
   return {
-    snippets,
+    snippets: data?.snippets || [],
     isLoading,
-    error,
+    error: error ? getErrorMessage(error) : null,
     currentPage,
-    totalPages,
+    totalPages: data?.meta.totalPages || 1,
     setCurrentPage,
   };
 };

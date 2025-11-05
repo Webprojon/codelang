@@ -121,8 +121,8 @@ export default function CodeEditor({
           fontFamily: "'Courier New', Courier, monospace",
         },
         '.cm-content': {
-          padding: '12px',
-          minHeight: '300px',
+          padding: '2px 6px',
+          minHeight: '240px',
         },
         '.cm-editor': {
           border: '1px solid #d1d5db',

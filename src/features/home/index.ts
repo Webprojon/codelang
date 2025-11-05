@@ -1,11 +1,14 @@
 // Hooks
 export { useHomeSnippets } from './hooks/useHomeSnippets';
-
-// Constants
-export { DEFAULT_PAGE, DEFAULT_LIMIT } from './constants';
+export { usePaginationControls } from './hooks/usePaginationControls';
 
 // Components
-export { default as SnippetCard } from './components/SnippetCard';
+export { default as WelcomeHeader } from './components/WelcomeHeader';
+export { default as PaginationControls } from './components/PaginationControls';
+export { default as SnippetsList } from './components/SnippetsList';
 
 // Pages
 export { default as HomePage } from './pages/HomePage';
+
+// Types
+export type { PaginationState, HomeSnippetsState } from './types';
