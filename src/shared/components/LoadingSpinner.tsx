@@ -9,10 +9,7 @@ const sizeClasses = {
   lg: 'w-12 h-12 border-4',
 };
 
-export default function LoadingSpinner({
-  size = 'md',
-  className = '',
-}: LoadingSpinnerProps) {
+export default function LoadingSpinner({ size = 'md', className = '' }: LoadingSpinnerProps) {
   return (
     <div
       className={`inline-block animate-spin rounded-full border-solid border-gray-300 border-t-blue-600 ${sizeClasses[size]} ${className}`}

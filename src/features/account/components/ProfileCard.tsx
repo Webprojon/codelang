@@ -15,7 +15,7 @@ interface ProfileCardProps {
 
 export default function ProfileCard({ user, stats, onLogout, onDeleteAccount }: ProfileCardProps) {
   return (
-    <article className="border border-gray-200 rounded-lg shadow-sm p-4 sm:p-6 md:p-8">
+    <article className="border border-gray-200 rounded-sm shadow-sm p-4 sm:p-6 md:p-8">
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-18">
         <figure
           className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full bg-gray-100 flex items-center justify-center shrink-0"
