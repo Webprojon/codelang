@@ -5,9 +5,14 @@ import type {
   Snippet,
   SnippetsResponse,
   PostSnippetRequest,
+  UpdateSnippetRequest,
   ApiSnippet,
   ApiResponse,
   ApiPaginationMeta,
+  CreateCommentRequest,
+  CreateCommentResponse,
+  UpdateCommentRequest,
+  UpdateCommentResponse,
 } from '../types';
 import { SNIPPETS_ENDPOINT, DEFAULT_PAGE, DEFAULT_LIMIT, DEFAULT_SORT_BY } from '../constants';
 
@@ -116,6 +121,85 @@ export const getSnippetById = async (id: number): Promise<ApiSnippet> => {
   try {
     const response = await apiClient.get<{ data: ApiSnippet }>(`${SNIPPETS_ENDPOINT}/${id}`);
     return response.data.data;
+  } catch (error) {
+    const apiError = handleApiError(error);
+    throw createApiError(apiError);
+  }
+};
+
+export const updateSnippet = async (
+  id: number,
+  request: UpdateSnippetRequest
+): Promise<ApiSnippet> => {
+  try {
+    const response = await apiClient.patch<{ data: ApiSnippet }>(
+      `${SNIPPETS_ENDPOINT}/${id}`,
+      request
+    );
+    return response.data.data;
+  } catch (error) {
+    const apiError = handleApiError(error);
+    throw createApiError(apiError);
+  }
+};
+
+export const getMySnippets = async (
+  page: number = DEFAULT_PAGE,
+  limit: number = DEFAULT_LIMIT
+): Promise<SnippetsResponse> => {
+  try {
+    const state = useAuthStore.getState();
+    const currentUserId = state.user?.id;
+
+    const response = await apiClient.get<ApiResponse>(SNIPPETS_ENDPOINT, {
+      params: {
+        page,
+        limit,
+        sortBy: DEFAULT_SORT_BY,
+        userId: currentUserId,
+      },
+    });
+
+    return transformApiResponse(response.data as ApiResponse, currentUserId);
+  } catch (error) {
+    const apiError = handleApiError(error);
+    throw createApiError(apiError);
+  }
+};
+
+const COMMENTS_ENDPOINT = '/comments' as const;
+
+export const createComment = async (
+  request: CreateCommentRequest
+): Promise<CreateCommentResponse> => {
+  try {
+    const response = await apiClient.post<CreateCommentResponse>(COMMENTS_ENDPOINT, request);
+    return response.data;
+  } catch (error) {
+    const apiError = handleApiError(error);
+    throw createApiError(apiError);
+  }
+};
+
+export const updateComment = async (
+  id: number,
+  request: UpdateCommentRequest
+): Promise<UpdateCommentResponse> => {
+  try {
+    const response = await apiClient.patch<UpdateCommentResponse>(
+      `${COMMENTS_ENDPOINT}/${id}`,
+      request
+    );
+    return response.data;
+  } catch (error) {
+    const apiError = handleApiError(error);
+    throw createApiError(apiError);
+  }
+};
+
+export const deleteComment = async (id: number): Promise<void> => {
+  try {
+    await apiClient.delete(`${COMMENTS_ENDPOINT}/${id}`);
   } catch (error) {
     const apiError = handleApiError(error);
     throw createApiError(apiError);

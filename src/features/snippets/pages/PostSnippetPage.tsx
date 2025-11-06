@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Select from '../../../shared/components/Select';
 import CodeEditor from '../../../shared/components/CodeEditor';
@@ -6,10 +7,12 @@ import Button from '../../../shared/components/Button';
 import { usePostSnippet } from '../hooks/usePostSnippet';
 import { LANGUAGE_OPTIONS, DEFAULT_LANGUAGE } from '../constants';
 import type { PostSnippetFormData } from '../types';
+import toast from 'react-hot-toast';
 
 const SELECT_CLASSES = 'text-black placeholder:text-gray-400 focus:border-brand-500';
 
 export default function PostSnippetPage() {
+  const navigate = useNavigate();
   const [code, setCode] = useState('');
   const { isSubmitting, error: submitError, submitSnippet } = usePostSnippet();
 
@@ -17,6 +20,9 @@ export default function PostSnippetPage() {
     register,
     handleSubmit,
     watch,
+    setValue,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<PostSnippetFormData>({
     mode: 'onChange',
@@ -28,20 +34,41 @@ export default function PostSnippetPage() {
 
   const selectedLanguage = watch('language');
 
+  // Sync code state with form
+  const handleCodeChange = (newCode: string) => {
+    setCode(newCode);
+    setValue('code', newCode, { shouldValidate: true, shouldDirty: true });
+    if (newCode.trim()) {
+      clearErrors('code');
+    }
+  };
+
   const onSubmit = async (data: PostSnippetFormData) => {
-    if (!code.trim()) {
+    const trimmedCode = code.trim();
+
+    // Validate code field
+    if (!trimmedCode) {
+      setError('code', {
+        type: 'manual',
+        message: 'Code is required',
+      });
       return;
     }
 
+    // Ensure we're using the latest code value
+    const finalData = {
+      ...data,
+      code: trimmedCode,
+    };
+
     try {
       await submitSnippet({
-        code: code.trim(),
-        language: data.language,
+        code: finalData.code,
+        language: finalData.language,
       });
-      // TODO: Navigate to success page or show success message
-      console.log('Snippet created successfully');
+      toast.success('Snippet created successfully');
+      navigate('/my-snippets');
     } catch (error) {
-      // Error is handled by the hook
       console.error('Failed to create snippet:', error);
     }
   };
@@ -80,10 +107,21 @@ export default function PostSnippetPage() {
           <div className="mt-2 border border-gray-300">
             <CodeEditor
               value={code}
-              onChange={setCode}
+              onChange={handleCodeChange}
               language={selectedLanguage || DEFAULT_LANGUAGE}
             />
           </div>
+          {errors.code && <p className="mt-1 text-sm text-red-600">{errors.code.message}</p>}
+          <input
+            type="hidden"
+            {...register('code', {
+              required: 'Code is required',
+              validate: () => {
+                const trimmed = code.trim();
+                return trimmed.length > 0 || 'Code cannot be empty';
+              },
+            })}
+          />
         </div>
 
         <Button
@@ -91,7 +129,7 @@ export default function PostSnippetPage() {
           disabled={isSubmitting || !code.trim()}
           className="w-full py-2 bg-brand-700 text-slate-300 hover:bg-brand-500 uppercase tracking-wide disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? 'Creating...' : 'Create snippet'}
+          {isSubmitting ? 'Creating...' : 'CREATE SNIPPET'}
         </Button>
       </form>
     </>

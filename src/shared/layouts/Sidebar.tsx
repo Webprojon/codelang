@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useCallback, useState, useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { HiX } from 'react-icons/hi';
@@ -14,6 +14,9 @@ interface SidebarProps {
 export default function Sidebar({ onClose }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const user = useAuthStore(state => state.user);
+  const location = useLocation();
+
+  const isSnippetDetailPage = /^\/snippets\/[^/]+$/.test(location.pathname);
 
   const handleCollapse = useCallback(() => {
     setIsCollapsed(prev => !prev);
@@ -70,15 +73,17 @@ export default function Sidebar({ onClose }: SidebarProps) {
         <ul className="flex flex-col">
           {sidebarNavigationLinks.map(link => {
             const IconComponent = link.icon;
+            const shouldBeActive = isSnippetDetailPage ? link.to === '/' : undefined;
             return (
               <li key={link.to} className={`${isCollapsed ? 'px-0 pb-2' : 'px-2 pb-2 rounded-md'}`}>
                 <NavLink
                   to={link.to}
-                  className={({ isActive }: { isActive: boolean }) =>
-                    `flex items-center gap-5 p-3 rounded-sm transition-all ${
-                      isActive ? 'bg-brand-500' : 'hover:bg-brand-500'
-                    } ${isCollapsed ? 'justify-center' : ''}`
-                  }
+                  className={({ isActive }: { isActive: boolean }) => {
+                    const active = shouldBeActive !== undefined ? shouldBeActive : isActive;
+                    return `flex items-center gap-5 p-3 rounded-sm transition-all ${
+                      active ? 'bg-brand-500' : 'hover:bg-brand-500'
+                    } ${isCollapsed ? 'justify-center' : ''}`;
+                  }}
                   onClick={onClose}
                 >
                   <div className="w-6">
