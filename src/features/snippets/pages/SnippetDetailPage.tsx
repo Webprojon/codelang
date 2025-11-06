@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { useMarkSnippet } from '../hooks/useMarkSnippet';
+import { useCreateComment } from '../hooks/useCreateComment';
 import { getSnippetById } from '../services/snippetService';
 import { useAuthStore } from '../../auth/store/authStore';
-import type { ApiSnippet } from '../types';
 import { DEFAULT_LANGUAGE, DEFAULT_USERNAME } from '../components/SnippetCard/utils';
 import CardHeader from '../components/SnippetCard/CardHeader';
 import CodeSection from '../components/SnippetCard/CodeSection';
 import CardFooter from '../components/SnippetCard/CardFooter';
 import CommentsList from '../components/SnippetCard/CommentsList';
+import CommentForm from '../components/CommentForm';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner';
 import Button from '../../../shared/components/Button';
 
@@ -17,43 +18,46 @@ export default function SnippetDetailPage() {
   const navigate = useNavigate();
   const { markSnippet, isMarking } = useMarkSnippet();
   const currentUserId = useAuthStore(state => state.user?.id);
-  const [snippet, setSnippet] = useState<ApiSnippet | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const loadSnippet = async () => {
-      if (!id) {
-        setError('Invalid snippet ID');
-        setIsLoading(false);
-        return;
-      }
+  const {
+    data: snippet,
+    isLoading,
+    error: queryError,
+  } = useQuery({
+    queryKey: ['snippet', id ? parseInt(id, 10) : null],
+    queryFn: () => getSnippetById(parseInt(id!, 10)),
+    enabled: !!id,
+  });
 
-      try {
-        setIsLoading(true);
-        const snippetData = await getSnippetById(parseInt(id, 10));
-        setSnippet(snippetData);
-        setError(null);
-      } catch (err) {
-        setError('Failed to load snippet');
-        console.error('Failed to load snippet:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadSnippet();
-  }, [id]);
+  const {
+    createComment: createCommentHandler,
+    isSubmitting: isCommentSubmitting,
+    error: commentError,
+  } = useCreateComment();
 
   const handleMark = async (mark: 'like' | 'dislike') => {
-    if (snippet) {
+    if (snippet && id) {
       try {
         await markSnippet({ id: parseInt(snippet.id, 10), mark });
-        const updatedSnippet = await getSnippetById(parseInt(snippet.id, 10));
-        setSnippet(updatedSnippet);
       } catch (err) {
         console.error('Failed to mark snippet:', err);
       }
+    }
+  };
+
+  const handleCommentSubmit = async (content: string) => {
+    if (!snippet || !id) {
+      return;
+    }
+
+    try {
+      await createCommentHandler({
+        content,
+        snippetId: parseInt(id, 10),
+      });
+    } catch (err) {
+      console.error('Failed to create comment:', err);
+      throw err;
     }
   };
 
@@ -64,6 +68,8 @@ export default function SnippetDetailPage() {
       </div>
     );
   }
+
+  const error = queryError ? 'Failed to load snippet' : null;
 
   if (error || !snippet) {
     return (
@@ -91,6 +97,8 @@ export default function SnippetDetailPage() {
     }
   }
 
+  const isOwner = currentUserId !== undefined && parseInt(snippet.user.id, 10) === currentUserId;
+
   const snippetForFooter = {
     id: parseInt(snippet.id, 10),
     title: '',
@@ -106,6 +114,16 @@ export default function SnippetDetailPage() {
 
   return (
     <>
+      {isOwner && (
+        <div className="mb-4 flex justify-end">
+          <Button
+            onClick={() => navigate(`/snippets/${snippet.id}/edit`)}
+            className="px-4 py-2 bg-brand-700 text-white hover:bg-brand-500"
+          >
+            Edit Snippet
+          </Button>
+        </div>
+      )}
       <div className="border-2 border-gray-300 text-gray-500 rounded-lg overflow-hidden">
         <CardHeader username={username} language={language} snippetId={parseInt(snippet.id, 10)} />
         <CodeSection content={snippet.code} language={language} />
@@ -118,6 +136,13 @@ export default function SnippetDetailPage() {
       </div>
       <div className="mt-4 border-2 border-gray-300 rounded-lg overflow-hidden">
         <CommentsList comments={snippet.comments} />
+        {currentUserId !== undefined && (
+          <CommentForm
+            onSubmit={handleCommentSubmit}
+            isSubmitting={isCommentSubmitting}
+            error={commentError}
+          />
+        )}
       </div>
     </>
   );

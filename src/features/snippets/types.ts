@@ -34,6 +34,34 @@ export interface PostSnippetFormData {
   code: string;
 }
 
+export interface UpdateSnippetRequest {
+  code: string;
+  language: string;
+}
+
+export interface CreateCommentRequest {
+  content: string;
+  snippetId: number;
+}
+
+export interface CreateCommentResponse {
+  id: number;
+  content: string;
+  user: {
+    id: number;
+    username: string;
+    role: string;
+  };
+}
+
+export interface UpdateCommentRequest {
+  content: string;
+}
+
+export interface UpdateCommentResponse {
+  updatedCount: number;
+}
+
 // API Types
 export interface ApiUser {
   id: string;

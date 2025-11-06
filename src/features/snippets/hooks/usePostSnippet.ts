@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createSnippet } from '../services/snippetService';
 import type { PostSnippetRequest } from '../types';
 
@@ -9,26 +9,38 @@ interface UsePostSnippetReturn {
 }
 
 export const usePostSnippet = (): UsePostSnippetReturn => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const submitSnippet = async (request: PostSnippetRequest): Promise<void> => {
-    try {
-      setIsSubmitting(true);
-      setError(null);
-      await createSnippet(request);
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to create snippet';
-      setError(errorMessage);
-      throw err;
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const mutation = useMutation({
+    mutationFn: createSnippet,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['snippets'],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ['my-snippets'],
+      });
+
+      queryClient.refetchQueries({
+        queryKey: ['snippets'],
+      });
+
+      queryClient.refetchQueries({
+        queryKey: ['my-snippets'],
+      });
+    },
+  });
 
   return {
-    isSubmitting,
-    error,
-    submitSnippet,
+    isSubmitting: mutation.isPending,
+    error: mutation.error
+      ? mutation.error instanceof Error
+        ? mutation.error.message
+        : 'Failed to create snippet'
+      : null,
+    submitSnippet: async (request: PostSnippetRequest) => {
+      return await mutation.mutateAsync(request);
+    },
   };
 };

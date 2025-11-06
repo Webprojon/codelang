@@ -9,7 +9,7 @@ export default function HomePage() {
 
   return (
     <div>
-      <WelcomeHeader />
+      <WelcomeHeader title="Welcome to Codelang!" />
       <PaginationControls
         currentPage={currentPage}
         totalPages={totalPages}

@@ -11,6 +11,7 @@ import UsersPage from './features/users/pages/UsersPage';
 import PostSnippetPage from './features/snippets/pages/PostSnippetPage';
 import MySnippetsPage from './features/snippets/pages/MySnippetsPage';
 import SnippetDetailPage from './features/snippets/pages/SnippetDetailPage';
+import EditSnippetPage from './features/snippets/pages/EditSnippetPage';
 import QuestionsPage from './features/questions/pages/QuestionsPage';
 import LoginPage from './features/auth/pages/LoginPage';
 import RegisterPage from './features/auth/pages/RegisterPage';
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="/my-account" element={<MyAccountPage />} />
           <Route path="/post-snippet" element={<PostSnippetPage />} />
           <Route path="/my-snippets" element={<MySnippetsPage />} />
+          <Route path="/snippets/:id/edit" element={<EditSnippetPage />} />
         </Route>
       </Route>
 

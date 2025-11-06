@@ -86,11 +86,17 @@ export const useMarkSnippet = () => {
       }
       console.error('Failed to mark snippet:', error);
     },
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: ['snippets'],
         refetchType: 'active',
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ['snippet', variables.id],
+        refetchType: 'active',
+      });
+
       if (user?.id) {
         queryClient.invalidateQueries({
           queryKey: ['userStatistics', user.id],
