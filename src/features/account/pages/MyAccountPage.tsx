@@ -4,6 +4,7 @@ import ProfileCard from '../components/ProfileCard';
 import ProfileEditSection from '../components/ProfileEditSection';
 import { useMyAccount } from '../hooks/useMyAccount';
 import LoadingSpinner from '../../../shared/components/LoadingSpinner';
+import ConfirmModal from '../../../shared/components/ConfirmModal';
 
 export default function MyAccountPage() {
   const user = useAuthStore(state => state.user);
@@ -16,6 +17,7 @@ export default function MyAccountPage() {
     handleDeleteAccount,
     isSavingUsername,
     isChangingPassword,
+    confirmModal,
   } = useMyAccount();
 
   if (!user) {
@@ -50,6 +52,14 @@ export default function MyAccountPage() {
         onPasswordChange={handleChangePassword}
         isSavingUsername={isSavingUsername}
         isChangingPassword={isChangingPassword}
+      />
+
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        title={confirmModal.title}
+        onConfirm={confirmModal.handleConfirm}
+        onCancel={confirmModal.handleCancel}
+        isLoading={confirmModal.isLoading}
       />
     </section>
   );

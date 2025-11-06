@@ -4,16 +4,17 @@ export interface LanguageOption {
 }
 
 export const LANGUAGE_OPTIONS: LanguageOption[] = [
-  { value: 'javascript', label: 'JavaScript' },
-  { value: 'python', label: 'Python' },
-  { value: 'java', label: 'Java' },
-  { value: 'cpp', label: 'C++' },
-  { value: 'html', label: 'HTML' },
-  { value: 'css', label: 'CSS' },
-  { value: 'json', label: 'JSON' },
+  { value: 'JavaScript', label: 'JavaScript' },
+  { value: 'Python', label: 'Python' },
+  { value: 'Java', label: 'Java' },
+  { value: 'C/C++', label: 'C/C++' },
+  { value: 'C#', label: 'C#' },
+  { value: 'Go', label: 'Go' },
+  { value: 'Kotlin', label: 'Kotlin' },
+  { value: 'Ruby', label: 'Ruby' },
 ] as const;
 
-export const DEFAULT_LANGUAGE = 'javascript' as const;
+export const DEFAULT_LANGUAGE = 'JavaScript' as const;
 
 export const SNIPPETS_ENDPOINT = '/snippets' as const;
 

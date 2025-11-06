@@ -11,6 +11,7 @@ import {
 } from '../services/accountService';
 import { logoutUser } from '../../auth/services/authService';
 import type { ChangeUsernameFormData, ChangePasswordFormData } from '../types';
+import { useConfirmModal } from '../../../shared/hooks/useConfirmModal';
 
 export const useMyAccount = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ export const useMyAccount = () => {
   const user = useAuthStore(state => state.user);
   const logout = useAuthStore(state => state.logout);
   const setUser = useAuthStore(state => state.setUser);
+  const confirmModal = useConfirmModal();
 
   const { data: userWithStats, isLoading } = useQuery({
     queryKey: ['userStatistics', user?.id],
@@ -98,11 +100,9 @@ export const useMyAccount = () => {
   };
 
   const handleDeleteAccount = () => {
-    if (
-      window.confirm('Are you sure you want to delete your account? This action cannot be undone.')
-    ) {
+    confirmModal.showConfirm('Are you sure you want to delete your account?', () => {
       deleteAccountMutation.mutate();
-    }
+    });
   };
 
   return {
@@ -114,5 +114,6 @@ export const useMyAccount = () => {
     handleDeleteAccount,
     isSavingUsername: updateUsernameMutation.isPending,
     isChangingPassword: updatePasswordMutation.isPending,
+    confirmModal,
   };
 };

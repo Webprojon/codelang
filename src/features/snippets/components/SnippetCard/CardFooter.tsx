@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { LiaComments } from 'react-icons/lia';
 import type { Snippet } from '../../types';
 import MarkButton from './MarkButton';
+import { SNIPPET_STYLES } from '../../utils/styles';
 
 interface CardFooterProps {
   snippet: Snippet;
@@ -30,7 +31,7 @@ export default function CardFooter({
   };
 
   return (
-    <div className="px-3 py-2 border-t border-gray-300 flex items-center justify-between">
+    <div className={SNIPPET_STYLES.cardFooter}>
       <div className="flex items-center">
         <MarkButton
           type="like"

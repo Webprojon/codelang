@@ -15,7 +15,7 @@ export default function MySnippetsPage() {
         isLoading={isLoading}
         onPageChange={setCurrentPage}
       />
-      <SnippetsList snippets={snippets} isLoading={isLoading} error={error} />
+      <SnippetsList snippets={snippets} isLoading={isLoading} error={error} showActions={true} />
     </div>
   );
 }

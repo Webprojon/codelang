@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createSnippet } from '../services/snippetService';
 import type { PostSnippetRequest } from '../types';
+import { invalidateSnippetQueries } from '../utils/queryUtils';
+import { getErrorMessage } from '../utils/errorUtils';
 
 interface UsePostSnippetReturn {
   isSubmitting: boolean;
@@ -14,31 +16,13 @@ export const usePostSnippet = (): UsePostSnippetReturn => {
   const mutation = useMutation({
     mutationFn: createSnippet,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['snippets'],
-      });
-
-      queryClient.invalidateQueries({
-        queryKey: ['my-snippets'],
-      });
-
-      queryClient.refetchQueries({
-        queryKey: ['snippets'],
-      });
-
-      queryClient.refetchQueries({
-        queryKey: ['my-snippets'],
-      });
+      invalidateSnippetQueries(queryClient);
     },
   });
 
   return {
     isSubmitting: mutation.isPending,
-    error: mutation.error
-      ? mutation.error instanceof Error
-        ? mutation.error.message
-        : 'Failed to create snippet'
-      : null,
+    error: mutation.error ? getErrorMessage(mutation.error, 'Failed to create snippet') : null,
     submitSnippet: async (request: PostSnippetRequest) => {
       return await mutation.mutateAsync(request);
     },
