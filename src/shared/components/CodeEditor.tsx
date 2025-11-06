@@ -32,36 +32,40 @@ import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
 import { java } from '@codemirror/lang-java';
 import { cpp } from '@codemirror/lang-cpp';
-import { html } from '@codemirror/lang-html';
-import { css } from '@codemirror/lang-css';
-import { json } from '@codemirror/lang-json';
 
 export interface CodeEditorProps {
   value: string;
   onChange: (value: string) => void;
   language?: string;
-  placeholder?: string;
   className?: string;
   readOnly?: boolean;
 }
 
 type LanguageSupportFunction = () => Extension;
 
-const languageMap: Record<string, LanguageSupportFunction> = {
-  javascript: javascript,
-  python: python,
-  java: java,
-  cpp: cpp,
-  'c++': cpp,
-  html: html,
-  css: css,
-  json: json,
+const getLanguageSupport = (languageName: string): LanguageSupportFunction => {
+  const normalized = languageName.toLowerCase().trim();
+
+  if (normalized.includes('javascript') || normalized === 'js') {
+    return javascript;
+  }
+  if (normalized.includes('python')) {
+    return python;
+  }
+  if (normalized.includes('java') && !normalized.includes('javascript')) {
+    return java;
+  }
+  if (normalized.includes('c++') || normalized.includes('c/c++') || normalized === 'cpp') {
+    return cpp;
+  }
+
+  return javascript;
 };
 
 export default function CodeEditor({
   value,
   onChange,
-  language = 'javascript',
+  language = 'JavaScript',
   className = '',
   readOnly = false,
 }: CodeEditorProps) {
@@ -71,7 +75,7 @@ export default function CodeEditor({
   useEffect(() => {
     if (!editorRef.current) return;
 
-    const langSupport = languageMap[language.toLowerCase()] || javascript;
+    const langSupport = getLanguageSupport(language);
 
     const extensions: Extension[] = [
       lineNumbers(),
@@ -170,18 +174,18 @@ export default function CodeEditor({
   }, [language, readOnly]);
 
   useEffect(() => {
-    if (viewRef.current && value !== viewRef.current.state.doc.toString()) {
-      const currentContent = viewRef.current.state.doc.toString();
-      if (value !== currentContent) {
-        const transaction = viewRef.current.state.update({
-          changes: {
-            from: 0,
-            to: viewRef.current.state.doc.length,
-            insert: value,
-          },
-        });
-        viewRef.current.dispatch(transaction);
-      }
+    if (!viewRef.current) return;
+
+    const currentContent = viewRef.current.state.doc.toString();
+    if (value !== currentContent) {
+      const transaction = viewRef.current.state.update({
+        changes: {
+          from: 0,
+          to: viewRef.current.state.doc.length,
+          insert: value,
+        },
+      });
+      viewRef.current.dispatch(transaction);
     }
   }, [value]);
 

@@ -5,6 +5,8 @@ import { useCreateComment } from '../hooks/useCreateComment';
 import { getSnippetById } from '../services/snippetService';
 import { useAuthStore } from '../../auth/store/authStore';
 import { DEFAULT_LANGUAGE, DEFAULT_USERNAME } from '../components/SnippetCard/utils';
+import { createSnippetForFooter } from '../utils/snippetUtils';
+import { SNIPPET_STYLES } from '../utils/styles';
 import CardHeader from '../components/SnippetCard/CardHeader';
 import CodeSection from '../components/SnippetCard/CodeSection';
 import CardFooter from '../components/SnippetCard/CardFooter';
@@ -63,7 +65,7 @@ export default function SnippetDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className={SNIPPET_STYLES.loadingContainer}>
         <LoadingSpinner size="lg" />
       </div>
     );
@@ -73,7 +75,7 @@ export default function SnippetDetailPage() {
 
   if (error || !snippet) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+      <div className={SNIPPET_STYLES.errorContainer}>
         <p className="text-red-600">{error || 'Snippet not found'}</p>
         <Button onClick={() => navigate('/')}>Go to Home</Button>
       </div>
@@ -81,36 +83,9 @@ export default function SnippetDetailPage() {
   }
 
   const username = snippet.user?.username || DEFAULT_USERNAME;
-  const language = snippet.language?.toLowerCase() || DEFAULT_LANGUAGE;
-  const likes = snippet.marks.filter(mark => mark.type === 'like').length;
-  const dislikes = snippet.marks.filter(mark => mark.type === 'dislike').length;
-  const commentsCount = snippet.comments.length;
-
-  let currentUserMark: 'like' | 'dislike' | null = null;
-  if (currentUserId !== undefined) {
-    const userMark = snippet.marks.find(
-      mark =>
-        parseInt(mark.user.id, 10) === currentUserId || mark.user.id === currentUserId.toString()
-    );
-    if (userMark) {
-      currentUserMark = userMark.type;
-    }
-  }
-
+  const language = snippet.language || DEFAULT_LANGUAGE;
   const isOwner = currentUserId !== undefined && parseInt(snippet.user.id, 10) === currentUserId;
-
-  const snippetForFooter = {
-    id: parseInt(snippet.id, 10),
-    title: '',
-    content: snippet.code,
-    language,
-    createdAt: new Date().toISOString(),
-    username,
-    likes,
-    dislikes,
-    comments: commentsCount,
-    currentUserMark,
-  };
+  const snippetForFooter = createSnippetForFooter(snippet, currentUserId);
 
   return (
     <>
@@ -124,7 +99,7 @@ export default function SnippetDetailPage() {
           </Button>
         </div>
       )}
-      <div className="border-2 border-gray-300 text-gray-500 rounded-lg overflow-hidden">
+      <div className={SNIPPET_STYLES.card}>
         <CardHeader username={username} language={language} snippetId={parseInt(snippet.id, 10)} />
         <CodeSection content={snippet.code} language={language} />
         <CardFooter
@@ -134,8 +109,12 @@ export default function SnippetDetailPage() {
           onToggleComments={() => {}}
         />
       </div>
-      <div className="mt-4 border-2 border-gray-300 rounded-lg overflow-hidden">
-        <CommentsList comments={snippet.comments} />
+      <div className={`mt-4 ${SNIPPET_STYLES.card}`}>
+        <CommentsList
+          comments={snippet.comments}
+          currentUserId={currentUserId}
+          snippetId={parseInt(snippet.id, 10)}
+        />
         {currentUserId !== undefined && (
           <CommentForm
             onSubmit={handleCommentSubmit}

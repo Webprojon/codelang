@@ -1,8 +1,8 @@
 import apiClient from '../../../shared/services/apiClient';
 import { handleApiError, createApiError } from '../../../shared/utils/errorHandler';
 import { useAuthStore } from '../../../features/auth/store/authStore';
+import { transformApiSnippetToSnippet as transformSnippet } from '../utils/snippetUtils';
 import type {
-  Snippet,
   SnippetsResponse,
   PostSnippetRequest,
   UpdateSnippetRequest,
@@ -23,36 +23,6 @@ const DEFAULT_META: ApiPaginationMeta = {
   totalPages: 1,
 };
 
-const transformApiSnippetToSnippet = (apiSnippet: ApiSnippet, currentUserId?: number): Snippet => {
-  const likes = apiSnippet.marks.filter(mark => mark.type === 'like').length;
-  const dislikes = apiSnippet.marks.filter(mark => mark.type === 'dislike').length;
-  const commentsCount = apiSnippet.comments.length;
-
-  let currentUserMark: 'like' | 'dislike' | null = null;
-  if (currentUserId !== undefined) {
-    const userMark = apiSnippet.marks.find(
-      mark =>
-        parseInt(mark.user.id, 10) === currentUserId || mark.user.id === currentUserId.toString()
-    );
-    if (userMark) {
-      currentUserMark = userMark.type;
-    }
-  }
-
-  return {
-    id: parseInt(apiSnippet.id, 10),
-    title: '',
-    content: apiSnippet.code,
-    language: apiSnippet.language.toLowerCase(),
-    createdAt: new Date().toISOString(),
-    username: apiSnippet.user.username,
-    likes,
-    dislikes,
-    comments: commentsCount,
-    currentUserMark,
-  };
-};
-
 const transformApiResponse = (
   apiResponse: ApiResponse,
   currentUserId?: number
@@ -61,9 +31,7 @@ const transformApiResponse = (
   const apiSnippets = responseData?.data || [];
   const meta = responseData?.meta || DEFAULT_META;
 
-  const snippets = apiSnippets.map(apiSnippet =>
-    transformApiSnippetToSnippet(apiSnippet, currentUserId)
-  );
+  const snippets = apiSnippets.map(apiSnippet => transformSnippet(apiSnippet, currentUserId));
 
   return {
     snippets,
@@ -143,6 +111,15 @@ export const updateSnippet = async (
   }
 };
 
+export const deleteSnippet = async (id: number): Promise<void> => {
+  try {
+    await apiClient.delete(`${SNIPPETS_ENDPOINT}/${id}`);
+  } catch (error) {
+    const apiError = handleApiError(error);
+    throw createApiError(apiError);
+  }
+};
+
 export const getMySnippets = async (
   page: number = DEFAULT_PAGE,
   limit: number = DEFAULT_LIMIT
@@ -200,6 +177,16 @@ export const updateComment = async (
 export const deleteComment = async (id: number): Promise<void> => {
   try {
     await apiClient.delete(`${COMMENTS_ENDPOINT}/${id}`);
+  } catch (error) {
+    const apiError = handleApiError(error);
+    throw createApiError(apiError);
+  }
+};
+
+export const getLanguages = async (): Promise<string[]> => {
+  try {
+    const response = await apiClient.get<{ data: string[] }>(`${SNIPPETS_ENDPOINT}/languages`);
+    return response.data.data;
   } catch (error) {
     const apiError = handleApiError(error);
     throw createApiError(apiError);
