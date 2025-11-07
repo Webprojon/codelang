@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { TbCopy } from 'react-icons/tb';
 import { MdCheck } from 'react-icons/md';
-import { CodeEditor, Button } from '../../../../shared/components/ui';
+import CodeEditor from '../../../../shared/components/ui/CodeEditor';
+import Button from '../../../../shared/components/ui/Button';
 import { COPY_SUCCESS_TIMEOUT } from './utils';
 
 interface CodeSectionProps {
@@ -28,6 +29,8 @@ export default function CodeSection({ content, language }: CodeSectionProps) {
       <Button
         onClick={handleCopy}
         className="absolute top-2 right-2 z-10 cursor-pointer"
+        color="ghost"
+        size="md"
         aria-label="Copy code"
         icon={
           copied ? (

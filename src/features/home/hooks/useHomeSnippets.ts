@@ -1,17 +1,8 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getSnippets } from '../../snippets/api/snippetApi';
-import type { Snippet } from '../../snippets/types';
+import type { UseHomeSnippetsReturn } from '../types';
 import { getErrorMessage } from '../../../shared/utils/errorHandler';
-
-interface UseHomeSnippetsReturn {
-  snippets: Snippet[];
-  isLoading: boolean;
-  error: string | null;
-  currentPage: number;
-  totalPages: number;
-  setCurrentPage: (page: number) => void;
-}
 
 export const useHomeSnippets = (
   initialPage: number = 1,

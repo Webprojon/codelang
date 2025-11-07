@@ -16,16 +16,3 @@ export const isSameUser = (
   const id1 = typeof userId1 === 'string' ? parseInt(userId1, 10) : userId1;
   return id1 === userId2 || userId1.toString() === userId2.toString();
 };
-
-export const findUserMark = <T extends { user: { id: string }; type: 'like' | 'dislike' }>(
-  marks: T[],
-  currentUserId?: number
-): 'like' | 'dislike' | null => {
-  if (currentUserId === undefined) {
-    return null;
-  }
-
-  const userMark = marks.find(mark => isSameUser(mark.user.id, currentUserId));
-
-  return userMark ? userMark.type : null;
-};

@@ -1,7 +1,8 @@
 import apiClient from '../../../shared/api/client';
 import { handleApiError, createApiError } from '../../../shared/utils/errorHandler';
 import type { User } from '../../auth/types';
-import type { DeleteAccountResponse, UserStatisticsResponse, UserWithStats } from '../types';
+import type { DeleteAccountResponse, UserStatisticsResponse } from '../types';
+import type { UserWithStats } from '../../users/types';
 
 const ME_ENDPOINT = '/me';
 const PASSWORD_ENDPOINT = '/me/password';

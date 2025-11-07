@@ -1,6 +1,6 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '../ui';
+import Button from '../ui/Button';
 
 interface Props {
   children: ReactNode;
@@ -42,12 +42,20 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className="flex gap-3 justify-center">
               <Button
                 className="bg-white text-gray-600 hover:bg-gray-100"
+                color="ghost"
+                size="md"
                 onClick={() => window.location.reload()}
               >
                 Reload Page
               </Button>
               <Link to="/">
-                <Button className="bg-white text-gray-600 hover:bg-gray-100">Go Home</Button>
+                <Button
+                  className="bg-white text-gray-600 hover:bg-gray-100"
+                  color="ghost"
+                  size="md"
+                >
+                  Go Home
+                </Button>
               </Link>
             </div>
           </div>

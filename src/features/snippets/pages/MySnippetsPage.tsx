@@ -1,5 +1,6 @@
 import { useMySnippets } from '../hooks/useMySnippets';
-import { Pagination, WelcomeHeader } from '../../../shared/components/ui';
+import Pagination from '../../../shared/components/ui/Pagination';
+import WelcomeHeader from '../../../shared/components/ui/WelcomeHeader';
 import SnippetsList from '../components/SnippetsList';
 
 export default function MySnippetsPage() {

@@ -1,17 +1,8 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getMySnippets } from '../api/snippetApi';
-import type { Snippet } from '../types';
+import type { UseMySnippetsReturn } from '../types';
 import { getErrorMessage } from '../../../shared/utils/errorHandler';
-
-interface UseMySnippetsReturn {
-  snippets: Snippet[];
-  isLoading: boolean;
-  error: string | null;
-  currentPage: number;
-  totalPages: number;
-  setCurrentPage: (page: number) => void;
-}
 
 export const useMySnippets = (initialPage: number = 1, limit: number = 15): UseMySnippetsReturn => {
   const [currentPage, setCurrentPage] = useState(initialPage);

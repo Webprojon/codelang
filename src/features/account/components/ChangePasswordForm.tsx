@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import type { ChangePasswordFormData } from '../types';
-import { Button, Input } from '../../../shared/components/ui';
+import Button from '../../../shared/components/ui/Button';
+import Input from '../../../shared/components/ui/Input';
 import { PASSWORD_VALIDATION } from '../../../shared/utils/validations';
 
 interface ChangePasswordFormProps {
@@ -72,11 +73,7 @@ export default function ChangePasswordForm({
           disabled={isSubmittingForm}
           {...register('confirmPassword', confirmPasswordValidation)}
         />
-        <Button
-          type="submit"
-          disabled={isSubmittingForm}
-          className="w-full bg-[#4CAF50] hover:bg-[#4CAF50]/90 text-white py-[8px] disabled:hover:bg-[#4CAF50] disabled:text-slate-300"
-        >
+        <Button type="submit" disabled={isSubmittingForm} color="success" fullWidth size="md">
           {isSubmittingForm ? 'Changing password...' : 'CHANGE PASSWORD'}
         </Button>
       </form>

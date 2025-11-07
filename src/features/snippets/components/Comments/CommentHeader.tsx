@@ -1,9 +1,6 @@
 import { Link } from 'react-router-dom';
-import { FaRegEdit } from 'react-icons/fa';
-import { RiDeleteBinLine } from 'react-icons/ri';
 import { getFirstLetter } from '../../../../shared/utils/userUtils';
-import { SNIPPET_STYLES } from '../../utils/styles';
-import { Button } from '../../../../shared/components/ui';
+import SnippetActions from '../SnippetCard/SnippetActions';
 
 interface CommentHeaderProps {
   username: string;
@@ -38,22 +35,15 @@ export default function CommentHeader({
         <span>{username}</span>
       </Link>
       {isOwner && !isEditing && (
-        <div className="flex items-center gap-3">
-          <Button
-            onClick={onEditClick}
-            className={SNIPPET_STYLES.editButton}
-            title="Edit comment"
-            disabled={isDeleting || isUpdating}
-            icon={<FaRegEdit className="size-4" />}
-          />
-          <Button
-            onClick={onDeleteClick}
-            className={SNIPPET_STYLES.deleteButton}
-            title="Delete comment"
-            disabled={isDeleting || isUpdating}
-            icon={<RiDeleteBinLine className="size-4" />}
-          />
-        </div>
+        <SnippetActions
+          onEdit={onEditClick}
+          onDelete={onDeleteClick}
+          isDeleting={isDeleting}
+          isUpdating={isUpdating}
+          editTitle="Edit comment"
+          deleteTitle="Delete comment"
+          className="gap-3"
+        />
       )}
     </div>
   );

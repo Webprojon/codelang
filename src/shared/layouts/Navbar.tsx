@@ -1,6 +1,7 @@
 import { IoLanguage } from 'react-icons/io5';
 import { HiMenu } from 'react-icons/hi';
-import { Logo, Button } from '../components/ui';
+import Logo from '../components/ui/Logo';
+import Button from '../components/ui/Button';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../features/auth/store/authStore';
 import { useAuth } from '../../features/auth/hooks/useAuth';
@@ -37,7 +38,9 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
         <Logo />
         <Button
           onClick={onMenuClick}
-          className="lg:hidden p-2 sidebar-btn"
+          className="lg:hidden sidebar-btn"
+          size="md"
+          color="ghost"
           aria-label="Toggle sidebar menu"
           icon={<HiMenu className="size-6 text-white" />}
         />
@@ -46,10 +49,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
       <div className="hidden sm:flex items-center gap-2">
         <div className="flex gap-1 md:gap-2">
           {pathname === '/questions' && (
-            <Button
-              className="bg-white text-gray-600 hover:bg-gray-100"
-              aria-label="Ask a question"
-            >
+            <Button className="uppercase" color="light" size="md" aria-label="Ask a question">
               Ask Question
             </Button>
           )}
@@ -57,7 +57,9 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
             <Button
               onClick={handleLogout}
               disabled={isLoggingOut}
-              className="px-4 py-2 bg-white text-gray-600 hover:bg-gray-100 uppercase"
+              className="uppercase"
+              color="light"
+              size="md"
               aria-label="Sign out"
             >
               {isLoggingOut ? 'Signing out...' : 'Sign Out'}
@@ -65,7 +67,9 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
           ) : (
             <Button
               onClick={handleLogin}
-              className="px-4 py-2 bg-white text-gray-600 hover:bg-gray-100 uppercase"
+              className="uppercase"
+              color="light"
+              size="md"
               aria-label="Log in"
             >
               Sign in
@@ -73,7 +77,9 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
           )}
         </div>
         <Button
-          className="flex items-center"
+          className="flex items-center text-slate-200"
+          size="md"
+          color="ghost"
           icon={<IoLanguage className="size-6 text-white" aria-hidden="true" focusable="false" />}
           aria-label="Change language"
         >

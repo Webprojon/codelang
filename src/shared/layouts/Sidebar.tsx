@@ -1,10 +1,12 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useCallback, useState, useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { HiX } from 'react-icons/hi';
-import { sidebarNavigationLinks } from '../config/navigation';
-import { Button, UserAvatar } from '../components/ui';
+import { sidebarNavigationLinks } from '../utils/navigation';
+import Button from '../components/ui/Button';
+import UserAvatar from '../components/ui/UserAvatar';
 import { useAuthStore } from '../../features/auth/store/authStore';
+import { useAuth } from '../../features/auth/hooks/useAuth';
 
 interface SidebarProps {
   onClose?: () => void;
@@ -14,12 +16,22 @@ export default function Sidebar({ onClose }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const user = useAuthStore(state => state.user);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { logoutMutation, isLoggingOut } = useAuth();
 
   const isSnippetDetailPage = /^\/snippets\/[^/]+$/.test(location.pathname);
 
   const handleCollapse = useCallback(() => {
     setIsCollapsed(prev => !prev);
   }, []);
+
+  const handleLogout = () => {
+    logoutMutation.mutate(undefined, {
+      onSuccess: () => {
+        navigate('/');
+      },
+    });
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -49,6 +61,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
                 type="button"
                 onClick={onClose}
                 className="lg:hidden p-1 rounded-md hover:bg-brand-500 transition-colors"
+                size="sm"
                 aria-label="Close sidebar"
                 icon={<HiX className="cursor-pointer size-5" />}
               />
@@ -58,6 +71,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
                 type="button"
                 onClick={handleCollapse}
                 className="hidden lg:block"
+                size="sm"
                 aria-label="Collapse sidebar"
                 icon={<FaChevronLeft className="cursor-pointer" />}
               />
@@ -96,13 +110,20 @@ export default function Sidebar({ onClose }: SidebarProps) {
               type="button"
               onClick={handleCollapse}
               aria-label="Expand sidebar"
-              className="p-4 transition-all hover:bg-brand-500 flex-center"
+              className="p-4 bordertransition-all hover:bg-brand-500 flex-center"
+              size="lg"
               icon={<FaChevronRight className="cursor-pointer" />}
             />
           )}
         </ul>
-        <Button className="mx-2 sm:hidden btn-white" aria-label="Sign out">
-          Sign Out
+        <Button
+          className="mx-2 sm:hidden font-bold"
+          size="md"
+          aria-label="Sign out"
+          onClick={handleLogout}
+          disabled={isLoggingOut}
+        >
+          {isLoggingOut ? 'Signing out...' : 'Sign Out'}
         </Button>
       </nav>
     </div>

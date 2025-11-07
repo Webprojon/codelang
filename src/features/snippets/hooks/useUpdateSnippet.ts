@@ -1,14 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateSnippet } from '../api/snippetApi';
-import type { UpdateSnippetRequest, ApiSnippet } from '../types';
+import type { UpdateSnippetRequest, UseUpdateSnippetReturn } from '../types';
 import { invalidateSnippetQueries } from '../utils/queryUtils';
 import { getErrorMessage } from '../../../shared/utils/errorHandler';
-
-interface UseUpdateSnippetReturn {
-  isUpdating: boolean;
-  error: string | null;
-  updateSnippet: (id: number, request: UpdateSnippetRequest) => Promise<ApiSnippet>;
-}
 
 export const useUpdateSnippet = (): UseUpdateSnippetReturn => {
   const queryClient = useQueryClient();
