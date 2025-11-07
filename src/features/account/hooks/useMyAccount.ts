@@ -8,8 +8,8 @@ import {
   updateUsername,
   updatePassword,
   getUserStatistics,
-} from '../services/accountService';
-import { logoutUser } from '../../auth/services/authService';
+} from '../api/accountApi';
+import { logoutUser } from '../../auth/api/authApi';
 import type { ChangeUsernameFormData, ChangePasswordFormData } from '../types';
 import { useConfirmModal } from '../../../shared/hooks/useConfirmModal';
 

@@ -3,8 +3,7 @@ import { useCallback, useState, useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { HiX } from 'react-icons/hi';
 import { sidebarNavigationLinks } from '../config/navigation';
-import Button from '../components/Button';
-import UserAvatar from '../components/UserAvatar';
+import { Button, UserAvatar } from '../components/ui';
 import { useAuthStore } from '../../features/auth/store/authStore';
 
 interface SidebarProps {

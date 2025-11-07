@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getCurrentUser } from '../services/authService';
+import { getCurrentUser } from '../api/authApi';
 import { useAuthStore } from '../store/authStore';
 
 export const useInitAuth = () => {

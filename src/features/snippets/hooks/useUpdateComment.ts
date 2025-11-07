@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateComment } from '../services/snippetService';
+import { updateComment } from '../api/snippetApi';
 import type { UpdateCommentRequest } from '../types';
 import { invalidateSnippetQueries } from '../utils/queryUtils';
-import { getErrorMessage } from '../utils/errorUtils';
+import { getErrorMessage } from '../../../shared/utils/errorHandler';
 
 interface UseUpdateCommentReturn {
   isUpdating: boolean;

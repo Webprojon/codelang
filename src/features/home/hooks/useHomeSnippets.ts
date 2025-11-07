@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getSnippets } from '../../snippets/services/snippetService';
+import { getSnippets } from '../../snippets/api/snippetApi';
 import type { Snippet } from '../../snippets/types';
-import { getErrorMessage } from '../utils/errorHandler';
+import { getErrorMessage } from '../../../shared/utils/errorHandler';
 
 interface UseHomeSnippetsReturn {
   snippets: Snippet[];

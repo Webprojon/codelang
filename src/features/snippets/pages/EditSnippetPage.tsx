@@ -1,13 +1,14 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import Button from '../../../shared/components/Button';
-import LoadingSpinner from '../../../shared/components/LoadingSpinner';
+import { Button } from '../../../shared/components/ui';
+import { LoadingSpinner } from '../../../shared/components/feedback';
 import { useUpdateSnippet } from '../hooks/useUpdateSnippet';
-import { getSnippetById } from '../services/snippetService';
+import { getSnippetById } from '../api/snippetApi';
 import SnippetForm from '../components/SnippetForm';
 import { SNIPPET_STYLES } from '../utils/styles';
 import type { PostSnippetFormData } from '../types';
 import toast from 'react-hot-toast';
+import { WelcomeHeader } from '../../../shared/components/ui';
 
 export default function EditSnippetPage() {
   const { id } = useParams<{ id: string }>();
@@ -66,13 +67,15 @@ export default function EditSnippetPage() {
   }
 
   return (
-    <SnippetForm
-      onSubmit={handleSubmit}
-      isSubmitting={isUpdating}
-      submitError={updateError}
-      initialSnippet={snippet}
-      submitButtonText="UPDATE SNIPPET"
-      title="Update your snippet!"
-    />
+    <>
+      <WelcomeHeader title="Update your snippet!" />
+      <SnippetForm
+        onSubmit={handleSubmit}
+        isSubmitting={isUpdating}
+        submitError={updateError}
+        initialSnippet={snippet}
+        submitButtonText="UPDATE SNIPPET"
+      />
+    </>
   );
 }

@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createSnippet } from '../services/snippetService';
+import { createSnippet } from '../api/snippetApi';
 import type { PostSnippetRequest } from '../types';
 import { invalidateSnippetQueries } from '../utils/queryUtils';
-import { getErrorMessage } from '../utils/errorUtils';
+import { getErrorMessage } from '../../../shared/utils/errorHandler';
 
 interface UsePostSnippetReturn {
   isSubmitting: boolean;

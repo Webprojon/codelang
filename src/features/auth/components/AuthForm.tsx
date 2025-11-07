@@ -1,8 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import Button from '../../../shared/components/Button';
-import Input from '../../../shared/components/Input';
+import { Button, Input } from '../../../shared/components/ui';
 import { useAuth } from '../hooks/useAuth';
 import { USERNAME_VALIDATION, PASSWORD_VALIDATION } from '../../../shared/utils/validations';
 

@@ -3,6 +3,7 @@ import { usePostSnippet } from '../hooks/usePostSnippet';
 import SnippetForm from '../components/SnippetForm';
 import type { PostSnippetFormData } from '../types';
 import toast from 'react-hot-toast';
+import { WelcomeHeader } from '../../../shared/components/ui';
 
 export default function PostSnippetPage() {
   const navigate = useNavigate();
@@ -22,12 +23,14 @@ export default function PostSnippetPage() {
   };
 
   return (
-    <SnippetForm
-      onSubmit={handleSubmit}
-      isSubmitting={isSubmitting}
-      submitError={submitError}
-      submitButtonText="CREATE SNIPPET"
-      title="Create new snippet!"
-    />
+    <>
+      <WelcomeHeader title="Create new snippet!" />
+      <SnippetForm
+        onSubmit={handleSubmit}
+        isSubmitting={isSubmitting}
+        submitError={submitError}
+        submitButtonText="CREATE SNIPPET"
+      />
+    </>
   );
 }

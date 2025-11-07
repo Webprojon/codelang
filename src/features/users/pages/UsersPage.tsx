@@ -1,3 +1,29 @@
+import { useUsers } from '../hooks/useUsers';
+import UsersList from '../components/UsersList';
+import { Pagination } from '../../../shared/components/ui';
+import { WelcomeHeader } from '../../../shared/components/ui';
+
 export default function UsersPage() {
-  return <div>UsersPage</div>;
+  const { users, isLoading, isError, error, currentPage, totalPages, setCurrentPage, refetch } =
+    useUsers(1);
+
+  return (
+    <div className="min-h-screen">
+      <WelcomeHeader title="Active users!" />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        isLoading={isLoading}
+        onPageChange={setCurrentPage}
+        className="my-8"
+      />
+      <UsersList
+        users={users}
+        isLoading={isLoading}
+        isError={isError}
+        error={error}
+        onRefetch={refetch}
+      />
+    </div>
+  );
 }

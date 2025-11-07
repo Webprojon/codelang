@@ -2,7 +2,7 @@ import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import { Outlet } from 'react-router-dom';
 import { Suspense, useState } from 'react';
-import LoadingSpinner from '../components/LoadingSpinner';
+import { LoadingSpinner } from '../components/feedback';
 
 export default function Layout() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);

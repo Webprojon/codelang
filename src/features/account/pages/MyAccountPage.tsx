@@ -3,8 +3,7 @@ import ProfileHeader from '../components/ProfileHeader';
 import ProfileCard from '../components/ProfileCard';
 import ProfileEditSection from '../components/ProfileEditSection';
 import { useMyAccount } from '../hooks/useMyAccount';
-import LoadingSpinner from '../../../shared/components/LoadingSpinner';
-import ConfirmModal from '../../../shared/components/ConfirmModal';
+import { LoadingSpinner, ConfirmModal } from '../../../shared/components/feedback';
 
 export default function MyAccountPage() {
   const user = useAuthStore(state => state.user);

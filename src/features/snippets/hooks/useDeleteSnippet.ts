@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteSnippet } from '../services/snippetService';
+import { deleteSnippet } from '../api/snippetApi';
 import { invalidateSnippetQueries } from '../utils/queryUtils';
-import { getErrorMessage } from '../utils/errorUtils';
+import { getErrorMessage } from '../../../shared/utils/errorHandler';
 
 interface UseDeleteSnippetReturn {
   isDeleting: boolean;

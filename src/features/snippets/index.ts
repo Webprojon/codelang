@@ -7,8 +7,8 @@ export type {
   PaginationMeta,
 } from './types';
 
-// Services
-export { getSnippets, createSnippet } from './services/snippetService';
+// API
+export { getSnippets, createSnippet } from './api/snippetApi';
 
 // Hooks
 export { usePostSnippet } from './hooks/usePostSnippet';
@@ -24,6 +24,8 @@ export {
 
 // Components
 export { default as SnippetCard } from './components/SnippetCard';
+export { default as SnippetsList } from './components/SnippetsList';
+export * from './components/Comments';
 
 // Pages
 export { default as PostSnippetPage } from './pages/PostSnippetPage';

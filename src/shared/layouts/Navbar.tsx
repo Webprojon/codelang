@@ -1,7 +1,6 @@
 import { IoLanguage } from 'react-icons/io5';
 import { HiMenu } from 'react-icons/hi';
-import Logo from '../components/Logo';
-import Button from '../components/Button';
+import { Logo, Button } from '../components/ui';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../features/auth/store/authStore';
 import { useAuth } from '../../features/auth/hooks/useAuth';

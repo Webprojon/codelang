@@ -27,6 +27,7 @@ export default function SnippetCard({ snippet, showActions = false }: SnippetCar
         username={username}
         language={language}
         snippetId={snippet.id}
+        userId={snippet.userId}
         showActions={showActions}
       />
       <CodeSection content={snippet.content} language={language} />
