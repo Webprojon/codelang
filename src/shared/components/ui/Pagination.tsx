@@ -1,6 +1,6 @@
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { usePagination } from '../../hooks/usePagination';
-import { Button } from './index';
+import Button from './Button';
 
 interface PaginationProps {
   currentPage: number;
@@ -32,6 +32,8 @@ export default function Pagination({
         className={`hover:bg-gray-200 px-3 py-3 rounded transition-colors ${
           isPreviousDisabled ? 'opacity-50 cursor-not-allowed' : ''
         }`}
+        color="ghost"
+        size="md"
         aria-label="Previous page"
         icon={<FaChevronLeft className="text-gray-400 size-3" />}
       />
@@ -44,6 +46,8 @@ export default function Pagination({
         className={`hover:bg-gray-100 px-3 py-3 rounded transition-colors ${
           isNextDisabled ? 'opacity-50 cursor-not-allowed' : ''
         }`}
+        color="ghost"
+        size="md"
         aria-label="Next page"
         icon={<FaChevronRight className="text-gray-300 size-3" />}
       />

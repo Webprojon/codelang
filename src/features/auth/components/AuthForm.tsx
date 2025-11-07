@@ -1,7 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, Input } from '../../../shared/components/ui';
+import Button from '../../../shared/components/ui/Button';
+import Input from '../../../shared/components/ui/Input';
 import { useAuth } from '../hooks/useAuth';
 import { USERNAME_VALIDATION, PASSWORD_VALIDATION } from '../../../shared/utils/validations';
 
@@ -143,9 +144,12 @@ export default function AuthForm({ type }: AuthFormProps) {
 
       <div className="mt-6">
         <Button
+          size="md"
+          fullWidth
           type="submit"
-          className="w-full py-3 bg-brand-500 text-white font-medium font-sans hover:bg-brand2-500"
+          color="primary"
           disabled={isSubmittingForm}
+          className="font-medium font-sans"
         >
           {buttonText}
         </Button>

@@ -1,4 +1,4 @@
-import { Button } from '../../../../shared/components/ui';
+import Button from '../../../../shared/components/ui/Button';
 
 interface CommentEditFormProps {
   content: string;
@@ -28,14 +28,18 @@ export default function CommentEditForm({
         <Button
           onClick={onSave}
           disabled={isSaving || !content.trim()}
-          className="cursor-pointer px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          color="primary"
+          size="md"
+          className="text-sm"
         >
           Save
         </Button>
         <Button
           onClick={onCancel}
           disabled={isSaving}
-          className="cursor-pointer px-3 py-1 text-sm bg-gray-300 text-gray-700 rounded hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+          color="secondary"
+          size="md"
+          className="px-3 py-1 text-sm"
         >
           Cancel
         </Button>

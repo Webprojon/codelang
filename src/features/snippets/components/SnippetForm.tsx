@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { Select, CodeEditor, Button } from '../../../shared/components/ui';
+import Select from '../../../shared/components/ui/Select';
+import CodeEditor from '../../../shared/components/ui/CodeEditor';
+import Button from '../../../shared/components/ui/Button';
 import { LoadingSpinner } from '../../../shared/components/feedback';
 import { useLanguages } from '../hooks/useLanguages';
 import { DEFAULT_LANGUAGE } from '../constants';
@@ -145,6 +147,8 @@ export default function SnippetForm({
           type="submit"
           disabled={isSubmitting || !code.trim()}
           className={SNIPPET_STYLES.submitButton}
+          color="primary"
+          size="md"
         >
           {isSubmitting ? 'Processing...' : submitButtonText}
         </Button>

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Button } from '../ui';
+import Button from '../ui/Button';
 
 export default function NotFound() {
   return (
@@ -11,7 +11,7 @@ export default function NotFound() {
           The page you're looking for doesn't exist or has been moved.
         </p>
         <Link to="/">
-          <Button className="w-full sm:w-auto bg-gray-600 text-gray-300 hover:bg-gray-700">
+          <Button className="w-full sm:w-auto" color="secondary" size="md">
             Go Back Home
           </Button>
         </Link>

@@ -10,10 +10,10 @@ import { SNIPPET_STYLES } from '../utils/styles';
 import CardHeader from '../components/SnippetCard/CardHeader';
 import CodeSection from '../components/SnippetCard/CodeSection';
 import CardFooter from '../components/SnippetCard/CardFooter';
-import { CommentsList } from '../components/Comments';
+import CommentsList from '../components/Comments/CommentsList';
 import CommentForm from '../components/CommentForm';
 import { LoadingSpinner } from '../../../shared/components/feedback';
-import { Button } from '../../../shared/components/ui';
+import Button from '../../../shared/components/ui/Button';
 
 export default function SnippetDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -77,28 +77,19 @@ export default function SnippetDetailPage() {
     return (
       <div className={SNIPPET_STYLES.errorContainer}>
         <p className="text-red-600">{error || 'Snippet not found'}</p>
-        <Button onClick={() => navigate('/')}>Go to Home</Button>
+        <Button onClick={() => navigate('/')} color="primary" size="md">
+          Go to Home
+        </Button>
       </div>
     );
   }
 
   const username = snippet.user?.username || DEFAULT_USERNAME;
   const language = snippet.language || DEFAULT_LANGUAGE;
-  const isOwner = currentUserId !== undefined && parseInt(snippet.user.id, 10) === currentUserId;
   const snippetForFooter = createSnippetForFooter(snippet, currentUserId);
 
   return (
     <>
-      {isOwner && (
-        <div className="mb-4 flex justify-end">
-          <Button
-            onClick={() => navigate(`/snippets/${snippet.id}/edit`)}
-            className="px-4 py-2 bg-brand-700 text-white hover:bg-brand-500"
-          >
-            Edit Snippet
-          </Button>
-        </div>
-      )}
       <div className={SNIPPET_STYLES.card}>
         <CardHeader
           username={username}

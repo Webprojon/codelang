@@ -3,7 +3,7 @@ import { usePostSnippet } from '../hooks/usePostSnippet';
 import SnippetForm from '../components/SnippetForm';
 import type { PostSnippetFormData } from '../types';
 import toast from 'react-hot-toast';
-import { WelcomeHeader } from '../../../shared/components/ui';
+import WelcomeHeader from '../../../shared/components/ui/WelcomeHeader';
 
 export default function PostSnippetPage() {
   const navigate = useNavigate();

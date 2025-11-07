@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Button } from '../ui';
+import Button from '../ui/Button';
 
 interface ConfirmModalProps {
   isOpen: boolean;
@@ -49,18 +49,10 @@ export default function ConfirmModal({
       >
         <h2 className="text-lg font-semibold text-gray-800 mb-4">{title}</h2>
         <div className="flex gap-3 justify-end">
-          <Button
-            onClick={onCancel}
-            disabled={isLoading}
-            className="bg-gray-300 text-gray-700 hover:bg-gray-400"
-          >
+          <Button onClick={onCancel} disabled={isLoading} color="secondary" size="md">
             Cancel
           </Button>
-          <Button
-            onClick={onConfirm}
-            disabled={isLoading}
-            className="bg-blue-500 text-white hover:bg-blue-600"
-          >
+          <Button onClick={onConfirm} disabled={isLoading} color="primary" size="md">
             Confirm
           </Button>
         </div>

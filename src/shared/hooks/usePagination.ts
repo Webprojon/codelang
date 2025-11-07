@@ -1,3 +1,8 @@
+export interface PaginationState {
+  currentPage: number;
+  totalPages: number;
+}
+
 interface UsePaginationProps {
   currentPage: number;
   totalPages: number;

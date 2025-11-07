@@ -1,5 +1,3 @@
-import type { User } from '../auth/types';
-
 export interface UserStats {
   rating: number;
   snippets: number;
@@ -52,9 +50,4 @@ export interface UserStatisticsResponse {
       regularAnswersCount: number;
     };
   };
-}
-
-export interface UserWithStats {
-  user: User;
-  stats: UserStats;
 }

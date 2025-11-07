@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { BsFillSendFill } from 'react-icons/bs';
-import { Button } from '../../../shared/components/ui';
+import Button from '../../../shared/components/ui/Button';
 
 interface CommentFormProps {
   onSubmit: (content: string) => Promise<void>;
@@ -43,7 +43,9 @@ export default function CommentForm({ onSubmit, isSubmitting, error }: CommentFo
         <Button
           type="submit"
           disabled={!content.trim() || isSubmitting}
-          className="absolute bottom-2 right-2 px-8 p-3 cursor-pointer bg-blue-500 rounded-sm flex items-center justify-center text-white hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed z-20 shadow-sm"
+          className="absolute bottom-2 right-2 px-8 rounded-sm z-20 shadow-sm"
+          color="primary"
+          size="md"
           aria-label="Submit comment"
           icon={<BsFillSendFill className="w-4 h-4" />}
         />
