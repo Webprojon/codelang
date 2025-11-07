@@ -1,6 +1,7 @@
 import { LoadingSpinner } from '../../../shared/components/feedback';
 import UserCard from './UserCard';
 import type { User } from '../../auth/types';
+import { Button } from '../../../shared/components/ui';
 
 interface UsersListProps {
   users: User[];
@@ -24,12 +25,12 @@ export default function UsersList({ users, isLoading, isError, error, onRefetch 
       <div className="flex flex-col justify-center items-center py-12 gap-4">
         <p className="text-red-500">Error: {error}</p>
         {onRefetch && (
-          <button
+          <Button
             onClick={() => onRefetch()}
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
           >
             Retry
-          </button>
+          </Button>
         )}
       </div>
     );

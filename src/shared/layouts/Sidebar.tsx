@@ -45,24 +45,22 @@ export default function Sidebar({ onClose }: SidebarProps) {
 
           <div className="flex items-center gap-2">
             {!isCollapsed && onClose && (
-              <button
+              <Button
                 type="button"
                 onClick={onClose}
                 className="lg:hidden p-1 rounded-md hover:bg-brand-500 transition-colors"
                 aria-label="Close sidebar"
-              >
-                <HiX className="cursor-pointer size-5" />
-              </button>
+                icon={<HiX className="cursor-pointer size-5" />}
+              />
             )}
             {!isCollapsed && (
-              <button
+              <Button
                 type="button"
                 onClick={handleCollapse}
                 className="hidden lg:block"
                 aria-label="Collapse sidebar"
-              >
-                <FaChevronLeft className="cursor-pointer" />
-              </button>
+                icon={<FaChevronLeft className="cursor-pointer" />}
+              />
             )}
           </div>
         </div>
@@ -94,14 +92,13 @@ export default function Sidebar({ onClose }: SidebarProps) {
             );
           })}
           {isCollapsed && (
-            <button
+            <Button
               type="button"
               onClick={handleCollapse}
               aria-label="Expand sidebar"
               className="p-4 transition-all hover:bg-brand-500 flex-center"
-            >
-              <FaChevronRight className="cursor-pointer" />
-            </button>
+              icon={<FaChevronRight className="cursor-pointer" />}
+            />
           )}
         </ul>
         <Button className="mx-2 sm:hidden btn-white" aria-label="Sign out">

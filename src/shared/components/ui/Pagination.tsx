@@ -1,5 +1,6 @@
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { usePagination } from '../../hooks/usePagination';
+import { Button } from './index';
 
 interface PaginationProps {
   currentPage: number;
@@ -25,29 +26,27 @@ export default function Pagination({
 
   return (
     <div className={`flex justify-center items-center gap-4 ${className}`}>
-      <button
+      <Button
         onClick={handlePrevious}
         disabled={isPreviousDisabled}
-        className={`hover:bg-gray-200 px-3 py-3 rounded cursor-pointer transition-colors ${
+        className={`hover:bg-gray-200 px-3 py-3 rounded transition-colors ${
           isPreviousDisabled ? 'opacity-50 cursor-not-allowed' : ''
         }`}
         aria-label="Previous page"
-      >
-        <FaChevronLeft className="text-gray-400 size-3" />
-      </button>
+        icon={<FaChevronLeft className="text-gray-400 size-3" />}
+      />
       <div className="px-4 py-2 text-sm bg-gray-100 rounded font-semibold text-gray-400">
         {currentPage} / {totalPages}
       </div>
-      <button
+      <Button
         onClick={handleNext}
         disabled={isNextDisabled}
-        className={`hover:bg-gray-100 px-3 py-3 rounded cursor-pointer transition-colors ${
+        className={`hover:bg-gray-100 px-3 py-3 rounded transition-colors ${
           isNextDisabled ? 'opacity-50 cursor-not-allowed' : ''
         }`}
         aria-label="Next page"
-      >
-        <FaChevronRight className="text-gray-300 size-3" />
-      </button>
+        icon={<FaChevronRight className="text-gray-300 size-3" />}
+      />
     </div>
   );
 }

@@ -14,11 +14,11 @@ export default function UserProfile({ user, stats }: UserProfileProps) {
   return (
     <div className="rounded-lg shadow-auth border border-gray-200 p-6">
       <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
-        <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-blue-400 flex items-center justify-center text-blue-900 font-semibold text-4xl shrink-0">
+        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-blue-400 flex items-center justify-center text-blue-900 font-semibold text-4xl shrink-0">
           {firstLetter}
         </div>
         <div className="text-center sm:text-left">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{user.username}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-600 mb-2">{user.username}</h1>
           <p className="text-sm text-gray-500">ID: {user.id}</p>
           <p className="text-sm text-gray-500 capitalize">Role: {user.role}</p>
         </div>

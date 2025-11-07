@@ -35,13 +35,12 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
     >
       <div className="flex items-center justify-between w-full sm:w-auto gap-3">
         <Logo />
-        <button
+        <Button
           onClick={onMenuClick}
           className="lg:hidden p-2 sidebar-btn"
           aria-label="Toggle sidebar menu"
-        >
-          <HiMenu className="size-6 text-white" />
-        </button>
+          icon={<HiMenu className="size-6 text-white" />}
+        />
       </div>
 
       <div className="hidden sm:flex items-center gap-2">
@@ -58,7 +57,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
             <Button
               onClick={handleLogout}
               disabled={isLoggingOut}
-              className="bg-white text-gray-600 hover:bg-gray-100 uppercase"
+              className="px-4 py-2 bg-white text-gray-600 hover:bg-gray-100 uppercase"
               aria-label="Sign out"
             >
               {isLoggingOut ? 'Signing out...' : 'Sign Out'}
@@ -66,7 +65,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
           ) : (
             <Button
               onClick={handleLogin}
-              className="bg-white text-gray-600 hover:bg-gray-100 uppercase"
+              className="px-4 py-2 bg-white text-gray-600 hover:bg-gray-100 uppercase"
               aria-label="Log in"
             >
               Sign in

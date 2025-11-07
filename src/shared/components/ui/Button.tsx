@@ -9,7 +9,7 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ icon, className = '', children, type = 'button', ...rest }, ref) => {
     const baseClasses =
-      'cursor-pointer px-4 py-2 rounded transition-all shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed';
+      'cursor-pointer rounded transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed';
 
     return (
       <button
