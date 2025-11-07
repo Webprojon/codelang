@@ -1,6 +1,7 @@
-export interface UserProfile {
-  id: number;
-  name: string;
-  email?: string;
-  avatar?: string;
+import type { User } from '../auth/types';
+import type { UserStats } from '../account/types';
+
+export interface UserWithStats {
+  user: User;
+  stats: UserStats;
 }

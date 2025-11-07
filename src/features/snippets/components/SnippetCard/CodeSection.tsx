@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { TbCopy } from 'react-icons/tb';
 import { MdCheck } from 'react-icons/md';
-import CodeEditor from '../../../../shared/components/CodeEditor';
+import { CodeEditor } from '../../../../shared/components/ui';
 import { COPY_SUCCESS_TIMEOUT } from './utils';
 
 interface CodeSectionProps {

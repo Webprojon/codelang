@@ -6,6 +6,7 @@ export interface Snippet {
   language?: string;
   createdAt: string;
   username?: string;
+  userId?: number;
   likes?: number;
   dislikes?: number;
   comments?: number;

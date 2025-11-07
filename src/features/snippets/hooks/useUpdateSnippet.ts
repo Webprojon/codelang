@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateSnippet } from '../services/snippetService';
+import { updateSnippet } from '../api/snippetApi';
 import type { UpdateSnippetRequest, ApiSnippet } from '../types';
 import { invalidateSnippetQueries } from '../utils/queryUtils';
-import { getErrorMessage } from '../utils/errorUtils';
+import { getErrorMessage } from '../../../shared/utils/errorHandler';
 
 interface UseUpdateSnippetReturn {
   isUpdating: boolean;

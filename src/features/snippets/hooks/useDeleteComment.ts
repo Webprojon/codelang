@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteComment } from '../services/snippetService';
+import { deleteComment } from '../api/snippetApi';
 import { invalidateSnippetQueries } from '../utils/queryUtils';
-import { getErrorMessage } from '../utils/errorUtils';
+import { getErrorMessage } from '../../../shared/utils/errorHandler';
 
 interface UseDeleteCommentReturn {
   isDeleting: boolean;

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { markSnippet } from '../services/snippetService';
+import { markSnippet } from '../api/snippetApi';
 import { useAuthStore } from '../../auth/store/authStore';
 import type { SnippetsResponse } from '../types';
 

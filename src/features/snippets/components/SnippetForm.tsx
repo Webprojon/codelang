@@ -1,9 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import Select from '../../../shared/components/Select';
-import CodeEditor from '../../../shared/components/CodeEditor';
-import Button from '../../../shared/components/Button';
-import LoadingSpinner from '../../../shared/components/LoadingSpinner';
+import { Select, CodeEditor, Button } from '../../../shared/components/ui';
+import { LoadingSpinner } from '../../../shared/components/feedback';
 import { useLanguages } from '../hooks/useLanguages';
 import { DEFAULT_LANGUAGE } from '../constants';
 import { SNIPPET_STYLES } from '../utils/styles';
@@ -16,7 +14,6 @@ interface SnippetFormProps {
   submitError: string | null;
   initialSnippet?: ApiSnippet | null;
   submitButtonText?: string;
-  title: string;
 }
 
 export default function SnippetForm({
@@ -25,7 +22,6 @@ export default function SnippetForm({
   submitError,
   initialSnippet,
   submitButtonText = 'SUBMIT',
-  title,
 }: SnippetFormProps) {
   const [code, setCode] = useState('');
   const { languages, isLoading: isLoadingLanguages } = useLanguages();
@@ -102,11 +98,9 @@ export default function SnippetForm({
 
   return (
     <>
-      <h1 className="text-2xl font-bold text-center mb-10">{title}</h1>
-
       {submitError && <div className={SNIPPET_STYLES.errorMessage}>{submitError}</div>}
 
-      <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6 mt-8">
         <div>
           <label htmlFor="language" className="text-sm font-bold block mb-2">
             Language of your snippet:

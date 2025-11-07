@@ -6,12 +6,13 @@ import { useDeleteSnippet } from '../../hooks/useDeleteSnippet';
 import { SNIPPET_STYLES } from '../../utils/styles';
 import toast from 'react-hot-toast';
 import { useConfirmModal } from '../../../../shared/hooks/useConfirmModal';
-import ConfirmModal from '../../../../shared/components/ConfirmModal';
+import { ConfirmModal } from '../../../../shared/components/feedback';
 
 interface CardHeaderProps {
   username: string;
   language: string;
   snippetId: number;
+  userId?: number;
   showActions?: boolean;
 }
 
@@ -19,6 +20,7 @@ export default function CardHeader({
   username,
   language,
   snippetId,
+  userId,
   showActions = false,
 }: CardHeaderProps) {
   const navigate = useNavigate();
@@ -44,7 +46,7 @@ export default function CardHeader({
   return (
     <>
       <div className={SNIPPET_STYLES.cardHeader}>
-        <Link to={`/users/${snippetId}`} className="flex items-center text-sm gap-2">
+        <Link to={`/users/${userId}`} className="flex items-center text-sm gap-2">
           <FaUser />
           <span>{username}</span>
         </Link>

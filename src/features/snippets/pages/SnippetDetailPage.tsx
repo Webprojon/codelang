@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useMarkSnippet } from '../hooks/useMarkSnippet';
 import { useCreateComment } from '../hooks/useCreateComment';
-import { getSnippetById } from '../services/snippetService';
+import { getSnippetById } from '../api/snippetApi';
 import { useAuthStore } from '../../auth/store/authStore';
 import { DEFAULT_LANGUAGE, DEFAULT_USERNAME } from '../components/SnippetCard/utils';
 import { createSnippetForFooter } from '../utils/snippetUtils';
@@ -10,10 +10,10 @@ import { SNIPPET_STYLES } from '../utils/styles';
 import CardHeader from '../components/SnippetCard/CardHeader';
 import CodeSection from '../components/SnippetCard/CodeSection';
 import CardFooter from '../components/SnippetCard/CardFooter';
-import CommentsList from '../components/SnippetCard/CommentsList';
+import { CommentsList } from '../components/Comments';
 import CommentForm from '../components/CommentForm';
-import LoadingSpinner from '../../../shared/components/LoadingSpinner';
-import Button from '../../../shared/components/Button';
+import { LoadingSpinner } from '../../../shared/components/feedback';
+import { Button } from '../../../shared/components/ui';
 
 export default function SnippetDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -100,7 +100,12 @@ export default function SnippetDetailPage() {
         </div>
       )}
       <div className={SNIPPET_STYLES.card}>
-        <CardHeader username={username} language={language} snippetId={parseInt(snippet.id, 10)} />
+        <CardHeader
+          username={username}
+          language={language}
+          snippetId={parseInt(snippet.id, 10)}
+          userId={parseInt(snippet.user.id, 10)}
+        />
         <CodeSection content={snippet.code} language={language} />
         <CardFooter
           snippet={snippetForFooter}

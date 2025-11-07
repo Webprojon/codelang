@@ -1,7 +1,6 @@
 import { useHomeSnippets } from '../';
-import WelcomeHeader from '../components/WelcomeHeader';
-import PaginationControls from '../components/PaginationControls';
-import SnippetsList from '../components/SnippetsList';
+import { WelcomeHeader, Pagination } from '../../../shared/components/ui';
+import { SnippetsList } from '../../snippets';
 
 export default function HomePage() {
   const { snippets, isLoading, error, currentPage, totalPages, setCurrentPage } =
@@ -10,11 +9,12 @@ export default function HomePage() {
   return (
     <div>
       <WelcomeHeader title="Welcome to Codelang!" />
-      <PaginationControls
+      <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         isLoading={isLoading}
         onPageChange={setCurrentPage}
+        className="my-8"
       />
       <SnippetsList snippets={snippets} isLoading={isLoading} error={error} />
     </div>

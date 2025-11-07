@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { loginUser, registerUser, logoutUser, getCurrentUser } from '../services/authService';
+import { loginUser, registerUser, logoutUser, getCurrentUser } from '../api/authApi';
 import { useAuthStore } from '../store/authStore';
 import type { LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from '../types';
 

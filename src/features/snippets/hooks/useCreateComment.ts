@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createComment } from '../services/snippetService';
+import { createComment } from '../api/snippetApi';
 import type { CreateCommentRequest, CreateCommentResponse } from '../types';
 import { invalidateSnippetQueries } from '../utils/queryUtils';
-import { getErrorMessage } from '../utils/errorUtils';
+import { getErrorMessage } from '../../../shared/utils/errorHandler';
 
 interface UseCreateCommentReturn {
   isSubmitting: boolean;
