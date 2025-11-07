@@ -15,12 +15,12 @@ export default function UserCard({ user }: UserCardProps) {
       to={`/users/${user.id}`}
       className="block border border-gray-200 rounded-lg shadow-auth hover:shadow-md transition-shadow p-4 bg-white"
     >
-      <div className="flex items-center gap-4">
-        <div className="w-12 h-12 rounded-full bg-blue-400 flex items-center justify-center text-blue-900 font-semibold text-lg shrink-0">
+      <div className="flex gap-4">
+        <div className="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-blue-900 font-semibold text-lg shrink-0">
           {firstLetter}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-semibold text-gray-900 truncate">{user.username}</h3>
+          <h3 className="text-lg font-semibold text-gray-600 truncate">{user.username}</h3>
           <p className="text-sm text-gray-500">ID: {user.id}</p>
           <p className="text-sm text-gray-500 capitalize">Role: {user.role}</p>
         </div>

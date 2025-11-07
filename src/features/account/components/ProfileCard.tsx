@@ -34,13 +34,13 @@ export default function ProfileCard({ user, stats, onLogout, onDeleteAccount }: 
           <div className="flex flex-row gap-2 sm:gap-3 mt-4 justify-center sm:justify-start">
             <Button
               icon={<IoLogOutOutline className="text-orange-100" aria-hidden="true" />}
-              className="bg-orange-500 hover:bg-orange-600 rounded w-full sm:w-auto justify-center"
+              className="px-4 py-2 bg-orange-500 hover:bg-orange-600 rounded w-full sm:w-auto justify-center"
               aria-label="Logout"
               onClick={onLogout}
             />
             <Button
               icon={<RiDeleteBinLine className="text-red-200" aria-hidden="true" />}
-              className="bg-red-600 hover:bg-red-700 rounded shadow-2xl w-full sm:w-auto justify-center"
+              className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded shadow-2xl w-full sm:w-auto justify-center"
               aria-label="Delete account"
               onClick={onDeleteAccount}
             />

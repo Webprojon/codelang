@@ -3,6 +3,7 @@ import { FaRegEdit } from 'react-icons/fa';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { getFirstLetter } from '../../../../shared/utils/userUtils';
 import { SNIPPET_STYLES } from '../../utils/styles';
+import { Button } from '../../../../shared/components/ui';
 
 interface CommentHeaderProps {
   username: string;
@@ -38,22 +39,20 @@ export default function CommentHeader({
       </Link>
       {isOwner && !isEditing && (
         <div className="flex items-center gap-3">
-          <button
+          <Button
             onClick={onEditClick}
             className={SNIPPET_STYLES.editButton}
             title="Edit comment"
             disabled={isDeleting || isUpdating}
-          >
-            <FaRegEdit className="size-4" />
-          </button>
-          <button
+            icon={<FaRegEdit className="size-4" />}
+          />
+          <Button
             onClick={onDeleteClick}
             className={SNIPPET_STYLES.deleteButton}
             title="Delete comment"
             disabled={isDeleting || isUpdating}
-          >
-            <RiDeleteBinLine className="size-4" />
-          </button>
+            icon={<RiDeleteBinLine className="size-4" />}
+          />
         </div>
       )}
     </div>

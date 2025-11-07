@@ -7,6 +7,7 @@ import { SNIPPET_STYLES } from '../../utils/styles';
 import toast from 'react-hot-toast';
 import { useConfirmModal } from '../../../../shared/hooks/useConfirmModal';
 import { ConfirmModal } from '../../../../shared/components/feedback';
+import { Button } from '../../../../shared/components/ui';
 
 interface CardHeaderProps {
   username: string;
@@ -53,22 +54,20 @@ export default function CardHeader({
         <div className="flex items-center text-sm gap-2">
           {showActions && (
             <div className="flex items-center gap-3 mr-2">
-              <button
+              <Button
                 onClick={handleEdit}
                 className={SNIPPET_STYLES.editButton}
                 title="Edit snippet"
                 disabled={isDeleting}
-              >
-                <FaRegEdit className="size-4" />
-              </button>
-              <button
+                icon={<FaRegEdit className="size-4" />}
+              />
+              <Button
                 onClick={handleDelete}
                 className={SNIPPET_STYLES.deleteButton}
                 title="Delete snippet"
                 disabled={isDeleting}
-              >
-                <RiDeleteBinLine className="size-4" />
-              </button>
+                icon={<RiDeleteBinLine className="size-4" />}
+              />
             </div>
           )}
           <RiCodeBoxLine className="size-4" />
