@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { getFirstLetter } from '../../../../shared/utils/userUtils';
-import SnippetActions from '../SnippetCard/SnippetActions';
+import EditDeleteActions from '../../../../shared/components/ui/EditDeleteActions';
 
 interface CommentHeaderProps {
   username: string;
@@ -35,7 +35,7 @@ export default function CommentHeader({
         <span>{username}</span>
       </Link>
       {isOwner && !isEditing && (
-        <SnippetActions
+        <EditDeleteActions
           onEdit={onEditClick}
           onDelete={onDeleteClick}
           isDeleting={isDeleting}

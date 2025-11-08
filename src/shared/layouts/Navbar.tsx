@@ -49,7 +49,13 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
       <div className="hidden sm:flex items-center gap-2">
         <div className="flex gap-1 md:gap-2">
           {pathname === '/questions' && (
-            <Button className="uppercase" color="light" size="md" aria-label="Ask a question">
+            <Button
+              onClick={() => navigate('/ask-question')}
+              className="uppercase"
+              color="light"
+              size="md"
+              aria-label="Ask a question"
+            >
               Ask Question
             </Button>
           )}

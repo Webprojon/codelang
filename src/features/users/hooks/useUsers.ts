@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getUsers, DEFAULT_PAGE, DEFAULT_LIMIT } from '../api/userApi';
+import { getUsers } from '../api/userApi';
+import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../../../shared/constants';
 import type { UseUsersReturn } from '../types';
 import { getErrorMessage } from '../../../shared/utils/errorHandler';
 import { getDefaultQueryConfig } from '../../../shared/hooks/useQueryConfig';

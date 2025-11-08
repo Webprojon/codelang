@@ -1,9 +1,8 @@
 import { FaRegEdit } from 'react-icons/fa';
 import { RiDeleteBinLine } from 'react-icons/ri';
-import Button from '../../../../shared/components/ui/Button';
-import { SNIPPET_STYLES } from '../../utils/styles';
+import Button from './Button';
 
-interface SnippetActionsProps {
+interface EditDeleteActionsProps {
   onEdit: () => void;
   onDelete: () => void;
   isDeleting?: boolean;
@@ -13,7 +12,7 @@ interface SnippetActionsProps {
   className?: string;
 }
 
-export default function SnippetActions({
+export default function EditDeleteActions({
   onEdit,
   onDelete,
   isDeleting = false,
@@ -21,12 +20,12 @@ export default function SnippetActions({
   editTitle = 'Edit',
   deleteTitle = 'Delete',
   className = '',
-}: SnippetActionsProps) {
+}: EditDeleteActionsProps) {
   return (
     <div className={`flex items-center ${className}`}>
       <Button
         onClick={onEdit}
-        className={SNIPPET_STYLES.editButton}
+        className="text-gray-500 hover:text-blue-500 transition-colors cursor-pointer"
         color="ghost"
         size="sm"
         title={editTitle}
@@ -35,7 +34,7 @@ export default function SnippetActions({
       />
       <Button
         onClick={onDelete}
-        className={SNIPPET_STYLES.deleteButton}
+        className="text-gray-500 hover:text-red-500 transition-colors cursor-pointer"
         color="ghost"
         size="sm"
         title={deleteTitle}
