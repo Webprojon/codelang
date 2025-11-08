@@ -2,8 +2,7 @@ import axios from 'axios';
 import { useAuthStore } from '../../features/auth/store/authStore';
 import { handleApiError, createApiError } from '../utils/errorHandler';
 
-const isDevelopment = import.meta.env.DEV;
-const baseURL = isDevelopment ? '/api' : import.meta.env.VITE_API_BASE_URL || '/api';
+const baseURL = '/api';
 
 export const apiClient = axios.create({
   baseURL,
