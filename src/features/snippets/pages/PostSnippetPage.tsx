@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { usePostSnippet } from '../hooks/usePostSnippet';
+import { useCreateSnippet } from '../hooks/snippets';
 import SnippetForm from '../components/SnippetForm';
 import type { PostSnippetFormData } from '../types';
 import toast from 'react-hot-toast';
@@ -7,11 +7,11 @@ import WelcomeHeader from '../../../shared/components/ui/WelcomeHeader';
 
 export default function PostSnippetPage() {
   const navigate = useNavigate();
-  const { isSubmitting, error: submitError, submitSnippet } = usePostSnippet();
+  const { isSubmitting, error: submitError, createSnippet } = useCreateSnippet();
 
   const handleSubmit = async (data: PostSnippetFormData) => {
     try {
-      await submitSnippet({
+      await createSnippet({
         code: data.code,
         language: data.language,
       });

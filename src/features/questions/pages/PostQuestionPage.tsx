@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useCreateQuestion } from '../hooks/useCreateQuestion';
+import { useCreateQuestion } from '../hooks/questions';
 import QuestionForm from '../components/QuestionComponents/QuestionForm';
 import type { QuestionFormData } from '../types';
 import toast from 'react-hot-toast';

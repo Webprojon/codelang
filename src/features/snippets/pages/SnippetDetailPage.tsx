@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useMarkSnippet } from '../hooks/useMarkSnippet';
-import { useCreateComment } from '../hooks/useCreateComment';
+import { useCreateComment } from '../hooks/comments';
 import { getSnippetById } from '../api/snippetApi';
 import { useAuthStore } from '../../auth/store/authStore';
 import { DEFAULT_LANGUAGE, DEFAULT_USERNAME } from '../components/SnippetCard/utils';

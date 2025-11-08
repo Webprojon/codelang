@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createSnippet } from '../api/snippetApi';
-import type { PostSnippetRequest, UsePostSnippetReturn } from '../types';
-import { invalidateSnippetQueries } from '../utils/queryUtils';
-import { getErrorMessage } from '../../../shared/utils/errorHandler';
+import { createSnippet } from '../../api/snippetApi';
+import type { PostSnippetRequest, UseCreateSnippetReturn } from '../../types';
+import { invalidateSnippetQueries } from '../../utils/queryUtils';
+import { getErrorMessage } from '../../../../shared/utils/errorHandler';
 
-export const usePostSnippet = (): UsePostSnippetReturn => {
+export const useCreateSnippet = (): UseCreateSnippetReturn => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -17,7 +17,7 @@ export const usePostSnippet = (): UsePostSnippetReturn => {
   return {
     isSubmitting: mutation.isPending,
     error: mutation.error ? getErrorMessage(mutation.error, 'Failed to create snippet') : null,
-    submitSnippet: async (request: PostSnippetRequest) => {
+    createSnippet: async (request: PostSnippetRequest) => {
       return await mutation.mutateAsync(request);
     },
   };

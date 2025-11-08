@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../auth/store/authStore';
-import { useDeleteQuestion } from '../../hooks/useDeleteQuestion';
+import { useDeleteQuestion } from '../../hooks/questions';
 import { useConfirmModal } from '../../../../shared/hooks/useConfirmModal';
 import { ConfirmModal } from '../../../../shared/components/feedback';
 import EditDeleteActions from '../../../../shared/components/ui/EditDeleteActions';

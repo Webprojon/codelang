@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateAnswer } from '../api/answersApi';
-import { invalidateQuestionQueries } from '../utils/queryUtils';
-import type { UpdateAnswerRequest, UseUpdateAnswerReturn } from '../types';
-import { getErrorMessage } from '../../../shared/utils/errorHandler';
+import { updateAnswer } from '../../api/answersApi';
+import { invalidateQuestionQueries } from '../../utils/queryUtils';
+import type { UpdateAnswerRequest, UseUpdateAnswerReturn } from '../../types';
+import { getErrorMessage } from '../../../../shared/utils/errorHandler';
 
 export const useUpdateAnswer = (): UseUpdateAnswerReturn => {
   const queryClient = useQueryClient();

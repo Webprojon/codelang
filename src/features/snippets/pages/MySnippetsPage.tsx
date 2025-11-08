@@ -1,4 +1,4 @@
-import { useMySnippets } from '../hooks/useMySnippets';
+import { useMySnippets } from '../hooks/snippets';
 import Pagination from '../../../shared/components/ui/Pagination';
 import WelcomeHeader from '../../../shared/components/ui/WelcomeHeader';
 import SnippetsList from '../components/SnippetsList';
