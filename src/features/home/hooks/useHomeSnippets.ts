@@ -1,29 +1,31 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getSnippets } from '../../snippets/api/snippetApi';
+import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@shared/constants';
 import type { UseHomeSnippetsReturn } from '../types';
-import { getErrorMessage } from '../../../shared/utils/errorHandler';
+import { getErrorMessage } from '@shared/utils/errorHandler';
+import { getDefaultQueryConfig } from '@shared/hooks/useQueryConfig';
 
 export const useHomeSnippets = (
-  initialPage: number = 1,
-  limit: number = 15
+  initialPage: number = DEFAULT_PAGE,
+  limit: number = DEFAULT_LIMIT
 ): UseHomeSnippetsReturn => {
   const [currentPage, setCurrentPage] = useState(initialPage);
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['snippets', currentPage, limit],
     queryFn: () => getSnippets(currentPage, limit),
-    staleTime: 0,
-    refetchOnMount: true,
-    refetchOnWindowFocus: false,
+    ...getDefaultQueryConfig({ staleTime: 0 }),
   });
 
   return {
     snippets: data?.snippets || [],
     isLoading,
-    error: error ? getErrorMessage(error) : null,
+    isError,
+    error: error ? getErrorMessage(error, 'Failed to load snippets') : null,
     currentPage,
     totalPages: data?.meta.totalPages || 1,
     setCurrentPage,
+    refetch,
   };
 };

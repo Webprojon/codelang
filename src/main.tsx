@@ -5,8 +5,8 @@ import App from './App.tsx';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
-import { ErrorBoundary } from './shared/components/feedback';
-import { handleApiError } from './shared/utils/errorHandler';
+import { ErrorBoundary } from '@shared/components/feedback';
+import { handleApiError } from '@shared/utils/errorHandler';
 
 const logError = (error: unknown, type: 'Query' | 'Mutation') => {
   const apiError = handleApiError(error);

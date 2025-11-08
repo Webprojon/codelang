@@ -1,5 +1,5 @@
 import type { User } from '../auth/types';
-import type { PaginationMeta } from '../../shared/types/api';
+import type { PaginationMeta } from '@shared/types/api';
 
 // Domain Types
 export interface Question {
@@ -42,11 +42,7 @@ export interface ApiAnswer {
   createdAt?: string;
 }
 
-export interface ApiPaginationMeta {
-  itemsPerPage: number;
-  totalItems: number;
-  currentPage: number;
-  totalPages: number;
+export interface ApiPaginationMeta extends PaginationMeta {
   sortBy?: Array<[string, 'ASC' | 'DESC']>;
   searchBy?: string[];
   search?: string;
@@ -95,10 +91,12 @@ export interface QuestionFormData {
 export interface UseQuestionsReturn {
   questions: Question[];
   isLoading: boolean;
+  isError: boolean;
   error: string | null;
   currentPage: number;
   totalPages: number;
   setCurrentPage: (page: number) => void;
+  refetch: () => Promise<unknown>;
 }
 
 export interface UseCreateQuestionReturn {

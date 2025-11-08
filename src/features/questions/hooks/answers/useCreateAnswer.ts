@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createAnswer } from '../../api/answersApi';
 import type { CreateAnswerRequest, UseCreateAnswerReturn } from '../../types';
-import { getErrorMessage } from '../../../../shared/utils/errorHandler';
+import { getErrorMessage } from '@shared/utils/errorHandler';
 
 export const useCreateAnswer = (): UseCreateAnswerReturn => {
   const queryClient = useQueryClient();

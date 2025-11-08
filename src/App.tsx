@@ -1,25 +1,25 @@
 import { Route, Routes } from 'react-router-dom';
-import Layout from './shared/layouts/Layout';
-import { ProtectedRoute } from './shared/components/layout';
-import { useInitAuth } from './features/auth/hooks/useInitAuth';
-import { useAuthStore } from './features/auth/store/authStore';
-import { LoadingSpinner } from './shared/components/feedback';
+import Layout from '@shared/layouts/Layout';
+import { ProtectedRoute } from '@shared/components/layout';
+import { useInitAuth } from '@features/auth/hooks/useInitAuth';
+import { useAuthStore } from '@features/auth/store/authStore';
+import { LoadingSpinner } from '@shared/components/feedback';
 
-import HomePage from './features/home/pages/HomePage';
-import MyAccountPage from './features/account/pages/MyAccountPage';
-import UsersPage from './features/users/pages/UsersPage';
-import UserPage from './features/users/pages/UserPage';
-import PostSnippetPage from './features/snippets/pages/PostSnippetPage';
-import MySnippetsPage from './features/snippets/pages/MySnippetsPage';
-import SnippetDetailPage from './features/snippets/pages/SnippetDetailPage';
-import EditSnippetPage from './features/snippets/pages/EditSnippetPage';
-import QuestionsPage from './features/questions/pages/QuestionsPage';
-import PostQuestionPage from './features/questions/pages/PostQuestionPage';
-import EditQuestionPage from './features/questions/pages/EditQuestionPage';
-import QuestionDetailPage from './features/questions/pages/QuestionDetailPage';
-import LoginPage from './features/auth/pages/LoginPage';
-import RegisterPage from './features/auth/pages/RegisterPage';
-import { NotFound } from './shared/components/layout';
+import HomePage from '@features/home/pages/HomePage';
+import MyAccountPage from '@features/account/pages/MyAccountPage';
+import UsersPage from '@features/users/pages/UsersPage';
+import UserPage from '@features/users/pages/UserPage';
+import PostSnippetPage from '@features/snippets/pages/PostSnippetPage';
+import MySnippetsPage from '@features/snippets/pages/MySnippetsPage';
+import SnippetDetailPage from '@features/snippets/pages/SnippetDetailPage';
+import EditSnippetPage from '@features/snippets/pages/EditSnippetPage';
+import QuestionsPage from '@features/questions/pages/QuestionsPage';
+import PostQuestionPage from '@features/questions/pages/PostQuestionPage';
+import EditQuestionPage from '@features/questions/pages/EditQuestionPage';
+import QuestionDetailPage from '@features/questions/pages/QuestionDetailPage';
+import LoginPage from '@features/auth/pages/LoginPage';
+import RegisterPage from '@features/auth/pages/RegisterPage';
+import { NotFound } from '@shared/components/layout';
 
 export default function App() {
   useInitAuth();

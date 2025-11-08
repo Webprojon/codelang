@@ -1,6 +1,6 @@
-import apiClient from '../../../shared/api/client';
-import { handleApiError, createApiError } from '../../../shared/utils/errorHandler';
-import { useAuthStore } from '../../../features/auth/store/authStore';
+import apiClient from '@shared/api/client';
+import { handleApiError, createApiError } from '@shared/utils/errorHandler';
+import { useAuthStore } from '@features/auth/store/authStore';
 import { transformApiSnippetToSnippet as transformSnippet } from '../utils/snippetUtils';
 import type {
   SnippetsResponse,
@@ -16,7 +16,7 @@ import type {
 } from '../types';
 import { MarkType } from '../types';
 import { SNIPPETS_ENDPOINT, DEFAULT_SORT_BY } from '../constants';
-import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../../../shared/constants';
+import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@shared/constants';
 
 const DEFAULT_META: ApiPaginationMeta = {
   itemsPerPage: 0,

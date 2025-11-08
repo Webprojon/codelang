@@ -9,8 +9,10 @@ export interface HomeSnippetsState {
 export interface UseHomeSnippetsReturn {
   snippets: Snippet[];
   isLoading: boolean;
+  isError: boolean;
   error: string | null;
   currentPage: number;
   totalPages: number;
   setCurrentPage: (page: number) => void;
+  refetch: () => Promise<unknown>;
 }

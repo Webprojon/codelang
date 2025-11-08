@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateSnippet } from '../../api/snippetApi';
 import type { UpdateSnippetRequest, UseUpdateSnippetReturn } from '../../types';
 import { invalidateSnippetQueries } from '../../utils/queryUtils';
-import { getErrorMessage } from '../../../../shared/utils/errorHandler';
+import { getErrorMessage } from '@shared/utils/errorHandler';
 
 export const useUpdateSnippet = (): UseUpdateSnippetReturn => {
   const queryClient = useQueryClient();

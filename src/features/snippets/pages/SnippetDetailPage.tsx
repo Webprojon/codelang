@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useMarkSnippet } from '../hooks/useMarkSnippet';
 import { useCreateComment } from '../hooks/comments';
 import { getSnippetById } from '../api/snippetApi';
-import { useAuthStore } from '../../auth/store/authStore';
+import { useAuthStore } from '@features/auth/store/authStore';
 import { DEFAULT_LANGUAGE, DEFAULT_USERNAME } from '../components/SnippetCard/utils';
 import { createSnippetForFooter } from '../utils/snippetUtils';
 import { SNIPPET_STYLES } from '../utils/styles';
@@ -13,8 +13,8 @@ import CodeSection from '../components/SnippetCard/CodeSection';
 import CardFooter from '../components/SnippetCard/CardFooter';
 import CommentsList from '../components/Comments/CommentsList';
 import CommentForm from '../components/CommentForm';
-import { LoadingSpinner } from '../../../shared/components/feedback';
-import Button from '../../../shared/components/ui/Button';
+import { LoadingSpinner } from '@shared/components/feedback';
+import Button from '@shared/components/ui/Button';
 
 export default function SnippetDetailPage() {
   const { id } = useParams<{ id: string }>();

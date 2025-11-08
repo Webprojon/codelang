@@ -1,5 +1,5 @@
-import apiClient from '../../../shared/api/client';
-import { handleApiError, createApiError } from '../../../shared/utils/errorHandler';
+import apiClient from '@shared/api/client';
+import { handleApiError, createApiError } from '@shared/utils/errorHandler';
 import type { User } from '../../auth/types';
 import type { DeleteAccountResponse, UserStatisticsResponse } from '../types';
 import type { UserWithStats } from '../../users/types';
