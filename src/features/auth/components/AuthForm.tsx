@@ -144,7 +144,7 @@ export default function AuthForm({ type }: AuthFormProps) {
 
       <div className="mt-6">
         <Button
-          size="md"
+          size="lg"
           fullWidth
           type="submit"
           color="primary"

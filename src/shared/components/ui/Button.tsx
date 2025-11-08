@@ -27,7 +27,7 @@ const sizeClasses: Record<ButtonSize, string> = {
 
 const colorClasses: Record<ButtonColor, string> = {
   primary: 'bg-brand-500 text-white hover:bg-brand2-500',
-  secondary: 'bg-gray-400 text-gray-300 hover:bg-gray-500',
+  secondary: 'bg-gray-500 text-gray-300 hover:bg-gray-400',
   success: 'bg-[#4CAF50] text-white hover:bg-[#4CAF50]/90',
   warning: 'bg-orange-500 text-white hover:bg-orange-600',
   danger: 'bg-red-600 text-white hover:bg-red-700',

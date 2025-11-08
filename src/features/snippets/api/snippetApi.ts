@@ -14,7 +14,8 @@ import type {
   UpdateCommentRequest,
   UpdateCommentResponse,
 } from '../types';
-import { SNIPPETS_ENDPOINT, DEFAULT_PAGE, DEFAULT_LIMIT, DEFAULT_SORT_BY } from '../constants';
+import { SNIPPETS_ENDPOINT, DEFAULT_SORT_BY } from '../constants';
+import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../../../shared/constants';
 
 const DEFAULT_META: ApiPaginationMeta = {
   itemsPerPage: 0,

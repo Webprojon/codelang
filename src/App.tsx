@@ -14,6 +14,9 @@ import MySnippetsPage from './features/snippets/pages/MySnippetsPage';
 import SnippetDetailPage from './features/snippets/pages/SnippetDetailPage';
 import EditSnippetPage from './features/snippets/pages/EditSnippetPage';
 import QuestionsPage from './features/questions/pages/QuestionsPage';
+import PostQuestionPage from './features/questions/pages/PostQuestionPage';
+import EditQuestionPage from './features/questions/pages/EditQuestionPage';
+import QuestionDetailPage from './features/questions/pages/QuestionDetailPage';
 import LoginPage from './features/auth/pages/LoginPage';
 import RegisterPage from './features/auth/pages/RegisterPage';
 import { NotFound } from './shared/components/layout';
@@ -40,6 +43,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/snippets/:id" element={<SnippetDetailPage />} />
         <Route path="/questions" element={<QuestionsPage />} />
+        <Route path="/questions/:id" element={<QuestionDetailPage />} />
         <Route path="/users" element={<UsersPage />} />
         <Route path="/users/:id" element={<UserPage />} />
       </Route>
@@ -49,8 +53,10 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/my-account" element={<MyAccountPage />} />
           <Route path="/post-snippet" element={<PostSnippetPage />} />
+          <Route path="/ask-question" element={<PostQuestionPage />} />
           <Route path="/my-snippets" element={<MySnippetsPage />} />
           <Route path="/snippets/:id/edit" element={<EditSnippetPage />} />
+          <Route path="/questions/:id/edit" element={<EditQuestionPage />} />
         </Route>
       </Route>
 

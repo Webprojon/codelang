@@ -13,7 +13,7 @@ export default function UserCard({ user }: UserCardProps) {
   return (
     <Link
       to={`/users/${user.id}`}
-      className="block border border-gray-200 rounded-lg shadow-auth hover:shadow-md transition-shadow p-4 bg-white"
+      className="block border border-gray-200 rounded-lg shadow-auth hover:shadow-lg transition-shadow p-4 bg-white"
     >
       <div className="flex gap-4">
         <div className="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-blue-900 font-semibold text-lg shrink-0">

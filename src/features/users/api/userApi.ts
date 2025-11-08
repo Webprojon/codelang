@@ -1,13 +1,12 @@
 import apiClient from '../../../shared/api/client';
 import { handleApiError, createApiError } from '../../../shared/utils/errorHandler';
+import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../../../shared/constants';
 import type { PaginationMeta } from '@shared/types/api';
 import type { User } from '../../auth/types';
 import type { UserStatisticsResponse } from '../../account/types';
 import type { UserWithStats } from '../types';
 
 const USERS_ENDPOINT = '/users';
-export const DEFAULT_PAGE = 1;
-export const DEFAULT_LIMIT = 15;
 
 export interface UsersResponse {
   users: User[];

@@ -7,7 +7,7 @@ import { SNIPPET_STYLES } from '../../utils/styles';
 import toast from 'react-hot-toast';
 import { useConfirmModal } from '../../../../shared/hooks/useConfirmModal';
 import { ConfirmModal } from '../../../../shared/components/feedback';
-import SnippetActions from './SnippetActions';
+import EditDeleteActions from '../../../../shared/components/ui/EditDeleteActions';
 
 interface CardHeaderProps {
   username: string;
@@ -53,7 +53,7 @@ export default function CardHeader({
         </Link>
         <div className="flex items-center text-sm gap-2">
           {showActions && (
-            <SnippetActions
+            <EditDeleteActions
               onEdit={handleEdit}
               onDelete={handleDelete}
               isDeleting={isDeleting}
