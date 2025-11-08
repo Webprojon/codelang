@@ -67,7 +67,7 @@ export default function QuestionCard({ question }: QuestionCardProps) {
                 isDeleting={isDeleting}
                 editTitle="Edit question"
                 deleteTitle="Delete question"
-                className="gap-3"
+                className="gap-4"
               />
             )}
           </div>

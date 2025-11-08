@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useAuthStore } from '../../features/auth/store/authStore';
+import { handleApiError, createApiError } from '../utils/errorHandler';
 
 const isDevelopment = import.meta.env.DEV;
 const baseURL = isDevelopment ? '/api' : import.meta.env.VITE_API_BASE_URL || '/api';
@@ -30,7 +31,9 @@ apiClient.interceptors.response.use(
     if (error.response?.status === 401) {
       useAuthStore.getState().logout();
     }
-    return Promise.reject(error);
+    const apiError = handleApiError(error);
+    const transformedError = createApiError(apiError);
+    return Promise.reject(transformedError);
   }
 );
 

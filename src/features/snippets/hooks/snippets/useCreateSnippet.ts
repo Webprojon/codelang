@@ -3,14 +3,24 @@ import { createSnippet } from '../../api/snippetApi';
 import type { PostSnippetRequest, UseCreateSnippetReturn } from '../../types';
 import { invalidateSnippetQueries } from '../../utils/queryUtils';
 import { getErrorMessage } from '../../../../shared/utils/errorHandler';
+import { useAuthStore } from '../../../auth/store/authStore';
 
 export const useCreateSnippet = (): UseCreateSnippetReturn => {
   const queryClient = useQueryClient();
+  const user = useAuthStore(state => state.user);
 
   const mutation = useMutation({
     mutationFn: createSnippet,
-    onSuccess: () => {
-      invalidateSnippetQueries(queryClient);
+    onSuccess: async () => {
+      await invalidateSnippetQueries(queryClient);
+
+      if (user?.id) {
+        await queryClient.invalidateQueries({
+          queryKey: ['userStatistics', user.id],
+          exact: true,
+          refetchType: 'active',
+        });
+      }
     },
   });
 

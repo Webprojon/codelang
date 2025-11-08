@@ -42,7 +42,7 @@ export default function CommentHeader({
           isUpdating={isUpdating}
           editTitle="Edit comment"
           deleteTitle="Delete comment"
-          className="gap-3"
+          className="gap-4"
         />
       )}
     </div>

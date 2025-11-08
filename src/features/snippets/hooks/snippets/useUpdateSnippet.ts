@@ -10,8 +10,8 @@ export const useUpdateSnippet = (): UseUpdateSnippetReturn => {
   const mutation = useMutation({
     mutationFn: ({ id, request }: { id: number; request: UpdateSnippetRequest }) =>
       updateSnippet(id, request),
-    onSuccess: (_, variables) => {
-      invalidateSnippetQueries(queryClient, variables.id);
+    onSuccess: async (_, variables) => {
+      await invalidateSnippetQueries(queryClient, variables.id);
     },
   });
 

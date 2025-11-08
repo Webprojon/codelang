@@ -1,5 +1,11 @@
 import type { PaginationMeta } from '@shared/types/api';
 
+// Enums
+export enum MarkType {
+  LIKE = 'like',
+  DISLIKE = 'dislike',
+}
+
 // Domain Types
 export interface Snippet {
   id: number;
@@ -12,7 +18,7 @@ export interface Snippet {
   likes?: number;
   dislikes?: number;
   comments?: number;
-  currentUserMark?: 'like' | 'dislike' | null;
+  currentUserMark?: MarkType | null;
 }
 
 export interface SnippetsResponse {
@@ -67,7 +73,7 @@ export interface ApiUser {
 
 export interface ApiMark {
   id: string;
-  type: 'like' | 'dislike';
+  type: MarkType;
   user: ApiUser;
 }
 

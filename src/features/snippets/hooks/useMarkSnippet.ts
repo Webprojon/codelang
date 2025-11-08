@@ -2,13 +2,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { markSnippet } from '../api/snippetApi';
 import { useAuthStore } from '../../auth/store/authStore';
 import type { SnippetsResponse } from '../types';
+import { MarkType } from '../types';
 
 export const useMarkSnippet = () => {
   const queryClient = useQueryClient();
   const user = useAuthStore(state => state.user);
 
   const mutation = useMutation({
-    mutationFn: ({ id, mark }: { id: number; mark: 'like' | 'dislike' }) => markSnippet(id, mark),
+    mutationFn: ({ id, mark }: { id: number; mark: MarkType }) => markSnippet(id, mark),
     onMutate: async ({ id, mark }) => {
       await queryClient.cancelQueries({ queryKey: ['snippets'] });
 
@@ -27,46 +28,46 @@ export const useMarkSnippet = () => {
               const currentDislikes = snippet.dislikes || 0;
               const currentMark = snippet.currentUserMark;
 
-              if (mark === 'like') {
-                if (currentMark === 'like') {
+              if (mark === MarkType.LIKE) {
+                if (currentMark === MarkType.LIKE) {
                   return {
                     ...snippet,
                     likes: Math.max(0, currentLikes - 1),
                     currentUserMark: null,
                   };
-                } else if (currentMark === 'dislike') {
+                } else if (currentMark === MarkType.DISLIKE) {
                   return {
                     ...snippet,
                     likes: currentLikes + 1,
                     dislikes: Math.max(0, currentDislikes - 1),
-                    currentUserMark: 'like',
+                    currentUserMark: MarkType.LIKE,
                   };
                 } else {
                   return {
                     ...snippet,
                     likes: currentLikes + 1,
-                    currentUserMark: 'like',
+                    currentUserMark: MarkType.LIKE,
                   };
                 }
               } else {
-                if (currentMark === 'dislike') {
+                if (currentMark === MarkType.DISLIKE) {
                   return {
                     ...snippet,
                     dislikes: Math.max(0, currentDislikes - 1),
                     currentUserMark: null,
                   };
-                } else if (currentMark === 'like') {
+                } else if (currentMark === MarkType.LIKE) {
                   return {
                     ...snippet,
                     likes: Math.max(0, currentLikes - 1),
                     dislikes: currentDislikes + 1,
-                    currentUserMark: 'dislike',
+                    currentUserMark: MarkType.DISLIKE,
                   };
                 } else {
                   return {
                     ...snippet,
                     dislikes: currentDislikes + 1,
-                    currentUserMark: 'dislike',
+                    currentUserMark: MarkType.DISLIKE,
                   };
                 }
               }

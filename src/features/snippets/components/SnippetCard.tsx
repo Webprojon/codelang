@@ -1,5 +1,6 @@
 import { useMarkSnippet } from '../hooks/useMarkSnippet';
 import type { Snippet } from '../types';
+import { MarkType } from '../types';
 import { DEFAULT_LANGUAGE, DEFAULT_USERNAME } from './SnippetCard/utils';
 import { SNIPPET_STYLES } from '../utils/styles';
 import CardHeader from './SnippetCard/CardHeader';
@@ -17,7 +18,7 @@ export default function SnippetCard({ snippet, showActions = false }: SnippetCar
   const username = snippet.username || DEFAULT_USERNAME;
   const language = snippet.language || DEFAULT_LANGUAGE;
 
-  const handleMark = (mark: 'like' | 'dislike') => {
+  const handleMark = (mark: MarkType) => {
     markSnippet({ id: snippet.id, mark });
   };
 

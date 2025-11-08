@@ -9,8 +9,16 @@ export const useCreateQuestion = (): UseCreateQuestionReturn => {
 
   const mutation = useMutation({
     mutationFn: createQuestion,
-    onSuccess: () => {
-      invalidateQuestionQueries(queryClient);
+    onSuccess: async newQuestion => {
+      await invalidateQuestionQueries(queryClient);
+
+      if (newQuestion.user?.id) {
+        await queryClient.invalidateQueries({
+          queryKey: ['userStatistics', newQuestion.user.id],
+          exact: true,
+          refetchType: 'active',
+        });
+      }
     },
   });
 

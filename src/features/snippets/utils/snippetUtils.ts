@@ -1,14 +1,22 @@
-import type { ApiSnippet, ApiMark, Snippet } from '../types';
+import type { ApiSnippet, Snippet } from '../types';
+import { MarkType } from '../types';
 
-export const transformApiSnippetToSnippet = (
+interface SnippetMetrics {
+  likes: number;
+  dislikes: number;
+  commentsCount: number;
+  currentUserMark: MarkType | null;
+}
+
+const calculateSnippetMetrics = (
   apiSnippet: ApiSnippet,
   currentUserId?: number
-): Snippet => {
-  const likes = apiSnippet.marks.filter(mark => mark.type === 'like').length;
-  const dislikes = apiSnippet.marks.filter(mark => mark.type === 'dislike').length;
+): SnippetMetrics => {
+  const likes = apiSnippet.marks.filter(mark => mark.type === MarkType.LIKE).length;
+  const dislikes = apiSnippet.marks.filter(mark => mark.type === MarkType.DISLIKE).length;
   const commentsCount = apiSnippet.comments.length;
 
-  let currentUserMark: 'like' | 'dislike' | null = null;
+  let currentUserMark: MarkType | null = null;
   if (currentUserId !== undefined) {
     const userMark = apiSnippet.marks.find(
       mark =>
@@ -18,6 +26,18 @@ export const transformApiSnippetToSnippet = (
       currentUserMark = userMark.type;
     }
   }
+
+  return { likes, dislikes, commentsCount, currentUserMark };
+};
+
+export const transformApiSnippetToSnippet = (
+  apiSnippet: ApiSnippet,
+  currentUserId?: number
+): Snippet => {
+  const { likes, dislikes, commentsCount, currentUserMark } = calculateSnippetMetrics(
+    apiSnippet,
+    currentUserId
+  );
 
   return {
     id: parseInt(apiSnippet.id, 10),
@@ -35,20 +55,10 @@ export const transformApiSnippetToSnippet = (
 };
 
 export const createSnippetForFooter = (apiSnippet: ApiSnippet, currentUserId?: number): Snippet => {
-  const likes = apiSnippet.marks.filter((mark: ApiMark) => mark.type === 'like').length;
-  const dislikes = apiSnippet.marks.filter((mark: ApiMark) => mark.type === 'dislike').length;
-  const commentsCount = apiSnippet.comments.length;
-
-  let currentUserMark: 'like' | 'dislike' | null = null;
-  if (currentUserId !== undefined) {
-    const userMark = apiSnippet.marks.find(
-      mark =>
-        parseInt(mark.user.id, 10) === currentUserId || mark.user.id === currentUserId.toString()
-    );
-    if (userMark) {
-      currentUserMark = userMark.type;
-    }
-  }
+  const { likes, dislikes, commentsCount, currentUserMark } = calculateSnippetMetrics(
+    apiSnippet,
+    currentUserId
+  );
 
   return {
     id: parseInt(apiSnippet.id, 10),

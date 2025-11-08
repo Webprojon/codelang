@@ -1,16 +1,29 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteSnippet } from '../../api/snippetApi';
-import type { UseDeleteSnippetReturn } from '../../types';
+import type { UseDeleteSnippetReturn, ApiSnippet } from '../../types';
 import { invalidateSnippetQueries } from '../../utils/queryUtils';
 import { getErrorMessage } from '../../../../shared/utils/errorHandler';
+import { useAuthStore } from '../../../auth/store/authStore';
 
 export const useDeleteSnippet = (): UseDeleteSnippetReturn => {
   const queryClient = useQueryClient();
+  const user = useAuthStore(state => state.user);
 
   const mutation = useMutation({
     mutationFn: (id: number) => deleteSnippet(id),
-    onSuccess: (_, id) => {
-      invalidateSnippetQueries(queryClient, id);
+    onSuccess: async (_, id) => {
+      await invalidateSnippetQueries(queryClient, id);
+
+      const snippet = queryClient.getQueryData<ApiSnippet>(['snippet', id]);
+      const userId = snippet?.user?.id ? parseInt(snippet.user.id, 10) : user?.id;
+
+      if (userId) {
+        await queryClient.invalidateQueries({
+          queryKey: ['userStatistics', userId],
+          exact: true,
+          refetchType: 'active',
+        });
+      }
     },
   });
 

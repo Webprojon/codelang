@@ -1,18 +1,18 @@
 import { QueryClient } from '@tanstack/react-query';
 
-export const invalidateSnippetQueries = (queryClient: QueryClient, snippetId?: number) => {
-  queryClient.invalidateQueries({
+export const invalidateSnippetQueries = async (queryClient: QueryClient, snippetId?: number) => {
+  await queryClient.invalidateQueries({
     queryKey: ['snippets'],
     refetchType: 'active',
   });
 
-  queryClient.invalidateQueries({
+  await queryClient.invalidateQueries({
     queryKey: ['my-snippets'],
     refetchType: 'active',
   });
 
   if (snippetId !== undefined) {
-    queryClient.invalidateQueries({
+    await queryClient.invalidateQueries({
       queryKey: ['snippet', snippetId],
       refetchType: 'active',
     });

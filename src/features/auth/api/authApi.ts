@@ -45,8 +45,7 @@ export const logoutUser = async (): Promise<void> => {
 export const getCurrentUser = async (): Promise<User> => {
   try {
     const response = await apiClient.get<{ data: User }>(ME_ENDPOINT);
-    const user = response.data?.data ?? response.data;
-    return user;
+    return response.data.data;
   } catch (error) {
     const apiError = handleApiError(error);
     throw createApiError(apiError);

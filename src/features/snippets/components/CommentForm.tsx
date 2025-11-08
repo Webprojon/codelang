@@ -43,7 +43,7 @@ export default function CommentForm({ onSubmit, isSubmitting, error }: CommentFo
         <Button
           type="submit"
           disabled={!content.trim() || isSubmitting}
-          className="absolute bottom-2 right-2 px-8 rounded-sm z-20 shadow-sm"
+          className="absolute bottom-2 right-2 rounded-sm z-20 shadow-sm"
           color="primary"
           size="md"
           aria-label="Submit comment"
