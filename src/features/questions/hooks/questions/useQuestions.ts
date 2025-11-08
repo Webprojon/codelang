@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getQuestions } from '../api/questionsApi';
-import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../../../shared/constants';
-import type { UseQuestionsReturn } from '../types';
-import { getErrorMessage } from '../../../shared/utils/errorHandler';
+import { getQuestions } from '../../api/questionsApi';
+import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../../../../shared/constants';
+import type { UseQuestionsReturn } from '../../types';
+import { getErrorMessage } from '../../../../shared/utils/errorHandler';
 
 export const useQuestions = (
   initialPage: number = DEFAULT_PAGE,

@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Button from '../../../shared/components/ui/Button';
 import { LoadingSpinner } from '../../../shared/components/feedback';
-import { useUpdateSnippet } from '../hooks/useUpdateSnippet';
+import { useUpdateSnippet } from '../hooks/snippets';
 import { getSnippetById } from '../api/snippetApi';
 import SnippetForm from '../components/SnippetForm';
 import { SNIPPET_STYLES } from '../utils/styles';

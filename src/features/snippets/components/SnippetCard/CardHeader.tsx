@@ -2,7 +2,7 @@ import { FaUser } from 'react-icons/fa';
 import { RiCodeBoxLine } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 import { formatLanguage } from './utils';
-import { useDeleteSnippet } from '../../hooks/useDeleteSnippet';
+import { useDeleteSnippet } from '../../hooks/snippets';
 import { SNIPPET_STYLES } from '../../utils/styles';
 import toast from 'react-hot-toast';
 import { useConfirmModal } from '../../../../shared/hooks/useConfirmModal';

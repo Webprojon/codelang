@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react';
 import type { ApiComment } from '../../types';
-import { useUpdateComment } from '../../hooks/useUpdateComment';
-import { useDeleteComment } from '../../hooks/useDeleteComment';
+import { useUpdateComment, useDeleteComment } from '../../hooks/comments';
 import toast from 'react-hot-toast';
 import { useConfirmModal } from '../../../../shared/hooks/useConfirmModal';
 import { ConfirmModal } from '../../../../shared/components/feedback';

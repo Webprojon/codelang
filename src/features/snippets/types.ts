@@ -119,10 +119,10 @@ export interface UseMySnippetsReturn {
   setCurrentPage: (page: number) => void;
 }
 
-export interface UsePostSnippetReturn {
+export interface UseCreateSnippetReturn {
   isSubmitting: boolean;
   error: string | null;
-  submitSnippet: (request: PostSnippetRequest) => Promise<void>;
+  createSnippet: (request: PostSnippetRequest) => Promise<void>;
 }
 
 export interface UseUpdateSnippetReturn {

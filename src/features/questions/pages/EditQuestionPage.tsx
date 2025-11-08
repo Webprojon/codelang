@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Button from '../../../shared/components/ui/Button';
 import { LoadingSpinner } from '../../../shared/components/feedback';
-import { useUpdateQuestion } from '../hooks/useUpdateQuestion';
+import { useUpdateQuestion } from '../hooks/questions';
 import { getQuestionById } from '../api/questionsApi';
 import QuestionForm from '../components/QuestionComponents/QuestionForm';
 import { SNIPPET_STYLES } from '../../snippets/utils/styles';

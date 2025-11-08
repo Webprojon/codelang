@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteComment } from '../api/snippetApi';
-import type { UseDeleteCommentReturn } from '../types';
-import { invalidateSnippetQueries } from '../utils/queryUtils';
-import { getErrorMessage } from '../../../shared/utils/errorHandler';
+import { deleteComment } from '../../api/snippetApi';
+import type { UseDeleteCommentReturn } from '../../types';
+import { invalidateSnippetQueries } from '../../utils/queryUtils';
+import { getErrorMessage } from '../../../../shared/utils/errorHandler';
 
 export const useDeleteComment = (snippetId: number): UseDeleteCommentReturn => {
   const queryClient = useQueryClient();
