@@ -1,16 +1,31 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteComment } from '../../api/snippetApi';
-import type { UseDeleteCommentReturn } from '../../types';
+import type { UseDeleteCommentReturn, ApiSnippet } from '../../types';
 import { invalidateSnippetQueries } from '../../utils/queryUtils';
 import { getErrorMessage } from '../../../../shared/utils/errorHandler';
+import { useAuthStore } from '../../../auth/store/authStore';
 
 export const useDeleteComment = (snippetId: number): UseDeleteCommentReturn => {
   const queryClient = useQueryClient();
+  const user = useAuthStore(state => state.user);
 
   const mutation = useMutation({
     mutationFn: deleteComment,
-    onSuccess: () => {
-      invalidateSnippetQueries(queryClient, snippetId);
+    onSuccess: async (_, commentId) => {
+      await invalidateSnippetQueries(queryClient, snippetId);
+
+      // Get comment from snippet cache to get user ID, fallback to current user
+      const snippet = queryClient.getQueryData<ApiSnippet>(['snippet', snippetId]);
+      const comment = snippet?.comments?.find(c => parseInt(c.id, 10) === commentId);
+      const userId = comment?.user?.id ? parseInt(comment.user.id, 10) : user?.id;
+
+      if (userId) {
+        await queryClient.invalidateQueries({
+          queryKey: ['userStatistics', userId],
+          exact: true,
+          refetchType: 'active',
+        });
+      }
     },
   });
 

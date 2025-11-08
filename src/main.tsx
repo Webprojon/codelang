@@ -6,6 +6,12 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import { ErrorBoundary } from './shared/components/feedback';
+import { handleApiError } from './shared/utils/errorHandler';
+
+const logError = (error: unknown, type: 'Query' | 'Mutation') => {
+  const apiError = handleApiError(error);
+  console.error(`${type} error:`, apiError.message);
+};
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,7 +20,22 @@ const queryClient = new QueryClient({
       retry: 1,
       staleTime: 5 * 60 * 1000,
     },
+    mutations: {
+      retry: false,
+    },
   },
+});
+
+queryClient.getQueryCache().subscribe(event => {
+  if (event?.type === 'updated' && event.query.state.error) {
+    logError(event.query.state.error, 'Query');
+  }
+});
+
+queryClient.getMutationCache().subscribe(event => {
+  if (event?.type === 'updated' && event.mutation.state.error) {
+    logError(event.mutation.state.error, 'Mutation');
+  }
 });
 
 createRoot(document.getElementById('root')!).render(

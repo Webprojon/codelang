@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createAnswer } from '../../api/answersApi';
-import { invalidateQuestionQueries } from '../../utils/queryUtils';
 import type { CreateAnswerRequest, UseCreateAnswerReturn } from '../../types';
 import { getErrorMessage } from '../../../../shared/utils/errorHandler';
 
@@ -9,8 +8,20 @@ export const useCreateAnswer = (): UseCreateAnswerReturn => {
 
   const mutation = useMutation({
     mutationFn: createAnswer,
-    onSuccess: (_, variables) => {
-      invalidateQuestionQueries(queryClient, variables.questionId);
+    onSuccess: async (newAnswer, variables) => {
+      await queryClient.invalidateQueries({
+        queryKey: ['question', variables.questionId],
+        exact: true,
+        refetchType: 'active',
+      });
+
+      if (newAnswer.user?.id) {
+        await queryClient.invalidateQueries({
+          queryKey: ['userStatistics', newAnswer.user.id],
+          exact: true,
+          refetchType: 'active',
+        });
+      }
     },
   });
 

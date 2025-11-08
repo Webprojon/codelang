@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateAnswer } from '../../api/answersApi';
-import { invalidateQuestionQueries } from '../../utils/queryUtils';
 import type { UpdateAnswerRequest, UseUpdateAnswerReturn } from '../../types';
 import { getErrorMessage } from '../../../../shared/utils/errorHandler';
 
@@ -11,17 +10,19 @@ export const useUpdateAnswer = (): UseUpdateAnswerReturn => {
     mutationFn: ({
       id,
       request,
-      questionId,
     }: {
       id: number;
       request: UpdateAnswerRequest;
       questionId: number;
     }) => {
-      void questionId;
       return updateAnswer(id, request);
     },
-    onSuccess: (_, variables) => {
-      invalidateQuestionQueries(queryClient, variables.questionId);
+    onSuccess: async (_, variables) => {
+      await queryClient.invalidateQueries({
+        queryKey: ['question', variables.questionId],
+        exact: true,
+        refetchType: 'active',
+      });
     },
   });
 

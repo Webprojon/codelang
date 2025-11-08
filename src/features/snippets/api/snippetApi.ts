@@ -14,6 +14,7 @@ import type {
   UpdateCommentRequest,
   UpdateCommentResponse,
 } from '../types';
+import { MarkType } from '../types';
 import { SNIPPETS_ENDPOINT, DEFAULT_SORT_BY } from '../constants';
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../../../shared/constants';
 
@@ -77,7 +78,7 @@ export const createSnippet = async (request: PostSnippetRequest): Promise<void> 
   }
 };
 
-export const markSnippet = async (id: number, mark: 'like' | 'dislike'): Promise<void> => {
+export const markSnippet = async (id: number, mark: MarkType): Promise<void> => {
   try {
     await apiClient.post(`${SNIPPETS_ENDPOINT}/${id}/mark`, { mark });
   } catch (error) {
@@ -151,8 +152,11 @@ export const createComment = async (
   request: CreateCommentRequest
 ): Promise<CreateCommentResponse> => {
   try {
-    const response = await apiClient.post<CreateCommentResponse>(COMMENTS_ENDPOINT, request);
-    return response.data;
+    const response = await apiClient.post<{ data: CreateCommentResponse }>(
+      COMMENTS_ENDPOINT,
+      request
+    );
+    return response.data.data;
   } catch (error) {
     const apiError = handleApiError(error);
     throw createApiError(apiError);

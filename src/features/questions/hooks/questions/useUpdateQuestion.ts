@@ -10,8 +10,8 @@ export const useUpdateQuestion = (): UseUpdateQuestionReturn => {
   const mutation = useMutation({
     mutationFn: ({ id, request }: { id: number; request: UpdateQuestionRequest }) =>
       updateQuestion(id, request),
-    onSuccess: (_, variables) => {
-      invalidateQuestionQueries(queryClient, variables.id);
+    onSuccess: async (_, variables) => {
+      await invalidateQuestionQueries(queryClient, variables.id);
     },
   });
 

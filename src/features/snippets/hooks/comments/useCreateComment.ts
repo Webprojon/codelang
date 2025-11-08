@@ -9,8 +9,16 @@ export const useCreateComment = (): UseCreateCommentReturn => {
 
   const mutation = useMutation({
     mutationFn: createComment,
-    onSuccess: (_, variables) => {
-      invalidateSnippetQueries(queryClient, variables.snippetId);
+    onSuccess: async (newComment, variables) => {
+      await invalidateSnippetQueries(queryClient, variables.snippetId);
+
+      if (newComment?.user?.id) {
+        await queryClient.invalidateQueries({
+          queryKey: ['userStatistics', newComment.user.id],
+          exact: true,
+          refetchType: 'active',
+        });
+      }
     },
   });
 

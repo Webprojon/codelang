@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { LiaComments } from 'react-icons/lia';
 import type { Snippet } from '../../types';
+import { MarkType } from '../../types';
 import MarkButton from './MarkButton';
 import { SNIPPET_STYLES } from '../../utils/styles';
 
 interface CardFooterProps {
   snippet: Snippet;
-  onMark: (mark: 'like' | 'dislike') => void;
+  onMark: (mark: MarkType) => void;
   isMarking: boolean;
   onToggleComments?: () => void;
 }
@@ -34,18 +35,18 @@ export default function CardFooter({
     <div className={SNIPPET_STYLES.cardFooter}>
       <div className="flex items-center">
         <MarkButton
-          type="like"
+          type={MarkType.LIKE}
           count={likes}
-          isActive={snippet.currentUserMark === 'like'}
+          isActive={snippet.currentUserMark === MarkType.LIKE}
           isDisabled={isMarking}
-          onClick={() => !isMarking && onMark('like')}
+          onClick={() => !isMarking && onMark(MarkType.LIKE)}
         />
         <MarkButton
-          type="dislike"
+          type={MarkType.DISLIKE}
           count={dislikes}
-          isActive={snippet.currentUserMark === 'dislike'}
+          isActive={snippet.currentUserMark === MarkType.DISLIKE}
           isDisabled={isMarking}
-          onClick={() => !isMarking && onMark('dislike')}
+          onClick={() => !isMarking && onMark(MarkType.DISLIKE)}
         />
       </div>
 

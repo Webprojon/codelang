@@ -7,6 +7,7 @@ import { useAuthStore } from '../../auth/store/authStore';
 import { DEFAULT_LANGUAGE, DEFAULT_USERNAME } from '../components/SnippetCard/utils';
 import { createSnippetForFooter } from '../utils/snippetUtils';
 import { SNIPPET_STYLES } from '../utils/styles';
+import { MarkType } from '../types';
 import CardHeader from '../components/SnippetCard/CardHeader';
 import CodeSection from '../components/SnippetCard/CodeSection';
 import CardFooter from '../components/SnippetCard/CardFooter';
@@ -37,7 +38,7 @@ export default function SnippetDetailPage() {
     error: commentError,
   } = useCreateComment();
 
-  const handleMark = async (mark: 'like' | 'dislike') => {
+  const handleMark = async (mark: MarkType) => {
     if (snippet && id) {
       try {
         await markSnippet({ id: parseInt(snippet.id, 10), mark });

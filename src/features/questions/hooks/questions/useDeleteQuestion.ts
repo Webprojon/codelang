@@ -1,16 +1,29 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteQuestion } from '../../api/questionsApi';
 import { invalidateQuestionQueries } from '../../utils/queryUtils';
-import type { UseDeleteQuestionReturn } from '../../types';
+import type { UseDeleteQuestionReturn, Question } from '../../types';
 import { getErrorMessage } from '../../../../shared/utils/errorHandler';
+import { useAuthStore } from '../../../auth/store/authStore';
 
 export const useDeleteQuestion = (): UseDeleteQuestionReturn => {
   const queryClient = useQueryClient();
+  const user = useAuthStore(state => state.user);
 
   const mutation = useMutation({
     mutationFn: (id: number) => deleteQuestion(id),
-    onSuccess: (_, id) => {
-      invalidateQuestionQueries(queryClient, id);
+    onSuccess: async (_, id) => {
+      const question = queryClient.getQueryData<Question>(['question', id]);
+      const userId = question?.user?.id || user?.id;
+
+      await invalidateQuestionQueries(queryClient, id);
+
+      if (userId) {
+        await queryClient.invalidateQueries({
+          queryKey: ['userStatistics', userId],
+          exact: true,
+          refetchType: 'active',
+        });
+      }
     },
   });
 

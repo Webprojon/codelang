@@ -1,9 +1,17 @@
 import { QueryClient } from '@tanstack/react-query';
 
-export const invalidateQuestionQueries = (queryClient: QueryClient, questionId?: number) => {
-  queryClient.invalidateQueries({ queryKey: ['questions'] });
+export const invalidateQuestionQueries = async (queryClient: QueryClient, questionId?: number) => {
+  await queryClient.invalidateQueries({
+    queryKey: ['questions'],
+    exact: false,
+    refetchType: 'all',
+  });
 
   if (questionId !== undefined) {
-    queryClient.invalidateQueries({ queryKey: ['question', questionId] });
+    await queryClient.invalidateQueries({
+      queryKey: ['question', questionId],
+      exact: true,
+      refetchType: 'all',
+    });
   }
 };
