@@ -3,7 +3,7 @@ import { useCreateQuestion } from '../hooks/questions';
 import QuestionForm from '../components/QuestionComponents/QuestionForm';
 import type { QuestionFormData } from '../types';
 import toast from 'react-hot-toast';
-import WelcomeHeader from '../../../shared/components/ui/WelcomeHeader';
+import WelcomeHeader from '@shared/components/ui/WelcomeHeader';
 
 export default function PostQuestionPage() {
   const navigate = useNavigate();

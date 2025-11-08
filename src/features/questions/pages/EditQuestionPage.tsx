@@ -1,14 +1,14 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import Button from '../../../shared/components/ui/Button';
-import { LoadingSpinner } from '../../../shared/components/feedback';
+import Button from '@shared/components/ui/Button';
+import { LoadingSpinner } from '@shared/components/feedback';
 import { useUpdateQuestion } from '../hooks/questions';
 import { getQuestionById } from '../api/questionsApi';
 import QuestionForm from '../components/QuestionComponents/QuestionForm';
 import { SNIPPET_STYLES } from '../../snippets/utils/styles';
 import type { QuestionFormData } from '../types';
 import toast from 'react-hot-toast';
-import WelcomeHeader from '../../../shared/components/ui/WelcomeHeader';
+import WelcomeHeader from '@shared/components/ui/WelcomeHeader';
 
 export default function EditQuestionPage() {
   const { id } = useParams<{ id: string }>();

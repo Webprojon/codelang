@@ -1,6 +1,6 @@
 import { useHomeSnippets } from '../hooks/useHomeSnippets';
-import WelcomeHeader from '../../../shared/components/ui/WelcomeHeader';
-import Pagination from '../../../shared/components/ui/Pagination';
+import WelcomeHeader from '@shared/components/ui/WelcomeHeader';
+import Pagination from '@shared/components/ui/Pagination';
 import { SnippetsList } from '../../snippets';
 
 export default function HomePage() {

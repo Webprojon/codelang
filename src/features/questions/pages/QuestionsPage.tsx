@@ -1,5 +1,5 @@
 import { useQuestions } from '../hooks/questions';
-import Pagination from '../../../shared/components/ui/Pagination';
+import Pagination from '@shared/components/ui/Pagination';
 import QuestionsList from '../components/QuestionComponents/QuestionsList';
 import WelcomeHeader from '@shared/components/ui/WelcomeHeader';
 

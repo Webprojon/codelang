@@ -1,5 +1,5 @@
-import apiClient from '../../../shared/api/client';
-import { handleApiError, createApiError } from '../../../shared/utils/errorHandler';
+import apiClient from '@shared/api/client';
+import { handleApiError, createApiError } from '@shared/utils/errorHandler';
 import type { Answer, ApiAnswer, CreateAnswerRequest, UpdateAnswerRequest } from '../types';
 
 const ANSWERS_ENDPOINT = '/answers' as const;

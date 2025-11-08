@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createSnippet } from '../../api/snippetApi';
 import type { PostSnippetRequest, UseCreateSnippetReturn } from '../../types';
 import { invalidateSnippetQueries } from '../../utils/queryUtils';
-import { getErrorMessage } from '../../../../shared/utils/errorHandler';
-import { useAuthStore } from '../../../auth/store/authStore';
+import { getErrorMessage } from '@shared/utils/errorHandler';
+import { useAuthStore } from '@features/auth/store/authStore';
 
 export const useCreateSnippet = (): UseCreateSnippetReturn => {
   const queryClient = useQueryClient();

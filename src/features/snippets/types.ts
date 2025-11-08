@@ -92,12 +92,7 @@ export interface ApiSnippet {
   comments: ApiComment[];
 }
 
-export interface ApiPaginationMeta {
-  itemsPerPage: number;
-  totalItems: number;
-  currentPage: number;
-  totalPages: number;
-}
+export type ApiPaginationMeta = PaginationMeta;
 
 export interface ApiPaginationLinks {
   current: string;
@@ -119,10 +114,12 @@ export interface ApiResponse {
 export interface UseMySnippetsReturn {
   snippets: Snippet[];
   isLoading: boolean;
+  isError: boolean;
   error: string | null;
   currentPage: number;
   totalPages: number;
   setCurrentPage: (page: number) => void;
+  refetch: () => Promise<unknown>;
 }
 
 export interface UseCreateSnippetReturn {

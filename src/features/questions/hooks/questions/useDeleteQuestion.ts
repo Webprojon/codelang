@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteQuestion } from '../../api/questionsApi';
 import { invalidateQuestionQueries } from '../../utils/queryUtils';
 import type { UseDeleteQuestionReturn, Question } from '../../types';
-import { getErrorMessage } from '../../../../shared/utils/errorHandler';
-import { useAuthStore } from '../../../auth/store/authStore';
+import { getErrorMessage } from '@shared/utils/errorHandler';
+import { useAuthStore } from '@features/auth/store/authStore';
 
 export const useDeleteQuestion = (): UseDeleteQuestionReturn => {
   const queryClient = useQueryClient();

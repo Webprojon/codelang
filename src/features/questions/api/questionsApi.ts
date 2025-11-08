@@ -1,6 +1,6 @@
-import apiClient from '../../../shared/api/client';
-import { handleApiError, createApiError } from '../../../shared/utils/errorHandler';
-import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../../../shared/constants';
+import apiClient from '@shared/api/client';
+import { handleApiError, createApiError } from '@shared/utils/errorHandler';
+import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@shared/constants';
 import type {
   ApiQuestionsResponse,
   ApiQuestionsResponseData,

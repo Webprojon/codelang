@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateComment } from '../../api/snippetApi';
 import type { UpdateCommentRequest, UseUpdateCommentReturn } from '../../types';
 import { invalidateSnippetQueries } from '../../utils/queryUtils';
-import { getErrorMessage } from '../../../../shared/utils/errorHandler';
+import { getErrorMessage } from '@shared/utils/errorHandler';
 
 export const useUpdateComment = (snippetId: number): UseUpdateCommentReturn => {
   const queryClient = useQueryClient();
