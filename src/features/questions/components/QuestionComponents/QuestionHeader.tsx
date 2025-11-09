@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { IoCheckmarkCircle, IoCloseCircle } from 'react-icons/io5';
-import Target from '../../../../assets/icons/target.png';
-import type { Question } from '../../types';
+import Target from '@assets/icons/target.png';
+import type { Question } from '@features/questions/types';
 
 interface QuestionHeaderProps {
   question: Question;

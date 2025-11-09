@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getCurrentUser } from '../api/authApi';
-import { useAuthStore } from '../store/authStore';
+import { getCurrentUser } from '@features/auth/api/authApi';
+import { useAuthStore } from '@features/auth/store/authStore';
 
 export const useInitAuth = () => {
   const setUser = useAuthStore(state => state.setUser);

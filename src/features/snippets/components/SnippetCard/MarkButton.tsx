@@ -1,6 +1,6 @@
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
-import { getMarkColor } from './utils';
-import { MarkType } from '../../types';
+import { getMarkColor } from '@features/snippets/components/SnippetCard/utils';
+import { MarkType } from '@features/snippets/types';
 
 interface MarkButtonProps {
   type: MarkType;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { BsFillSendFill } from 'react-icons/bs';
-import Button from '../../../shared/components/ui/Button';
+import Button from '@shared/components/ui/Button';
 
 interface CommentFormProps {
   onSubmit: (content: string) => Promise<void>;

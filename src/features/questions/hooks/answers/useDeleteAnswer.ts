@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteAnswer } from '../../api/answersApi';
-import type { UseDeleteAnswerReturn, Question } from '../../types';
+import { deleteAnswer } from '@features/questions/api/answersApi';
+import type { UseDeleteAnswerReturn, Question } from '@features/questions/types';
 import { getErrorMessage } from '@shared/utils/errorHandler';
 import { useAuthStore } from '@features/auth/store/authStore';
 

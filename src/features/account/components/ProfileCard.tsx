@@ -1,9 +1,9 @@
 import { IoLogOutOutline } from 'react-icons/io5';
 import { RiDeleteBinLine } from 'react-icons/ri';
-import Button from '../../../shared/components/ui/Button';
-import UserStats from './UserStats';
-import type { User } from '../../auth/types';
-import type { UserStats as UserStatsType } from '../types';
+import Button from '@shared/components/ui/Button';
+import UserStats from '@features/account/components/UserStats';
+import type { User } from '@features/auth/types';
+import type { UserStats as UserStatsType } from '@features/account/types';
 import { FaUserLarge } from 'react-icons/fa6';
 
 interface ProfileCardProps {

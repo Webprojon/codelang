@@ -6,7 +6,7 @@ import type {
   LoginRequest,
   LoginResponse,
   User,
-} from '../types';
+} from '@features/auth/types';
 
 const REGISTER_ENDPOINT = '/register';
 const LOGIN_ENDPOINT = '/auth/login';

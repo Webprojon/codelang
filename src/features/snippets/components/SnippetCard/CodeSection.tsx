@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { TbCopy } from 'react-icons/tb';
 import { MdCheck } from 'react-icons/md';
-import CodeEditor from '../../../../shared/components/ui/CodeEditor';
-import Button from '../../../../shared/components/ui/Button';
-import { COPY_SUCCESS_TIMEOUT } from './utils';
+import CodeEditor from '@shared/components/ui/CodeEditor';
+import Button from '@shared/components/ui/Button';
+import { COPY_SUCCESS_TIMEOUT } from '@features/snippets/components/SnippetCard/utils';
 
 interface CodeSectionProps {
   content: string;

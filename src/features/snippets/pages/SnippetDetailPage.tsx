@@ -1,18 +1,21 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { useMarkSnippet } from '../hooks/useMarkSnippet';
-import { useCreateComment } from '../hooks/comments';
-import { getSnippetById } from '../api/snippetApi';
+import { useMarkSnippet } from '@features/snippets/hooks/useMarkSnippet';
+import { useCreateComment } from '@features/snippets/hooks/comments';
+import { getSnippetById } from '@features/snippets/api/snippetApi';
 import { useAuthStore } from '@features/auth/store/authStore';
-import { DEFAULT_LANGUAGE, DEFAULT_USERNAME } from '../components/SnippetCard/utils';
-import { createSnippetForFooter } from '../utils/snippetUtils';
-import { SNIPPET_STYLES } from '../utils/styles';
-import { MarkType } from '../types';
-import CardHeader from '../components/SnippetCard/CardHeader';
-import CodeSection from '../components/SnippetCard/CodeSection';
-import CardFooter from '../components/SnippetCard/CardFooter';
-import CommentsList from '../components/Comments/CommentsList';
-import CommentForm from '../components/CommentForm';
+import {
+  DEFAULT_LANGUAGE,
+  DEFAULT_USERNAME,
+} from '@features/snippets/components/SnippetCard/utils';
+import { createSnippetForFooter } from '@features/snippets/utils/snippetUtils';
+import { SNIPPET_STYLES } from '@features/snippets/utils/styles';
+import { MarkType } from '@features/snippets/types';
+import CardHeader from '@features/snippets/components/SnippetCard/CardHeader';
+import CodeSection from '@features/snippets/components/SnippetCard/CodeSection';
+import CardFooter from '@features/snippets/components/SnippetCard/CardFooter';
+import CommentsList from '@features/snippets/components/Comments/CommentsList';
+import CommentForm from '@features/snippets/components/CommentForm';
 import { LoadingSpinner } from '@shared/components/feedback';
 import Button from '@shared/components/ui/Button';
 

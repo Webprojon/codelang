@@ -1,6 +1,6 @@
-import ChangeUsernameForm from './ChangeUsernameForm';
-import ChangePasswordForm from './ChangePasswordForm';
-import type { ChangeUsernameFormData, ChangePasswordFormData } from '../types';
+import ChangeUsernameForm from '@features/account/components/ChangeUsernameForm';
+import ChangePasswordForm from '@features/account/components/ChangePasswordForm';
+import type { ChangeUsernameFormData, ChangePasswordFormData } from '@features/account/types';
 
 interface ProfileEditSectionProps {
   onUsernameChange: (data: ChangeUsernameFormData) => void;

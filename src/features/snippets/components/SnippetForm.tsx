@@ -1,14 +1,14 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import Select from '../../../shared/components/ui/Select';
-import CodeEditor from '../../../shared/components/ui/CodeEditor';
-import Button from '../../../shared/components/ui/Button';
-import { LoadingSpinner } from '../../../shared/components/feedback';
-import { useLanguages } from '../hooks/useLanguages';
-import { DEFAULT_LANGUAGE } from '../constants';
-import { SNIPPET_STYLES } from '../utils/styles';
-import type { PostSnippetFormData } from '../types';
-import type { ApiSnippet } from '../types';
+import Select from '@shared/components/ui/Select';
+import CodeEditor from '@shared/components/ui/CodeEditor';
+import Button from '@shared/components/ui/Button';
+import { LoadingSpinner } from '@shared/components/feedback';
+import { useLanguages } from '@features/snippets/hooks/useLanguages';
+import { DEFAULT_LANGUAGE } from '@features/snippets/constants';
+import { SNIPPET_STYLES } from '@features/snippets/utils/styles';
+import type { PostSnippetFormData } from '@features/snippets/types';
+import type { ApiSnippet } from '@features/snippets/types';
 
 interface SnippetFormProps {
   onSubmit: (data: PostSnippetFormData) => Promise<void>;

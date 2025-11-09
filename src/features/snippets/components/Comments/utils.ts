@@ -1,4 +1,4 @@
-import type { ApiComment } from '../../types';
+import type { ApiComment } from '@features/snippets/types';
 
 export const sortCommentsById = (comments: ApiComment[]): ApiComment[] => {
   return [...comments].sort((a, b) => {

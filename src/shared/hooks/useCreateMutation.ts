@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { UseMutationResult } from '@tanstack/react-query';
-import { getErrorMessage } from '../utils/errorHandler';
+import { getErrorMessage } from '@shared/utils/errorHandler';
 
 export interface UseCreateMutationOptions<TData, TVariables> {
   mutationFn: (variables: TVariables) => Promise<TData>;

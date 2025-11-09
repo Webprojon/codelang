@@ -1,7 +1,7 @@
-import AnswerItem from './AnswerItem';
-import type { Answer } from '../../types';
-import { useAuthStore } from '../../../auth/store/authStore';
-import { useAnswerStore } from '../../store/answerStore';
+import AnswerItem from '@features/questions/components/AnswerComponents/AnswerItem';
+import type { Answer } from '@features/questions/types';
+import { useAuthStore } from '@features/auth/store/authStore';
+import { useAnswerStore } from '@features/questions/store/answerStore';
 
 interface AnswersListProps {
   answers: Answer[];

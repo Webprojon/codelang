@@ -1,5 +1,5 @@
-import type { ApiSnippet, Snippet } from '../types';
-import { MarkType } from '../types';
+import type { ApiSnippet, Snippet } from '@features/snippets/types';
+import { MarkType } from '@features/snippets/types';
 
 interface SnippetMetrics {
   likes: number;

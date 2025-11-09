@@ -1,4 +1,4 @@
-import type { UserStats } from '../../account/types';
+import type { UserStats } from '@features/account/types';
 
 interface UserStatisticsProps {
   stats: UserStats;

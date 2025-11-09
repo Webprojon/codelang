@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { markSnippet } from '../api/snippetApi';
-import { useAuthStore } from '../../auth/store/authStore';
-import type { SnippetsResponse } from '../types';
-import { MarkType } from '../types';
+import { markSnippet } from '@features/snippets/api/snippetApi';
+import { useAuthStore } from '@features/auth/store/authStore';
+import type { SnippetsResponse } from '@features/snippets/types';
+import { MarkType } from '@features/snippets/types';
 
 export const useMarkSnippet = () => {
   const queryClient = useQueryClient();

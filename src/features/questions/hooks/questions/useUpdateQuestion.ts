@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateQuestion } from '../../api/questionsApi';
-import { invalidateQuestionQueries } from '../../utils/queryUtils';
-import type { UpdateQuestionRequest, UseUpdateQuestionReturn } from '../../types';
+import { updateQuestion } from '@features/questions/api/questionsApi';
+import { invalidateQuestionQueries } from '@features/questions/utils/queryUtils';
+import type { UpdateQuestionRequest, UseUpdateQuestionReturn } from '@features/questions/types';
 import { getErrorMessage } from '@shared/utils/errorHandler';
 
 export const useUpdateQuestion = (): UseUpdateQuestionReturn => {

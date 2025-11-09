@@ -1,6 +1,6 @@
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { usePagination } from '../../hooks/usePagination';
-import Button from './Button';
+import { usePagination } from '@shared/hooks/usePagination';
+import Button from '@shared/components/ui/Button';
 
 interface PaginationProps {
   currentPage: number;

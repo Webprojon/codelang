@@ -1,6 +1,11 @@
 import apiClient from '@shared/api/client';
 import { handleApiError, createApiError } from '@shared/utils/errorHandler';
-import type { Answer, ApiAnswer, CreateAnswerRequest, UpdateAnswerRequest } from '../types';
+import type {
+  Answer,
+  ApiAnswer,
+  CreateAnswerRequest,
+  UpdateAnswerRequest,
+} from '@features/questions/types';
 
 const ANSWERS_ENDPOINT = '/answers' as const;
 

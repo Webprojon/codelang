@@ -1,12 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../../auth/store/authStore';
-import { useDeleteQuestion } from '../../hooks/questions';
-import { useConfirmModal } from '../../../../shared/hooks/useConfirmModal';
-import { ConfirmModal } from '../../../../shared/components/feedback';
-import EditDeleteActions from '../../../../shared/components/ui/EditDeleteActions';
+import { useAuthStore } from '@features/auth/store/authStore';
+import { useDeleteQuestion } from '@features/questions/hooks/questions';
+import { useConfirmModal } from '@shared/hooks/useConfirmModal';
+import { ConfirmModal } from '@shared/components/feedback';
+import EditDeleteActions from '@shared/components/ui/EditDeleteActions';
 import toast from 'react-hot-toast';
-import type { Question } from '../../types';
-import Target from '../../../../assets/icons/target.png';
+import type { Question } from '@features/questions/types';
+import Target from '@assets/icons/target.png';
 import { IoEyeSharp } from 'react-icons/io5';
 
 interface QuestionCardProps {

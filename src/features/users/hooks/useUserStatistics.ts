@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { getUserStatistics } from '../api/userApi';
-import type { UseUserStatisticsReturn } from '../types';
+import { getUserStatistics } from '@features/users/api/userApi';
+import type { UseUserStatisticsReturn } from '@features/users/types';
 import { getErrorMessage } from '@shared/utils/errorHandler';
 import { getDefaultQueryConfig } from '@shared/hooks/useQueryConfig';
 

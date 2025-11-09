@@ -1,7 +1,7 @@
 import apiClient from '@shared/api/client';
 import { handleApiError, createApiError } from '@shared/utils/errorHandler';
 import { useAuthStore } from '@features/auth/store/authStore';
-import { transformApiSnippetToSnippet as transformSnippet } from '../utils/snippetUtils';
+import { transformApiSnippetToSnippet as transformSnippet } from '@features/snippets/utils/snippetUtils';
 import type {
   SnippetsResponse,
   PostSnippetRequest,
@@ -13,9 +13,9 @@ import type {
   CreateCommentResponse,
   UpdateCommentRequest,
   UpdateCommentResponse,
-} from '../types';
-import { MarkType } from '../types';
-import { SNIPPETS_ENDPOINT, DEFAULT_SORT_BY } from '../constants';
+} from '@features/snippets/types';
+import { MarkType } from '@features/snippets/types';
+import { SNIPPETS_ENDPOINT, DEFAULT_SORT_BY } from '@features/snippets/constants';
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@shared/constants';
 
 const DEFAULT_META: ApiPaginationMeta = {

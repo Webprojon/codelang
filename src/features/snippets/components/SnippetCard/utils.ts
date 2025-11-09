@@ -1,4 +1,4 @@
-import { DEFAULT_LANGUAGE } from '../../constants';
+import { DEFAULT_LANGUAGE } from '@features/snippets/constants';
 
 export const COPY_SUCCESS_TIMEOUT = 2000;
 export const DEFAULT_USERNAME = 'Anonymous';

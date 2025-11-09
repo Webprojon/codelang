@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteComment } from '../../api/snippetApi';
-import type { UseDeleteCommentReturn, ApiSnippet } from '../../types';
-import { invalidateSnippetQueries } from '../../utils/queryUtils';
+import { deleteComment } from '@features/snippets/api/snippetApi';
+import type { UseDeleteCommentReturn, ApiSnippet } from '@features/snippets/types';
+import { invalidateSnippetQueries } from '@features/snippets/utils/queryUtils';
 import { getErrorMessage } from '@shared/utils/errorHandler';
 import { useAuthStore } from '@features/auth/store/authStore';
 

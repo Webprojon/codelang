@@ -1,7 +1,7 @@
-import { useHomeSnippets } from '../hooks/useHomeSnippets';
+import { useHomeSnippets } from '@features/home/hooks/useHomeSnippets';
 import WelcomeHeader from '@shared/components/ui/WelcomeHeader';
 import Pagination from '@shared/components/ui/Pagination';
-import { SnippetsList } from '../../snippets';
+import { SnippetsList } from '@features/snippets';
 
 export default function HomePage() {
   const { snippets, isLoading, error, currentPage, totalPages, setCurrentPage } =

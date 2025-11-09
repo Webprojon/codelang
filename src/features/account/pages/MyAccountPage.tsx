@@ -1,9 +1,9 @@
-import { useAuthStore } from '../../auth/store/authStore';
-import ProfileHeader from '../components/ProfileHeader';
-import ProfileCard from '../components/ProfileCard';
-import ProfileEditSection from '../components/ProfileEditSection';
-import { useMyAccount } from '../hooks/useMyAccount';
-import { LoadingSpinner, ConfirmModal } from '../../../shared/components/feedback';
+import { useAuthStore } from '@features/auth/store/authStore';
+import ProfileHeader from '@features/account/components/ProfileHeader';
+import ProfileCard from '@features/account/components/ProfileCard';
+import ProfileEditSection from '@features/account/components/ProfileEditSection';
+import { useMyAccount } from '@features/account/hooks/useMyAccount';
+import { LoadingSpinner, ConfirmModal } from '@shared/components/feedback';
 
 export default function MyAccountPage() {
   const user = useAuthStore(state => state.user);

@@ -1,4 +1,4 @@
-import type { User } from '../auth/types';
+import type { User } from '@features/auth/types';
 import type { PaginationMeta } from '@shared/types/api';
 
 // Domain Types

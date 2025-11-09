@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
-import type { ChangeUsernameFormData } from '../types';
-import Button from '../../../shared/components/ui/Button';
-import Input from '../../../shared/components/ui/Input';
-import { USERNAME_VALIDATION } from '../../../shared/utils/validations';
+import type { ChangeUsernameFormData } from '@features/account/types';
+import Button from '@shared/components/ui/Button';
+import Input from '@shared/components/ui/Input';
+import { USERNAME_VALIDATION } from '@shared/utils/validations';
 
 interface ChangeUsernameFormProps {
   onSubmit: (data: ChangeUsernameFormData) => void;

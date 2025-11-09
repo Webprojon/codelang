@@ -1,8 +1,12 @@
 import { useRef, useEffect, useCallback } from 'react';
-import { useCreateAnswer, useUpdateAnswer, useDeleteAnswer } from './index';
+import {
+  useCreateAnswer,
+  useUpdateAnswer,
+  useDeleteAnswer,
+} from '@features/questions/hooks/answers';
 import { useConfirmModal } from '@shared/hooks/useConfirmModal';
-import { useAnswerStore } from '../../store/answerStore';
-import type { AnswerFormData, Question } from '../../types';
+import { useAnswerStore } from '@features/questions/store/answerStore';
+import type { AnswerFormData, Question } from '@features/questions/types';
 import toast from 'react-hot-toast';
 
 interface UseAnswerHandlersProps {

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { ApiComment, ApiSnippet } from '../../types';
+import type { ApiComment, ApiSnippet } from '@features/snippets/types';
 
 export interface UseCommentsReturn {
   comments: ApiComment[];

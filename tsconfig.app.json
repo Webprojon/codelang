@@ -21,7 +21,8 @@
     "paths": {
       "@shared/*": ["./src/shared/*"],
       "@features/*": ["./src/features/*"],
-      "@assets/*": ["./src/assets/*"]
+      "@assets/*": ["./src/assets/*"],
+      "@src/*": ["./src/*"]
     },
 
     /* Linting */

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getQuestions } from '../../api/questionsApi';
+import { getQuestions } from '@features/questions/api/questionsApi';
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@shared/constants';
-import type { UseQuestionsReturn } from '../../types';
+import type { UseQuestionsReturn } from '@features/questions/types';
 import { getErrorMessage } from '@shared/utils/errorHandler';
 import { getDefaultQueryConfig } from '@shared/hooks/useQueryConfig';
 

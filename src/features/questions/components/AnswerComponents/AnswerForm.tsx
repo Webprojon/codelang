@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import Button from '../../../../shared/components/ui/Button';
-import { SNIPPET_STYLES } from '../../../snippets/utils/styles';
-import type { AnswerFormData } from '../../types';
+import Button from '@shared/components/ui/Button';
+import { SNIPPET_STYLES } from '@features/snippets/utils/styles';
+import type { AnswerFormData } from '@features/questions/types';
 
 interface AnswerFormProps {
   onSubmit: (data: AnswerFormData) => Promise<void>;

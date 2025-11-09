@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useAuthStore } from '../../../features/auth/store/authStore';
-import { getFirstLetter } from '../../utils/userUtils';
+import { useAuthStore } from '@features/auth/store/authStore';
+import { getFirstLetter } from '@shared/utils/userUtils';
 
 interface UserAvatarProps {
   isCollapsed?: boolean;

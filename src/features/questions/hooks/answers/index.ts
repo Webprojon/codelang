@@ -1,5 +1,5 @@
-export { useAnswers } from './useAnswers';
-export { useCreateAnswer } from './useCreateAnswer';
-export { useUpdateAnswer } from './useUpdateAnswer';
-export { useDeleteAnswer } from './useDeleteAnswer';
-export { useAnswerHandlers } from './useAnswerHandlers';
+export { useAnswers } from '@features/questions/hooks/answers/useAnswers';
+export { useCreateAnswer } from '@features/questions/hooks/answers/useCreateAnswer';
+export { useUpdateAnswer } from '@features/questions/hooks/answers/useUpdateAnswer';
+export { useDeleteAnswer } from '@features/questions/hooks/answers/useDeleteAnswer';
+export { useAnswerHandlers } from '@features/questions/hooks/answers/useAnswerHandlers';

@@ -1,6 +1,6 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import Button from '../ui/Button';
+import Button from '@shared/components/ui/Button';
 
 interface Props {
   children: ReactNode;

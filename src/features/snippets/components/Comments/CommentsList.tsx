@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import type { ApiComment } from '../../types';
-import { ConfirmModal } from '../../../../shared/components/feedback';
-import CommentItem from './CommentItem';
-import CommentsEmptyState from './CommentsEmptyState';
-import { sortCommentsById, isCommentOwner } from './utils';
-import { useCommentHandlers } from '../../hooks/comments';
+import type { ApiComment } from '@features/snippets/types';
+import { ConfirmModal } from '@shared/components/feedback';
+import CommentItem from '@features/snippets/components/Comments/CommentItem';
+import CommentsEmptyState from '@features/snippets/components/Comments/CommentsEmptyState';
+import { sortCommentsById, isCommentOwner } from '@features/snippets/components/Comments/utils';
+import { useCommentHandlers } from '@features/snippets/hooks/comments';
 
 interface CommentsListProps {
   comments: ApiComment[];

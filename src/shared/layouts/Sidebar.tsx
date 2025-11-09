@@ -2,11 +2,11 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useCallback, useState, useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { HiX } from 'react-icons/hi';
-import { sidebarNavigationLinks } from '../utils/navigation';
-import Button from '../components/ui/Button';
-import UserAvatar from '../components/ui/UserAvatar';
-import { useAuthStore } from '../../features/auth/store/authStore';
-import { useAuth } from '../../features/auth/hooks/useAuth';
+import { sidebarNavigationLinks } from '@shared/utils/navigation';
+import Button from '@shared/components/ui/Button';
+import UserAvatar from '@shared/components/ui/UserAvatar';
+import { useAuthStore } from '@features/auth/store/authStore';
+import { useAuth } from '@features/auth/hooks/useAuth';
 
 interface SidebarProps {
   onClose?: () => void;

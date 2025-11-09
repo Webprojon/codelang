@@ -1,7 +1,7 @@
-import type { ApiComment } from '../../types';
-import CommentEditForm from './CommentEditForm';
-import CommentHeader from './CommentHeader';
-import { useCommentStore } from '../../store/commentStore';
+import type { ApiComment } from '@features/snippets/types';
+import CommentEditForm from '@features/snippets/components/Comments/CommentEditForm';
+import CommentHeader from '@features/snippets/components/Comments/CommentHeader';
+import { useCommentStore } from '@features/snippets/store/commentStore';
 
 interface CommentItemProps {
   comment: ApiComment;

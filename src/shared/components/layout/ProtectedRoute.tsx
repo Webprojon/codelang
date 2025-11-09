@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuthStore } from '../../../features/auth/store/authStore';
+import { useAuthStore } from '@features/auth/store/authStore';
 
 interface ProtectedRouteProps {
   reverse?: boolean;

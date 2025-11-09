@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa';
-import type { User } from '../../auth/types';
-import { getFirstLetter } from '../../../shared/utils/userUtils';
+import type { User } from '@features/auth/types';
+import { getFirstLetter } from '@shared/utils/userUtils';
 
 interface UserCardProps {
   user: User;
