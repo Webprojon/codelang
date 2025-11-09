@@ -22,7 +22,7 @@ export default function ProfileCard({ user, stats, onLogout, onDeleteAccount }: 
           aria-label="Profile picture"
         >
           <FaUserLarge
-            className="text-gray-300 w-12 h-12 sm:w-16 sm:h-16 md:w-28 md:h-28"
+            className="text-gray-300 w-12 h-12 sm:w-16 sm:h-16 md:w-24 md:h-24"
             aria-hidden="true"
           />
         </figure>

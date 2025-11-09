@@ -16,7 +16,7 @@ export default function MySnippetsPage() {
         onPageChange={setCurrentPage}
         className="my-8"
       />
-      <SnippetsList snippets={snippets} isLoading={isLoading} error={error} showActions={true} />
+      <SnippetsList snippets={snippets} isLoading={isLoading} error={error} />
     </div>
   );
 }

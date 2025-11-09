@@ -9,10 +9,9 @@ import CardFooter from './SnippetCard/CardFooter';
 
 interface SnippetCardProps {
   snippet: Snippet;
-  showActions?: boolean;
 }
 
-export default function SnippetCard({ snippet, showActions = false }: SnippetCardProps) {
+export default function SnippetCard({ snippet }: SnippetCardProps) {
   const { markSnippet, isMarking } = useMarkSnippet();
 
   const username = snippet.username || DEFAULT_USERNAME;
@@ -29,7 +28,6 @@ export default function SnippetCard({ snippet, showActions = false }: SnippetCar
         language={language}
         snippetId={snippet.id}
         userId={snippet.userId}
-        showActions={showActions}
       />
       <CodeSection content={snippet.content} language={language} />
       <CardFooter snippet={snippet} onMark={handleMark} isMarking={isMarking} />

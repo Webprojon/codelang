@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getQuestionById } from '../api/questionsApi';
 import { LoadingSpinner } from '@shared/components/feedback';
@@ -7,26 +7,18 @@ import Button from '@shared/components/ui/Button';
 import CodeEditor from '@shared/components/ui/CodeEditor';
 import { SNIPPET_STYLES } from '@features/snippets/utils/styles';
 import { useAuthStore } from '@features/auth/store/authStore';
-import { useCreateAnswer, useUpdateAnswer, useDeleteAnswer } from '../hooks/answers';
-import { useConfirmModal } from '@shared/hooks/useConfirmModal';
 import { ConfirmModal } from '@shared/components/feedback';
 import AnswerForm from '../components/AnswerComponents/AnswerForm';
 import QuestionHeader from '../components/QuestionComponents/QuestionHeader';
 import AnswersList from '../components/AnswerComponents/AnswersList';
 import LoginPrompt from '../components/LoginPrompt';
-import type { AnswerFormData } from '../types';
-import toast from 'react-hot-toast';
+import { useAnswerHandlers } from '../hooks/answers';
 
 export default function QuestionDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const currentUser = useAuthStore(state => state.user);
-  const { isSubmitting, error: submitError, createAnswer } = useCreateAnswer();
-  const { updateAnswer, isUpdating, error: updateError } = useUpdateAnswer();
-  const { deleteAnswer, isDeleting } = useDeleteAnswer();
-  const confirmModal = useConfirmModal();
   const formRef = useRef<HTMLDivElement>(null);
-  const [editingAnswerId, setEditingAnswerId] = useState<number | null>(null);
 
   const questionId = id ? parseInt(id, 10) : undefined;
   const {
@@ -42,34 +34,18 @@ export default function QuestionDetailPage() {
     refetchOnWindowFocus: false,
   });
 
-  const handleAnswerSubmit = async (data: AnswerFormData) => {
-    if (!question) return;
-
-    try {
-      if (editingAnswerId) {
-        await updateAnswer(editingAnswerId, question.id, { content: data.content.trim() });
-        toast.success('Answer updated successfully!');
-        setEditingAnswerId(null);
-      } else {
-        await createAnswer({ content: data.content.trim(), questionId: question.id });
-        toast.success('Answer posted successfully!');
-      }
-    } catch (error) {
-      console.error('Failed to save answer:', error);
-      toast.error(editingAnswerId ? 'Failed to update answer' : 'Failed to post answer');
-    }
-  };
-
-  const handleEditClick = (answerId: number) => {
-    setEditingAnswerId(answerId);
-    setTimeout(() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-  };
-
-  const getInitialAnswer = (): AnswerFormData | undefined => {
-    if (!editingAnswerId) return undefined;
-    const answer = question?.answers.find(a => a.id === editingAnswerId);
-    return answer ? { content: answer.content } : undefined;
-  };
+  const {
+    handleAnswerSubmit,
+    editingAnswerId,
+    setEditingAnswerId,
+    isSubmitting,
+    isUpdating,
+    isDeleting,
+    submitError,
+    updateError,
+    confirmModal,
+    getInitialAnswer,
+  } = useAnswerHandlers({ question, formRef });
 
   if (isLoading) {
     return (
@@ -91,21 +67,6 @@ export default function QuestionDetailPage() {
       </div>
     );
   }
-
-  const handleDeleteAnswer = (answerId: number) => {
-    confirmModal.showConfirm('Are you sure you want to delete this answer?', async () => {
-      try {
-        confirmModal.setLoading(true);
-        await deleteAnswer(answerId, question.id);
-        toast.success('Answer deleted successfully');
-      } catch (error) {
-        console.error('Failed to delete answer:', error);
-        toast.error('Failed to delete answer');
-      } finally {
-        confirmModal.setLoading(false);
-      }
-    });
-  };
 
   const hasCode = Boolean(question.attachedCode?.trim());
 
@@ -142,15 +103,7 @@ export default function QuestionDetailPage() {
           </h2>
         </div>
 
-        <AnswersList
-          answers={question.answers}
-          currentUser={currentUser}
-          editingAnswerId={editingAnswerId}
-          isDeleting={isDeleting}
-          isUpdating={isUpdating}
-          onEdit={handleEditClick}
-          onDelete={handleDeleteAnswer}
-        />
+        <AnswersList answers={question.answers} isDeleting={isDeleting} isUpdating={isUpdating} />
       </div>
 
       {currentUser && (

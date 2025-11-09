@@ -1,53 +1,41 @@
 import type { ApiComment } from '../../types';
 import CommentEditForm from './CommentEditForm';
 import CommentHeader from './CommentHeader';
+import { useCommentStore } from '../../store/commentStore';
 
 interface CommentItemProps {
   comment: ApiComment;
   isOwner: boolean;
-  isEditing: boolean;
-  editContent: string;
-  isUpdating: boolean;
-  isDeleting: boolean;
-  onEditClick: () => void;
-  onDeleteClick: () => void;
-  onSaveEdit: () => void;
-  onCancelEdit: () => void;
-  onEditContentChange: (content: string) => void;
 }
 
-export default function CommentItem({
-  comment,
-  isOwner,
-  isEditing,
-  editContent,
-  isUpdating,
-  isDeleting,
-  onEditClick,
-  onDeleteClick,
-  onSaveEdit,
-  onCancelEdit,
-  onEditContentChange,
-}: CommentItemProps) {
+export default function CommentItem({ comment, isOwner }: CommentItemProps) {
+  const {
+    editingCommentId,
+    editContent,
+    isUpdating,
+    onSaveEdit,
+    onCancelEdit,
+    onEditContentChange,
+  } = useCommentStore();
+
+  const isEditing = editingCommentId === comment.id;
+
   return (
     <div className="px-4 py-3">
       <div className="flex flex-col">
         <CommentHeader
           username={comment.user.username}
           userId={comment.user.id}
+          commentId={comment.id}
           isOwner={isOwner}
           isEditing={isEditing}
-          isUpdating={isUpdating}
-          isDeleting={isDeleting}
-          onEditClick={onEditClick}
-          onDeleteClick={onDeleteClick}
         />
         {isEditing ? (
           <CommentEditForm
             content={editContent}
-            onContentChange={onEditContentChange}
-            onSave={onSaveEdit}
-            onCancel={onCancelEdit}
+            onContentChange={content => onEditContentChange?.(content)}
+            onSave={() => onSaveEdit?.(comment.id)}
+            onCancel={() => onCancelEdit?.()}
             isSaving={isUpdating}
           />
         ) : (

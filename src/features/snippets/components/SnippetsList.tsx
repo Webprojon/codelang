@@ -6,15 +6,9 @@ interface SnippetsListProps {
   snippets: Snippet[];
   isLoading: boolean;
   error: string | null;
-  showActions?: boolean;
 }
 
-export default function SnippetsList({
-  snippets,
-  isLoading,
-  error,
-  showActions = false,
-}: SnippetsListProps) {
+export default function SnippetsList({ snippets, isLoading, error }: SnippetsListProps) {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center py-8">
@@ -42,7 +36,7 @@ export default function SnippetsList({
   return (
     <div className="space-y-8">
       {snippets.map(snippet => (
-        <SnippetCard key={snippet.id} snippet={snippet} showActions={showActions} />
+        <SnippetCard key={snippet.id} snippet={snippet} />
       ))}
     </div>
   );

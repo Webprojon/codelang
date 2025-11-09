@@ -1,6 +1,7 @@
+import { useEffect } from 'react';
 import { FaUser } from 'react-icons/fa';
 import { RiCodeBoxLine } from 'react-icons/ri';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { formatLanguage } from './utils';
 import { useDeleteSnippet } from '../../hooks/snippets';
 import { SNIPPET_STYLES } from '../../utils/styles';
@@ -8,25 +9,30 @@ import toast from 'react-hot-toast';
 import { useConfirmModal } from '../../../../shared/hooks/useConfirmModal';
 import { ConfirmModal } from '../../../../shared/components/feedback';
 import EditDeleteActions from '../../../../shared/components/ui/EditDeleteActions';
+import { useSnippetStore } from '../../store/snippetStore';
 
 interface CardHeaderProps {
   username: string;
   language: string;
   snippetId: number;
   userId?: number;
-  showActions?: boolean;
 }
 
-export default function CardHeader({
-  username,
-  language,
-  snippetId,
-  userId,
-  showActions = false,
-}: CardHeaderProps) {
+export default function CardHeader({ username, language, snippetId, userId }: CardHeaderProps) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { deleteSnippet, isDeleting } = useDeleteSnippet();
   const confirmModal = useConfirmModal();
+  const setShowActions = useSnippetStore(state => state.setShowActions);
+  const showActions = useSnippetStore(state => state.showActions);
+
+  useEffect(() => {
+    if (location.pathname === '/my-snippets') {
+      setShowActions(true);
+    } else {
+      setShowActions(false);
+    }
+  }, [location.pathname, setShowActions]);
 
   const handleDelete = async () => {
     confirmModal.showConfirm('Are you sure you want to delete this snippet?', async () => {
