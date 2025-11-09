@@ -1,19 +1,18 @@
 import Sidebar from '@shared/layouts/Sidebar';
 import Navbar from '@shared/layouts/Navbar';
 import { Outlet } from 'react-router-dom';
-import { Suspense, useState } from 'react';
-import { LoadingSpinner } from '@shared/components/feedback';
+import { useState, useCallback } from 'react';
 
 export default function Layout() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
-  const toggleMobileSidebar = () => {
+  const toggleMobileSidebar = useCallback(() => {
     setIsMobileSidebarOpen(prev => !prev);
-  };
+  }, []);
 
-  const closeMobileSidebar = () => {
+  const closeMobileSidebar = useCallback(() => {
     setIsMobileSidebarOpen(false);
-  };
+  }, []);
 
   return (
     <div className="h-screen flex flex-col overflow-x-hidden w-full">
@@ -38,15 +37,7 @@ export default function Layout() {
         </aside>
 
         <main className="flex-1 bg-white p-4 md:p-6 overflow-y-auto overscroll-contain min-w-0 min-h-0">
-          <Suspense
-            fallback={
-              <div className="flex-center p-8">
-                <LoadingSpinner size="lg" />
-              </div>
-            }
-          >
-            <Outlet />
-          </Suspense>
+          <Outlet />
         </main>
       </div>
     </div>

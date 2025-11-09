@@ -1,3 +1,4 @@
+import { memo, useCallback, useMemo } from 'react';
 import { IoLanguage } from 'react-icons/io5';
 import { HiMenu } from 'react-icons/hi';
 import Logo from '@shared/components/ui/Logo';
@@ -10,24 +11,30 @@ interface NavbarProps {
   onMenuClick: () => void;
 }
 
-export default function Navbar({ onMenuClick }: NavbarProps) {
+function Navbar({ onMenuClick }: NavbarProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
   const isInitializing = useAuthStore(state => state.isInitializing);
   const { logoutMutation, isLoggingOut } = useAuth();
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     logoutMutation.mutate(undefined, {
       onSuccess: () => {
         navigate('/');
       },
     });
-  };
+  }, [logoutMutation, navigate]);
 
-  const handleLogin = () => {
+  const handleLogin = useCallback(() => {
     navigate('/login');
-  };
+  }, [navigate]);
+
+  const handleAskQuestion = useCallback(() => {
+    navigate('/ask-question');
+  }, [navigate]);
+
+  const isQuestionsPage = useMemo(() => pathname === '/questions', [pathname]);
 
   return (
     <nav
@@ -48,9 +55,9 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
 
       <div className="hidden sm:flex items-center gap-2">
         <div className="flex gap-1 md:gap-2">
-          {pathname === '/questions' && (
+          {isQuestionsPage && (
             <Button
-              onClick={() => navigate('/ask-question')}
+              onClick={handleAskQuestion}
               className="uppercase"
               color="light"
               size="md"
@@ -95,3 +102,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
     </nav>
   );
 }
+
+export default memo(Navbar, (prevProps, nextProps) => {
+  return prevProps.onMenuClick === nextProps.onMenuClick;
+});

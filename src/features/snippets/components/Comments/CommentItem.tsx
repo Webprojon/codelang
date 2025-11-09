@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import type { ApiComment } from '@features/snippets/types';
 import CommentEditForm from '@features/snippets/components/Comments/CommentEditForm';
 import CommentHeader from '@features/snippets/components/Comments/CommentHeader';
@@ -8,7 +9,7 @@ interface CommentItemProps {
   isOwner: boolean;
 }
 
-export default function CommentItem({ comment, isOwner }: CommentItemProps) {
+function CommentItem({ comment, isOwner }: CommentItemProps) {
   const {
     editingCommentId,
     editContent,
@@ -45,3 +46,12 @@ export default function CommentItem({ comment, isOwner }: CommentItemProps) {
     </div>
   );
 }
+
+export default memo(CommentItem, (prevProps, nextProps) => {
+  return (
+    prevProps.comment.id === nextProps.comment.id &&
+    prevProps.comment.content === nextProps.comment.content &&
+    prevProps.comment.user.id === nextProps.comment.user.id &&
+    prevProps.isOwner === nextProps.isOwner
+  );
+});

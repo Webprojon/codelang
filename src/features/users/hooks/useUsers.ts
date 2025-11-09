@@ -15,7 +15,10 @@ export const useUsers = (
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['users', currentPage, limit],
     queryFn: () => getUsers(currentPage, limit),
-    ...getDefaultQueryConfig({ staleTime: 0 }),
+    ...getDefaultQueryConfig({
+      staleTime: 2 * 60 * 1000,
+      refetchOnMount: false,
+    }),
   });
 
   return {

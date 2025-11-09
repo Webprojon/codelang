@@ -29,8 +29,8 @@ export default function QuestionDetailPage() {
     queryKey: ['question', questionId],
     queryFn: () => getQuestionById(questionId!),
     enabled: !!questionId,
-    staleTime: 0,
-    refetchOnMount: 'always',
+    staleTime: 2 * 60 * 1000,
+    refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
 

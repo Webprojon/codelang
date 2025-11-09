@@ -17,6 +17,65 @@ export default defineConfig(({ mode }) => {
         '@src': path.resolve(__dirname, './src'),
       },
     },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: id => {
+            if (
+              id.includes('node_modules/react') ||
+              id.includes('node_modules/react-dom') ||
+              id.includes('node_modules/react-router')
+            ) {
+              return 'react-vendor';
+            }
+            if (id.includes('node_modules/@tanstack/react-query')) {
+              return 'query-vendor';
+            }
+            if (id.includes('node_modules/@codemirror') || id.includes('node_modules/codemirror')) {
+              return 'editor-vendor';
+            }
+            if (id.includes('node_modules/react-icons')) {
+              return 'icons-vendor';
+            }
+            if (
+              id.includes('node_modules/react-hook-form') ||
+              id.includes('node_modules/react-hot-toast')
+            ) {
+              return 'form-vendor';
+            }
+            if (
+              id.includes('node_modules/axios') ||
+              id.includes('node_modules/zustand') ||
+              id.includes('node_modules/clsx') ||
+              id.includes('node_modules/tailwind-merge')
+            ) {
+              return 'utils-vendor';
+            }
+            if (id.includes('node_modules')) {
+              return 'vendor';
+            }
+          },
+          chunkFileNames: 'assets/js/[name]-[hash].js',
+          entryFileNames: 'assets/js/[name]-[hash].js',
+          assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
+        },
+      },
+      chunkSizeWarningLimit: 1000,
+      minify: 'esbuild',
+      sourcemap: false,
+      cssCodeSplit: true,
+      assetsInlineLimit: 4096,
+      target: 'esnext',
+      commonjsOptions: {
+        include: [/react-icons/, /node_modules/],
+      },
+    },
+    optimizeDeps: {
+      include: ['react-icons'],
+      esbuildOptions: {
+        treeShaking: true,
+      },
+    },
     server: {
       port: 3000,
       proxy: {

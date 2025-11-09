@@ -50,8 +50,8 @@ export function usePaginatedQuery<T>(
   const [currentPage, setCurrentPage] = useState(initialPage);
 
   const queryConfig = getDefaultQueryConfig({
-    staleTime: 0,
-    refetchOnMount: true,
+    staleTime: 2 * 60 * 1000,
+    refetchOnMount: false,
     refetchOnWindowFocus: false,
     ...queryOptions,
   });

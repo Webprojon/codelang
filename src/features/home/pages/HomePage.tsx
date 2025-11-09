@@ -8,7 +8,7 @@ export default function HomePage() {
     useHomeSnippets(1);
 
   return (
-    <div>
+    <>
       <WelcomeHeader title="Welcome to Codelang!" />
       <Pagination
         currentPage={currentPage}
@@ -18,6 +18,6 @@ export default function HomePage() {
         className="my-8"
       />
       <SnippetsList snippets={snippets} isLoading={isLoading} error={error} />
-    </div>
+    </>
   );
 }

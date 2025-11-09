@@ -15,7 +15,10 @@ export const useMySnippets = (
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['my-snippets', currentPage, limit],
     queryFn: () => getMySnippets(currentPage, limit),
-    ...getDefaultQueryConfig({ staleTime: 0 }),
+    ...getDefaultQueryConfig({
+      staleTime: 2 * 60 * 1000,
+      refetchOnMount: false,
+    }),
   });
 
   return {

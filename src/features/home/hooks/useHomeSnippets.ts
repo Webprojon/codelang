@@ -15,7 +15,10 @@ export const useHomeSnippets = (
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['snippets', currentPage, limit],
     queryFn: () => getSnippets(currentPage, limit),
-    ...getDefaultQueryConfig({ staleTime: 0 }),
+    ...getDefaultQueryConfig({
+      staleTime: 2 * 60 * 1000,
+      refetchOnMount: false,
+    }),
   });
 
   return {
