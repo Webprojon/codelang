@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
+import { useCallback, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useMarkSnippet } from '@features/snippets/hooks/useMarkSnippet';
 import { useCreateComment } from '@features/snippets/hooks/comments';
@@ -41,31 +42,44 @@ export default function SnippetDetailPage() {
     error: commentError,
   } = useCreateComment();
 
-  const handleMark = async (mark: MarkType) => {
-    if (snippet && id) {
-      try {
-        await markSnippet({ id: parseInt(snippet.id, 10), mark });
-      } catch (err) {
-        console.error('Failed to mark snippet:', err);
+  const handleMark = useCallback(
+    async (mark: MarkType) => {
+      if (snippet && id) {
+        try {
+          await markSnippet({ id: parseInt(snippet.id, 10), mark });
+        } catch (err) {
+          console.error('Failed to mark snippet:', err);
+        }
       }
-    }
-  };
+    },
+    [snippet, id, markSnippet]
+  );
 
-  const handleCommentSubmit = async (content: string) => {
-    if (!snippet || !id) {
-      return;
-    }
+  const handleCommentSubmit = useCallback(
+    async (content: string) => {
+      if (!snippet || !id) {
+        return;
+      }
 
-    try {
-      await createCommentHandler({
-        content,
-        snippetId: parseInt(id, 10),
-      });
-    } catch (err) {
-      console.error('Failed to create comment:', err);
-      throw err;
-    }
-  };
+      try {
+        await createCommentHandler({
+          content,
+          snippetId: parseInt(id, 10),
+        });
+      } catch (err) {
+        console.error('Failed to create comment:', err);
+        throw err;
+      }
+    },
+    [snippet, id, createCommentHandler]
+  );
+
+  const username = snippet?.user?.username || DEFAULT_USERNAME;
+  const language = snippet?.language || DEFAULT_LANGUAGE;
+  const snippetForFooter = useMemo(
+    () => (snippet ? createSnippetForFooter(snippet, currentUserId) : null),
+    [snippet, currentUserId]
+  );
 
   if (isLoading) {
     return (
@@ -88,10 +102,6 @@ export default function SnippetDetailPage() {
     );
   }
 
-  const username = snippet.user?.username || DEFAULT_USERNAME;
-  const language = snippet.language || DEFAULT_LANGUAGE;
-  const snippetForFooter = createSnippetForFooter(snippet, currentUserId);
-
   return (
     <>
       <div className={SNIPPET_STYLES.card}>
@@ -103,7 +113,7 @@ export default function SnippetDetailPage() {
         />
         <CodeSection content={snippet.code} language={language} />
         <CardFooter
-          snippet={snippetForFooter}
+          snippet={snippetForFooter!}
           onMark={handleMark}
           isMarking={isMarking}
           onToggleComments={() => {}}

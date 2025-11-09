@@ -15,7 +15,10 @@ export const useQuestions = (
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['questions', currentPage, limit],
     queryFn: () => getQuestions(currentPage, limit),
-    ...getDefaultQueryConfig({ staleTime: 0 }),
+    ...getDefaultQueryConfig({
+      staleTime: 2 * 60 * 1000,
+      refetchOnMount: false,
+    }),
   });
 
   return {

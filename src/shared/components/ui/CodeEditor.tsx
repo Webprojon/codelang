@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import {
   EditorView,
   lineNumbers,
@@ -71,54 +71,27 @@ export default function CodeEditor({
 }: CodeEditorProps) {
   const editorRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
+  const onChangeRef = useRef(onChange);
 
   useEffect(() => {
-    if (!editorRef.current) return;
+    onChangeRef.current = onChange;
+  }, [onChange]);
 
-    const langSupport = getLanguageSupport(language);
+  const editorKeymap = useMemo(
+    () =>
+      keymap.of([
+        ...closeBracketsKeymap,
+        ...defaultKeymap,
+        ...searchKeymap,
+        ...historyKeymap,
+        ...foldKeymap,
+        ...completionKeymap,
+      ]),
+    []
+  );
 
-    const extensions: Extension[] = [
-      lineNumbers(),
-      highlightSpecialChars(),
-      syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
-      langSupport(),
-    ];
-
-    if (!readOnly) {
-      extensions.push(
-        history(),
-        foldGutter(),
-        drawSelection(),
-        dropCursor(),
-        EditorState.allowMultipleSelections.of(true),
-        indentOnInput(),
-        bracketMatching(),
-        closeBrackets(),
-        autocompletion(),
-        rectangularSelection(),
-        crosshairCursor(),
-        highlightActiveLine(),
-        highlightSelectionMatches(),
-        keymap.of([
-          ...closeBracketsKeymap,
-          ...defaultKeymap,
-          ...searchKeymap,
-          ...historyKeymap,
-          ...foldKeymap,
-          ...completionKeymap,
-        ]),
-        EditorView.updateListener.of(update => {
-          if (update.docChanged) {
-            const newValue = update.state.doc.toString();
-            onChange(newValue);
-          }
-        })
-      );
-    } else {
-      extensions.push(EditorState.readOnly.of(true));
-    }
-
-    extensions.push(
+  const editorTheme = useMemo(
+    () =>
       EditorView.theme({
         '&': {
           fontSize: '14px',
@@ -152,8 +125,60 @@ export default function CodeEditor({
         '.cm-line': {
           padding: '0 4px',
         },
-      })
-    );
+      }),
+    []
+  );
+
+  const updateListener = useMemo(
+    () =>
+      EditorView.updateListener.of(update => {
+        if (update.docChanged) {
+          const newValue = update.state.doc.toString();
+          onChangeRef.current(newValue);
+        }
+      }),
+    []
+  );
+
+  const extensions = useMemo(() => {
+    const langSupport = getLanguageSupport(language);
+
+    const ext: Extension[] = [
+      lineNumbers(),
+      highlightSpecialChars(),
+      syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+      langSupport(),
+    ];
+
+    if (!readOnly) {
+      ext.push(
+        history(),
+        foldGutter(),
+        drawSelection(),
+        dropCursor(),
+        EditorState.allowMultipleSelections.of(true),
+        indentOnInput(),
+        bracketMatching(),
+        closeBrackets(),
+        autocompletion(),
+        rectangularSelection(),
+        crosshairCursor(),
+        highlightActiveLine(),
+        highlightSelectionMatches(),
+        editorKeymap,
+        updateListener
+      );
+    } else {
+      ext.push(EditorState.readOnly.of(true));
+    }
+
+    ext.push(editorTheme);
+
+    return ext;
+  }, [language, readOnly, editorKeymap, editorTheme, updateListener]);
+
+  useEffect(() => {
+    if (!editorRef.current) return;
 
     const state = EditorState.create({
       doc: value,
@@ -169,25 +194,27 @@ export default function CodeEditor({
 
     return () => {
       view.destroy();
+      viewRef.current = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language, readOnly]);
+  }, [language, readOnly, extensions]);
 
   useEffect(() => {
     if (!viewRef.current) return;
 
     const currentContent = viewRef.current.state.doc.toString();
     if (value !== currentContent) {
-      const transaction = viewRef.current.state.update({
-        changes: {
-          from: 0,
-          to: viewRef.current.state.doc.length,
-          insert: value,
-        },
-      });
-      viewRef.current.dispatch(transaction);
+      if (readOnly || !viewRef.current.hasFocus) {
+        const transaction = viewRef.current.state.update({
+          changes: {
+            from: 0,
+            to: viewRef.current.state.doc.length,
+            insert: value,
+          },
+        });
+        viewRef.current.dispatch(transaction);
+      }
     }
-  }, [value]);
+  }, [value, readOnly]);
 
   return (
     <div className={className}>

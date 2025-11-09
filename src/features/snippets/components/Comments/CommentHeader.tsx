@@ -21,11 +21,8 @@ export default function CommentHeader({
   const { isUpdating, isDeleting, onEditClick, onDeleteClick } = useCommentStore();
 
   return (
-    <div className="flex items-center justify-between">
-      <Link
-        to={`/users/${userId}`}
-        className="w-fit flex items-center gap-2 font-bold text-gray-500"
-      >
+    <div className="flex justify-between">
+      <Link to={`/users/${userId}`} className="w-fit flex gap-2 font-bold text-gray-500">
         <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200">
           {getFirstLetter(username)}
         </div>

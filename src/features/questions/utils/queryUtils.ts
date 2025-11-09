@@ -4,14 +4,14 @@ export const invalidateQuestionQueries = async (queryClient: QueryClient, questi
   await queryClient.invalidateQueries({
     queryKey: ['questions'],
     exact: false,
-    refetchType: 'active',
+    refetchType: 'all',
   });
 
   if (questionId !== undefined) {
     await queryClient.invalidateQueries({
       queryKey: ['question', questionId],
       exact: true,
-      refetchType: 'active',
+      refetchType: 'all',
     });
   }
 };
