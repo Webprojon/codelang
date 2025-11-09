@@ -98,7 +98,7 @@ export const getUserById = async (id: number): Promise<User> => {
       return response.data.data;
     }
 
-    return response.data as User;
+    return response.data as unknown as User;
   } catch (error) {
     const apiError = handleApiError(error);
     throw createApiError(apiError);
