@@ -1,26 +1,18 @@
 import AnswerItem from './AnswerItem';
 import type { Answer } from '../../types';
-import type { User } from '../../../auth/types';
+import { useAuthStore } from '../../../auth/store/authStore';
+import { useAnswerStore } from '../../store/answerStore';
 
 interface AnswersListProps {
   answers: Answer[];
-  currentUser: User | null;
-  editingAnswerId: number | null;
   isDeleting: boolean;
   isUpdating: boolean;
-  onEdit: (answerId: number) => void;
-  onDelete: (answerId: number) => void;
 }
 
-export default function AnswersList({
-  answers,
-  currentUser,
-  editingAnswerId,
-  isDeleting,
-  isUpdating,
-  onEdit,
-  onDelete,
-}: AnswersListProps) {
+export default function AnswersList({ answers, isDeleting, isUpdating }: AnswersListProps) {
+  const currentUser = useAuthStore(state => state.user);
+  const { editingAnswerId } = useAnswerStore();
+
   if (answers.length === 0) {
     return (
       <div className="text-center py-8 text-gray-500">
@@ -41,8 +33,6 @@ export default function AnswersList({
             isEditing={editingAnswerId === answer.id}
             isDeleting={isDeleting}
             isUpdating={isUpdating}
-            onEdit={onEdit}
-            onDelete={onDelete}
           />
         );
       })}

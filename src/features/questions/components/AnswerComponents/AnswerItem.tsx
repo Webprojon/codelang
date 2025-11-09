@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { getFirstLetter } from '../../../../shared/utils/userUtils';
 import EditDeleteActions from '../../../../shared/components/ui/EditDeleteActions';
+import { useAnswerStore } from '../../store/answerStore';
 import type { Answer } from '../../types';
 
 interface AnswerItemProps {
@@ -9,8 +10,6 @@ interface AnswerItemProps {
   isEditing: boolean;
   isDeleting: boolean;
   isUpdating: boolean;
-  onEdit: (answerId: number) => void;
-  onDelete: (answerId: number) => void;
 }
 
 export default function AnswerItem({
@@ -19,9 +18,8 @@ export default function AnswerItem({
   isEditing,
   isDeleting,
   isUpdating,
-  onEdit,
-  onDelete,
 }: AnswerItemProps) {
+  const { onEdit, onDelete } = useAnswerStore();
   return (
     <div
       className={`rounded-lg p-4 shadow-md hover:shadow-lg border ${
@@ -44,7 +42,7 @@ export default function AnswerItem({
             )}
           </div>
         </div>
-        {isCurrentUserAnswer && (
+        {isCurrentUserAnswer && onEdit && onDelete && (
           <EditDeleteActions
             onEdit={() => onEdit(answer.id)}
             onDelete={() => onDelete(answer.id)}
