@@ -9,7 +9,7 @@ import type { ReactNode } from 'react';
 // Mock dependencies
 jest.mock('@features/snippets/api/snippetApi');
 jest.mock('@features/auth/store/authStore');
-jest.mock('@features/snippets/utils/queryUtils', () => ({
+jest.mock('@shared/utils/queryUtils', () => ({
   invalidateSnippetQueries: jest.fn().mockResolvedValue(undefined),
 }));
 
@@ -58,7 +58,7 @@ describe('useCreateSnippet', () => {
 
     await result.current.createSnippet(request);
 
-    expect(mockCreateSnippet).toHaveBeenCalledWith(request, expect.objectContaining({}));
+    expect(mockCreateSnippet).toHaveBeenCalledWith(request);
   });
 
   it('should set isSubmitting to true during mutation', async () => {

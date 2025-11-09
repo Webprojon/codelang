@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useAuth } from '../useAuth';
-import { loginUser, registerUser, logoutUser, getCurrentUser } from '@features/auth/api/authApi';
+import { loginUser, registerUser, logoutUser } from '@features/auth/api/authApi';
 import { useAuthStore } from '@features/auth/store/authStore';
 import type { AuthState } from '@features/auth/store/authStore';
 import type { ReactNode } from 'react';
@@ -13,7 +13,6 @@ jest.mock('@features/auth/store/authStore');
 const mockLoginUser = loginUser as jest.MockedFunction<typeof loginUser>;
 const mockRegisterUser = registerUser as jest.MockedFunction<typeof registerUser>;
 const mockLogoutUser = logoutUser as jest.MockedFunction<typeof logoutUser>;
-const mockGetCurrentUser = getCurrentUser as jest.MockedFunction<typeof getCurrentUser>;
 const mockUseAuthStore = useAuthStore as jest.MockedFunction<typeof useAuthStore>;
 
 describe('useAuth', () => {
@@ -53,38 +52,33 @@ describe('useAuth', () => {
     it('should call loginUser with credentials', async () => {
       const mockUser = { id: 1, username: 'testuser', role: 'user' };
       mockLoginUser.mockResolvedValue(mockUser);
-      mockGetCurrentUser.mockResolvedValue(mockUser);
 
       const { result } = renderHook(() => useAuth(), { wrapper });
 
       result.current.login({ username: 'testuser', password: 'password123' });
 
       await waitFor(() => {
-        expect(mockLoginUser).toHaveBeenCalledWith(
-          {
-            username: 'testuser',
-            password: 'password123',
-          },
-          expect.objectContaining({})
-        );
+        expect(mockLoginUser).toHaveBeenCalledWith({
+          username: 'testuser',
+          password: 'password123',
+        });
       });
     });
 
     it('should set user after successful login', async () => {
       const mockUser = { id: 1, username: 'testuser', role: 'user' };
       mockLoginUser.mockResolvedValue(mockUser);
-      mockGetCurrentUser.mockResolvedValue(mockUser);
 
       const { result } = renderHook(() => useAuth(), { wrapper });
 
       result.current.login({ username: 'testuser', password: 'password123' });
 
       await waitFor(() => {
-        expect(mockGetCurrentUser).toHaveBeenCalled();
-      });
-
-      await waitFor(() => {
-        expect(mockSetUser).toHaveBeenCalledWith(mockUser);
+        expect(mockSetUser).toHaveBeenCalledWith({
+          id: mockUser.id,
+          username: mockUser.username,
+          role: mockUser.role,
+        });
       });
     });
 
@@ -109,7 +103,6 @@ describe('useAuth', () => {
       });
 
       mockLoginUser.mockImplementation(() => promise);
-      mockGetCurrentUser.mockResolvedValue(mockUser);
 
       const { result } = renderHook(() => useAuth(), { wrapper });
 
@@ -137,13 +130,10 @@ describe('useAuth', () => {
       result.current.register({ username: 'newuser', password: 'password123' });
 
       await waitFor(() => {
-        expect(mockRegisterUser).toHaveBeenCalledWith(
-          {
-            username: 'newuser',
-            password: 'password123',
-          },
-          expect.objectContaining({})
-        );
+        expect(mockRegisterUser).toHaveBeenCalledWith({
+          username: 'newuser',
+          password: 'password123',
+        });
       });
     });
 

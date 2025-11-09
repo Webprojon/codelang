@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import CodeEditor from '@shared/components/ui/CodeEditor';
 import Button from '@shared/components/ui/Button';
 import { SNIPPET_STYLES } from '@features/snippets/utils/styles';
+import { TITLE_VALIDATION, DESCRIPTION_VALIDATION } from '@shared/utils/validations';
 import type { QuestionFormData } from '@features/questions/types';
 
 interface QuestionFormProps {
@@ -72,14 +73,8 @@ export default function QuestionForm({
               id="title"
               type="text"
               placeholder="Question title"
-              className={`form-input-standard ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
-              {...register('title', {
-                required: 'Title is required',
-                minLength: {
-                  value: 3,
-                  message: 'Title must be at least 3 characters',
-                },
-              })}
+              className={`form-input-standard ${errors.title ? 'input-border-error' : 'input-border-default'}`}
+              {...register('title', TITLE_VALIDATION)}
             />
             {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>}
           </div>
@@ -89,14 +84,8 @@ export default function QuestionForm({
               id="description"
               placeholder="Question description"
               rows={3}
-              className={`form-input-standard ${errors.description ? 'border-red-500' : 'border-gray-300'}`}
-              {...register('description', {
-                required: 'Description is required',
-                minLength: {
-                  value: 10,
-                  message: 'Description must be at least 10 characters',
-                },
-              })}
+              className={`form-input-standard ${errors.description ? 'input-border-error' : 'input-border-default'}`}
+              {...register('description', DESCRIPTION_VALIDATION)}
             />
             {errors.description && (
               <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>

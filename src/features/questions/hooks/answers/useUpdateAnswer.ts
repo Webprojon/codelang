@@ -1,36 +1,30 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateAnswer } from '@features/questions/api/answersApi';
-import type { UpdateAnswerRequest, UseUpdateAnswerReturn } from '@features/questions/types';
-import { getErrorMessage } from '@shared/utils/errorHandler';
+import type { UpdateAnswerRequest, UseUpdateAnswerReturn, Answer } from '@features/questions/types';
+import { useUpdateMutation } from '@shared/hooks/useUpdateMutation';
+
+interface UpdateAnswerVariables {
+  id: number;
+  request: UpdateAnswerRequest;
+  questionId: number;
+}
 
 export const useUpdateAnswer = (): UseUpdateAnswerReturn => {
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: ({
-      id,
-      request,
-    }: {
-      id: number;
-      request: UpdateAnswerRequest;
-      questionId: number;
-    }) => {
-      return updateAnswer(id, request);
-    },
-    onSuccess: async (_, variables) => {
+  const { isUpdating, error, update } = useUpdateMutation<Answer, UpdateAnswerVariables>({
+    mutationFn: ({ id, request }) => updateAnswer(id, request),
+    errorMessage: 'Failed to update answer',
+    invalidateQueries: async (queryClient, _, variables) => {
       await queryClient.invalidateQueries({
         queryKey: ['question', variables.questionId],
         exact: true,
-        refetchType: 'active',
       });
     },
   });
 
   return {
-    isUpdating: mutation.isPending,
-    error: mutation.error ? getErrorMessage(mutation.error, 'Failed to update answer') : null,
+    isUpdating,
+    error,
     updateAnswer: async (id: number, questionId: number, request: UpdateAnswerRequest) => {
-      await mutation.mutateAsync({ id, request, questionId });
+      await update({ id, request, questionId });
     },
   };
 };

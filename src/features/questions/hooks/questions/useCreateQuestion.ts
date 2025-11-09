@@ -1,32 +1,34 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createQuestion } from '@features/questions/api/questionsApi';
-import { invalidateQuestionQueries } from '@features/questions/utils/queryUtils';
-import type { CreateQuestionRequest, UseCreateQuestionReturn } from '@features/questions/types';
-import { getErrorMessage } from '@shared/utils/errorHandler';
+import { invalidateQuestionQueries } from '@shared/utils/queryUtils';
+import type {
+  CreateQuestionRequest,
+  UseCreateQuestionReturn,
+  Question,
+} from '@features/questions/types';
+import { useCreateMutation } from '@shared/hooks/useCreateMutation';
 
 export const useCreateQuestion = (): UseCreateQuestionReturn => {
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
+  const { isSubmitting, error, create } = useCreateMutation<Question, CreateQuestionRequest>({
     mutationFn: createQuestion,
-    onSuccess: async newQuestion => {
+    errorMessage: 'Failed to create question',
+    invalidateQueries: async queryClient => {
       await invalidateQuestionQueries(queryClient);
-
+    },
+    invalidateUserStats: async (queryClient, newQuestion) => {
       if (newQuestion.user?.id) {
         await queryClient.invalidateQueries({
           queryKey: ['userStatistics', newQuestion.user.id],
           exact: true,
-          refetchType: 'active',
         });
       }
     },
   });
 
   return {
-    isSubmitting: mutation.isPending,
-    error: mutation.error ? getErrorMessage(mutation.error, 'Failed to create question') : null,
+    isSubmitting,
+    error,
     createQuestion: async (request: CreateQuestionRequest) => {
-      await mutation.mutateAsync(request);
+      await create(request);
     },
   };
 };

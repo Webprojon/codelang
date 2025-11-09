@@ -7,6 +7,7 @@ import { LoadingSpinner } from '@shared/components/feedback';
 import { useLanguages } from '@features/snippets/hooks/useLanguages';
 import { DEFAULT_LANGUAGE } from '@features/snippets/constants';
 import { SNIPPET_STYLES } from '@features/snippets/utils/styles';
+import { LANGUAGE_VALIDATION, CODE_VALIDATION } from '@shared/utils/validations';
 import type { PostSnippetFormData } from '@features/snippets/types';
 import type { ApiSnippet } from '@features/snippets/types';
 
@@ -111,9 +112,7 @@ export default function SnippetForm({
             error={errors.language?.message}
             selectClassName={SNIPPET_STYLES.select}
             value={selectedLanguage}
-            {...register('language', {
-              required: 'Please select a language',
-            })}
+            {...register('language', LANGUAGE_VALIDATION)}
           />
         </div>
 
@@ -129,16 +128,7 @@ export default function SnippetForm({
             />
           </div>
           {errors.code && <p className="mt-1 text-sm text-red-600">{errors.code.message}</p>}
-          <input
-            type="hidden"
-            {...register('code', {
-              required: 'Code is required',
-              validate: () => {
-                const trimmed = code.trim();
-                return trimmed.length > 0 || 'Code cannot be empty';
-              },
-            })}
-          />
+          <input type="hidden" {...register('code', CODE_VALIDATION)} />
         </div>
 
         <Button
