@@ -1,11 +1,14 @@
-import { useMarkSnippet } from '../hooks/useMarkSnippet';
-import type { Snippet } from '../types';
-import { MarkType } from '../types';
-import { DEFAULT_LANGUAGE, DEFAULT_USERNAME } from './SnippetCard/utils';
-import { SNIPPET_STYLES } from '../utils/styles';
-import CardHeader from './SnippetCard/CardHeader';
-import CodeSection from './SnippetCard/CodeSection';
-import CardFooter from './SnippetCard/CardFooter';
+import { useMarkSnippet } from '@features/snippets/hooks/useMarkSnippet';
+import type { Snippet } from '@features/snippets/types';
+import { MarkType } from '@features/snippets/types';
+import {
+  DEFAULT_LANGUAGE,
+  DEFAULT_USERNAME,
+} from '@features/snippets/components/SnippetCard/utils';
+import { SNIPPET_STYLES } from '@features/snippets/utils/styles';
+import CardHeader from '@features/snippets/components/SnippetCard/CardHeader';
+import CodeSection from '@features/snippets/components/SnippetCard/CodeSection';
+import CardFooter from '@features/snippets/components/SnippetCard/CardFooter';
 
 interface SnippetCardProps {
   snippet: Snippet;

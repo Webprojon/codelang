@@ -1,7 +1,7 @@
-import { LoadingSpinner } from '../../../shared/components/feedback';
-import UserCard from './UserCard';
-import type { User } from '../../auth/types';
-import Button from '../../../shared/components/ui/Button';
+import { LoadingSpinner } from '@shared/components/feedback';
+import UserCard from '@features/users/components/UserCard';
+import type { User } from '@features/auth/types';
+import Button from '@shared/components/ui/Button';
 
 interface UsersListProps {
   users: User[];

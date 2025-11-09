@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
-import type { ChangePasswordFormData } from '../types';
-import Button from '../../../shared/components/ui/Button';
-import Input from '../../../shared/components/ui/Input';
-import { PASSWORD_VALIDATION } from '../../../shared/utils/validations';
+import type { ChangePasswordFormData } from '@features/account/types';
+import Button from '@shared/components/ui/Button';
+import Input from '@shared/components/ui/Input';
+import { PASSWORD_VALIDATION } from '@shared/utils/validations';
 
 interface ChangePasswordFormProps {
   onSubmit: (data: ChangePasswordFormData) => void;

@@ -1,10 +1,10 @@
 import { IoLanguage } from 'react-icons/io5';
 import { HiMenu } from 'react-icons/hi';
-import Logo from '../components/ui/Logo';
-import Button from '../components/ui/Button';
+import Logo from '@shared/components/ui/Logo';
+import Button from '@shared/components/ui/Button';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../features/auth/store/authStore';
-import { useAuth } from '../../features/auth/hooks/useAuth';
+import { useAuthStore } from '@features/auth/store/authStore';
+import { useAuth } from '@features/auth/hooks/useAuth';
 
 interface NavbarProps {
   onMenuClick: () => void;

@@ -1,8 +1,8 @@
 import { useRef, useEffect, useCallback } from 'react';
-import type { ApiComment } from '../../types';
-import { useUpdateComment, useDeleteComment } from './index';
-import { useConfirmModal } from '../../../../shared/hooks/useConfirmModal';
-import { useCommentStore } from '../../store/commentStore';
+import type { ApiComment } from '@features/snippets/types';
+import { useUpdateComment, useDeleteComment } from '@features/snippets/hooks/comments';
+import { useConfirmModal } from '@shared/hooks/useConfirmModal';
+import { useCommentStore } from '@features/snippets/store/commentStore';
 import toast from 'react-hot-toast';
 
 interface UseCommentHandlersProps {

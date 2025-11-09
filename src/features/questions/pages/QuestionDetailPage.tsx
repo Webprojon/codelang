@@ -1,18 +1,18 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getQuestionById } from '../api/questionsApi';
+import { getQuestionById } from '@features/questions/api/questionsApi';
 import { LoadingSpinner } from '@shared/components/feedback';
 import Button from '@shared/components/ui/Button';
 import CodeEditor from '@shared/components/ui/CodeEditor';
 import { SNIPPET_STYLES } from '@features/snippets/utils/styles';
 import { useAuthStore } from '@features/auth/store/authStore';
 import { ConfirmModal } from '@shared/components/feedback';
-import AnswerForm from '../components/AnswerComponents/AnswerForm';
-import QuestionHeader from '../components/QuestionComponents/QuestionHeader';
-import AnswersList from '../components/AnswerComponents/AnswersList';
-import LoginPrompt from '../components/LoginPrompt';
-import { useAnswerHandlers } from '../hooks/answers';
+import AnswerForm from '@features/questions/components/AnswerComponents/AnswerForm';
+import QuestionHeader from '@features/questions/components/QuestionComponents/QuestionHeader';
+import AnswersList from '@features/questions/components/AnswerComponents/AnswersList';
+import LoginPrompt from '@features/questions/components/LoginPrompt';
+import { useAnswerHandlers } from '@features/questions/hooks/answers';
 
 export default function QuestionDetailPage() {
   const { id } = useParams<{ id: string }>();

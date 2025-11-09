@@ -1,6 +1,6 @@
 import { FaRegEdit } from 'react-icons/fa';
 import { RiDeleteBinLine } from 'react-icons/ri';
-import Button from './Button';
+import Button from '@shared/components/ui/Button';
 
 interface EditDeleteActionsProps {
   onEdit: () => void;

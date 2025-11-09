@@ -1,6 +1,6 @@
-import { useQuestions } from '../hooks/questions';
+import { useQuestions } from '@features/questions/hooks/questions';
 import Pagination from '@shared/components/ui/Pagination';
-import QuestionsList from '../components/QuestionComponents/QuestionsList';
+import QuestionsList from '@features/questions/components/QuestionComponents/QuestionsList';
 import WelcomeHeader from '@shared/components/ui/WelcomeHeader';
 
 export default function QuestionsPage() {

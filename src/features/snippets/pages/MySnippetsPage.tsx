@@ -1,7 +1,7 @@
-import { useMySnippets } from '../hooks/snippets';
+import { useMySnippets } from '@features/snippets/hooks/snippets';
 import Pagination from '@shared/components/ui/Pagination';
 import WelcomeHeader from '@shared/components/ui/WelcomeHeader';
-import SnippetsList from '../components/SnippetsList';
+import SnippetsList from '@features/snippets/components/SnippetsList';
 
 export default function MySnippetsPage() {
   const { snippets, isLoading, error, currentPage, totalPages, setCurrentPage } = useMySnippets(1);

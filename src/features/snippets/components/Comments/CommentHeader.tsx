@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { getFirstLetter } from '../../../../shared/utils/userUtils';
-import EditDeleteActions from '../../../../shared/components/ui/EditDeleteActions';
-import { useCommentStore } from '../../store/commentStore';
+import { getFirstLetter } from '@shared/utils/userUtils';
+import EditDeleteActions from '@shared/components/ui/EditDeleteActions';
+import { useCommentStore } from '@features/snippets/store/commentStore';
 
 interface CommentHeaderProps {
   username: string;

@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { LiaComments } from 'react-icons/lia';
-import type { Snippet } from '../../types';
-import { MarkType } from '../../types';
-import MarkButton from './MarkButton';
-import { SNIPPET_STYLES } from '../../utils/styles';
+import type { Snippet } from '@features/snippets/types';
+import { MarkType } from '@features/snippets/types';
+import MarkButton from '@features/snippets/components/SnippetCard/MarkButton';
+import { SNIPPET_STYLES } from '@features/snippets/utils/styles';
 
 interface CardFooterProps {
   snippet: Snippet;

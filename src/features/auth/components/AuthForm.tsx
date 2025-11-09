@@ -1,10 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import Button from '../../../shared/components/ui/Button';
-import Input from '../../../shared/components/ui/Input';
-import { useAuth } from '../hooks/useAuth';
-import { USERNAME_VALIDATION, PASSWORD_VALIDATION } from '../../../shared/utils/validations';
+import Button from '@shared/components/ui/Button';
+import Input from '@shared/components/ui/Input';
+import { useAuth } from '@features/auth/hooks/useAuth';
+import { USERNAME_VALIDATION, PASSWORD_VALIDATION } from '@shared/utils/validations';
 
 interface AuthFormProps {
   type: 'login' | 'register';

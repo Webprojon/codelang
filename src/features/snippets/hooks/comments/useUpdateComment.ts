@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateComment } from '../../api/snippetApi';
-import type { UpdateCommentRequest, UseUpdateCommentReturn } from '../../types';
-import { invalidateSnippetQueries } from '../../utils/queryUtils';
+import { updateComment } from '@features/snippets/api/snippetApi';
+import type { UpdateCommentRequest, UseUpdateCommentReturn } from '@features/snippets/types';
+import { invalidateSnippetQueries } from '@features/snippets/utils/queryUtils';
 import { getErrorMessage } from '@shared/utils/errorHandler';
 
 export const useUpdateComment = (snippetId: number): UseUpdateCommentReturn => {

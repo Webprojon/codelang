@@ -2,16 +2,16 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { useAuthStore } from '../../auth/store/authStore';
+import { useAuthStore } from '@features/auth/store/authStore';
 import {
   deleteAccount,
   updateUsername,
   updatePassword,
   getUserStatistics,
-} from '../api/accountApi';
-import { logoutUser } from '../../auth/api/authApi';
-import type { ChangeUsernameFormData, ChangePasswordFormData } from '../types';
-import { useConfirmModal } from '../../../shared/hooks/useConfirmModal';
+} from '@features/account/api/accountApi';
+import { logoutUser } from '@features/auth/api/authApi';
+import type { ChangeUsernameFormData, ChangePasswordFormData } from '@features/account/types';
+import { useConfirmModal } from '@shared/hooks/useConfirmModal';
 
 export const useMyAccount = () => {
   const navigate = useNavigate();

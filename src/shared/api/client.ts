@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { useAuthStore } from '../../features/auth/store/authStore';
-import { handleApiError, createApiError } from '../utils/errorHandler';
+import { useAuthStore } from '@features/auth/store/authStore';
+import { handleApiError, createApiError } from '@shared/utils/errorHandler';
 
 const baseURL = '/api';
 

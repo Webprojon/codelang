@@ -1,4 +1,4 @@
-import type { Snippet } from '../snippets/types';
+import type { Snippet } from '@features/snippets/types';
 
 export interface HomeSnippetsState {
   snippets: unknown[];

@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { useUserStatistics } from '../hooks/useUserStatistics';
-import UserProfile from '../components/UserProfile';
+import { useUserStatistics } from '@features/users/hooks/useUserStatistics';
+import UserProfile from '@features/users/components/UserProfile';
 import { LoadingSpinner } from '@shared/components/feedback';
 import { NotFound } from '@shared/components/layout';
 import Button from '@shared/components/ui/Button';

@@ -10,7 +10,7 @@ import type {
   Answer,
   CreateQuestionRequest,
   UpdateQuestionRequest,
-} from '../types';
+} from '@features/questions/types';
 
 const QUESTIONS_ENDPOINT = '/questions' as const;
 

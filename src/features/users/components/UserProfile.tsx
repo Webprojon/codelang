@@ -1,7 +1,7 @@
-import UserStatistics from './UserStatistics';
-import type { User } from '../../auth/types';
-import type { UserStats } from '../../account/types';
-import { getFirstLetter } from '../../../shared/utils/userUtils';
+import UserStatistics from '@features/users/components/UserStatistics';
+import type { User } from '@features/auth/types';
+import type { UserStats } from '@features/account/types';
+import { getFirstLetter } from '@shared/utils/userUtils';
 
 interface UserProfileProps {
   user: User;

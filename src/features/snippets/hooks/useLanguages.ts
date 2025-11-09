@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getLanguages } from '../api/snippetApi';
+import { getLanguages } from '@features/snippets/api/snippetApi';
 
 export const useLanguages = () => {
   const { data, isLoading, error } = useQuery({

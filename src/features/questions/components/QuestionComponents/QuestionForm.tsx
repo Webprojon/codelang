@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import CodeEditor from '../../../../shared/components/ui/CodeEditor';
-import Button from '../../../../shared/components/ui/Button';
-import { SNIPPET_STYLES } from '../../../snippets/utils/styles';
-import type { QuestionFormData } from '../../types';
+import CodeEditor from '@shared/components/ui/CodeEditor';
+import Button from '@shared/components/ui/Button';
+import { SNIPPET_STYLES } from '@features/snippets/utils/styles';
+import type { QuestionFormData } from '@features/questions/types';
 
 interface QuestionFormProps {
   onSubmit: (data: QuestionFormData) => Promise<void>;

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { useCreateSnippet } from '../hooks/snippets';
-import SnippetForm from '../components/SnippetForm';
-import type { PostSnippetFormData } from '../types';
+import { useCreateSnippet } from '@features/snippets/hooks/snippets';
+import SnippetForm from '@features/snippets/components/SnippetForm';
+import type { PostSnippetFormData } from '@features/snippets/types';
 import toast from 'react-hot-toast';
 import WelcomeHeader from '@shared/components/ui/WelcomeHeader';
 

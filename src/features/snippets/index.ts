@@ -1,2 +1,2 @@
 // Components
-export { default as SnippetsList } from './components/SnippetsList';
+export { default as SnippetsList } from '@features/snippets/components/SnippetsList';

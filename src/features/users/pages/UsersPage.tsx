@@ -1,5 +1,5 @@
-import { useUsers } from '../hooks/useUsers';
-import UsersList from '../components/UsersList';
+import { useUsers } from '@features/users/hooks/useUsers';
+import UsersList from '@features/users/components/UsersList';
 import Pagination from '@shared/components/ui/Pagination';
 import WelcomeHeader from '@shared/components/ui/WelcomeHeader';
 

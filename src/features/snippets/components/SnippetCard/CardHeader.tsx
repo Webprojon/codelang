@@ -2,14 +2,14 @@ import { useEffect } from 'react';
 import { FaUser } from 'react-icons/fa';
 import { RiCodeBoxLine } from 'react-icons/ri';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { formatLanguage } from './utils';
-import { useDeleteSnippet } from '../../hooks/snippets';
-import { SNIPPET_STYLES } from '../../utils/styles';
+import { formatLanguage } from '@features/snippets/components/SnippetCard/utils';
+import { useDeleteSnippet } from '@features/snippets/hooks/snippets';
+import { SNIPPET_STYLES } from '@features/snippets/utils/styles';
 import toast from 'react-hot-toast';
-import { useConfirmModal } from '../../../../shared/hooks/useConfirmModal';
-import { ConfirmModal } from '../../../../shared/components/feedback';
-import EditDeleteActions from '../../../../shared/components/ui/EditDeleteActions';
-import { useSnippetStore } from '../../store/snippetStore';
+import { useConfirmModal } from '@shared/hooks/useConfirmModal';
+import { ConfirmModal } from '@shared/components/feedback';
+import EditDeleteActions from '@shared/components/ui/EditDeleteActions';
+import { useSnippetStore } from '@features/snippets/store/snippetStore';
 
 interface CardHeaderProps {
   username: string;

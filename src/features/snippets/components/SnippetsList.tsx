@@ -1,6 +1,6 @@
-import SnippetCard from './SnippetCard';
-import { LoadingSpinner } from '../../../shared/components/feedback';
-import type { Snippet } from '../types';
+import SnippetCard from '@features/snippets/components/SnippetCard';
+import { LoadingSpinner } from '@shared/components/feedback';
+import type { Snippet } from '@features/snippets/types';
 
 interface SnippetsListProps {
   snippets: Snippet[];

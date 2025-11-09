@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { getFirstLetter } from '../../../../shared/utils/userUtils';
-import EditDeleteActions from '../../../../shared/components/ui/EditDeleteActions';
-import { useAnswerStore } from '../../store/answerStore';
-import type { Answer } from '../../types';
+import { getFirstLetter } from '@shared/utils/userUtils';
+import EditDeleteActions from '@shared/components/ui/EditDeleteActions';
+import { useAnswerStore } from '@features/questions/store/answerStore';
+import type { Answer } from '@features/questions/types';
 
 interface AnswerItemProps {
   answer: Answer;

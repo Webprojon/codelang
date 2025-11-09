@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { Answer, Question } from '../../types';
+import type { Answer, Question } from '@features/questions/types';
 
 export interface UseAnswersReturn {
   answers: Answer[];

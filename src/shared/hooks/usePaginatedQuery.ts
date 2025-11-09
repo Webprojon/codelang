@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { UseQueryResult } from '@tanstack/react-query';
-import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../constants';
-import { getErrorMessage } from '../utils/errorHandler';
-import { getDefaultQueryConfig } from './useQueryConfig';
-import type { PaginationMeta } from '../types/api';
+import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@shared/constants';
+import { getErrorMessage } from '@shared/utils/errorHandler';
+import { getDefaultQueryConfig } from '@shared/hooks/useQueryConfig';
+import type { PaginationMeta } from '@shared/types/api';
 
 export interface PaginatedResponse<T> {
   items: T[];

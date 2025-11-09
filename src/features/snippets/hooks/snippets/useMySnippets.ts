@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getMySnippets } from '../../api/snippetApi';
+import { getMySnippets } from '@features/snippets/api/snippetApi';
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@shared/constants';
-import type { UseMySnippetsReturn } from '../../types';
+import type { UseMySnippetsReturn } from '@features/snippets/types';
 import { getErrorMessage } from '@shared/utils/errorHandler';
 import { getDefaultQueryConfig } from '@shared/hooks/useQueryConfig';
 

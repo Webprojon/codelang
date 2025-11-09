@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { useCreateQuestion } from '../hooks/questions';
-import QuestionForm from '../components/QuestionComponents/QuestionForm';
-import type { QuestionFormData } from '../types';
+import { useCreateQuestion } from '@features/questions/hooks/questions';
+import QuestionForm from '@features/questions/components/QuestionComponents/QuestionForm';
+import type { QuestionFormData } from '@features/questions/types';
 import toast from 'react-hot-toast';
 import WelcomeHeader from '@shared/components/ui/WelcomeHeader';
 

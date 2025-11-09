@@ -1,6 +1,6 @@
-import QuestionCard from './QuestionCard';
-import { LoadingSpinner } from '../../../../shared/components/feedback';
-import type { Question } from '../../types';
+import QuestionCard from '@features/questions/components/QuestionComponents/QuestionCard';
+import { LoadingSpinner } from '@shared/components/feedback';
+import type { Question } from '@features/questions/types';
 
 interface QuestionsListProps {
   questions: Question[];

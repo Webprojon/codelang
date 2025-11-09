@@ -2,11 +2,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Button from '@shared/components/ui/Button';
 import { LoadingSpinner } from '@shared/components/feedback';
-import { useUpdateSnippet } from '../hooks/snippets';
-import { getSnippetById } from '../api/snippetApi';
-import SnippetForm from '../components/SnippetForm';
-import { SNIPPET_STYLES } from '../utils/styles';
-import type { PostSnippetFormData } from '../types';
+import { useUpdateSnippet } from '@features/snippets/hooks/snippets';
+import { getSnippetById } from '@features/snippets/api/snippetApi';
+import SnippetForm from '@features/snippets/components/SnippetForm';
+import { SNIPPET_STYLES } from '@features/snippets/utils/styles';
+import type { PostSnippetFormData } from '@features/snippets/types';
 import toast from 'react-hot-toast';
 import WelcomeHeader from '@shared/components/ui/WelcomeHeader';
 

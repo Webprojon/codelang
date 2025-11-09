@@ -1,5 +1,5 @@
-import type { User } from '../auth/types';
-import type { UserStats } from '../account/types';
+import type { User } from '@features/auth/types';
+import type { UserStats } from '@features/account/types';
 
 export interface UserWithStats {
   user: User;
