@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { markSnippet } from '@features/snippets/api/snippetApi';
 import { useAuthStore } from '@features/auth/store/authStore';
+import { invalidateSnippetQueries } from '@shared/utils/queryUtils';
 import type { SnippetsResponse } from '@features/snippets/types';
 import { MarkType } from '@features/snippets/types';
 
@@ -87,21 +88,13 @@ export const useMarkSnippet = () => {
       }
       console.error('Failed to mark snippet:', error);
     },
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: ['snippets'],
-        refetchType: 'active',
-      });
-
-      queryClient.invalidateQueries({
-        queryKey: ['snippet', variables.id],
-        refetchType: 'active',
-      });
+    onSuccess: async (_, variables) => {
+      await invalidateSnippetQueries(queryClient, variables.id);
 
       if (user?.id) {
-        queryClient.invalidateQueries({
+        await queryClient.invalidateQueries({
           queryKey: ['userStatistics', user.id],
-          refetchType: 'active',
+          exact: true,
         });
       }
     },

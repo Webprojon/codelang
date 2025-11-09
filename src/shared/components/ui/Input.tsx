@@ -36,7 +36,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           id={id}
           type={type}
           className={`w-full text-sm bg-transparent border-b py-2 px-0 outline-none transition-colors 
-            ${error ? 'border-red-500' : 'border-gray-300'} ${inputClassName}`}
+            ${error ? 'input-border-error' : 'input-border-default'} ${inputClassName}`}
           {...rest}
         />
         {error && <p className="mt-1 text-xs text-red-500">{error}</p>}

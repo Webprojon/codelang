@@ -19,3 +19,47 @@ export const USERNAME_VALIDATION = {
     message: 'Username can only contain letters, numbers, underscores, and hyphens',
   },
 };
+
+export const TITLE_VALIDATION = {
+  required: 'Title is required',
+  minLength: {
+    value: 3,
+    message: 'Title must be at least 3 characters',
+  },
+} as const;
+
+export const DESCRIPTION_VALIDATION = {
+  required: 'Description is required',
+  minLength: {
+    value: 10,
+    message: 'Description must be at least 10 characters',
+  },
+} as const;
+
+export const CONTENT_VALIDATION = {
+  required: 'Content is required',
+  minLength: {
+    value: 10,
+    message: 'Content must be at least 10 characters',
+  },
+} as const;
+
+export const ANSWER_CONTENT_VALIDATION = {
+  required: 'Answer content is required',
+  minLength: {
+    value: 10,
+    message: 'Answer must be at least 10 characters',
+  },
+} as const;
+
+export const CODE_VALIDATION = {
+  required: 'Code is required',
+  validate: (value: string) => {
+    const trimmed = value.trim();
+    return trimmed.length > 0 || 'Code cannot be empty';
+  },
+} as const;
+
+export const LANGUAGE_VALIDATION = {
+  required: 'Please select a language',
+} as const;

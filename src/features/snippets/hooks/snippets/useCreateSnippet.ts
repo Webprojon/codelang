@@ -1,34 +1,33 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createSnippet } from '@features/snippets/api/snippetApi';
 import type { PostSnippetRequest, UseCreateSnippetReturn } from '@features/snippets/types';
-import { invalidateSnippetQueries } from '@features/snippets/utils/queryUtils';
-import { getErrorMessage } from '@shared/utils/errorHandler';
+import { invalidateSnippetQueries } from '@shared/utils/queryUtils';
+import { useCreateMutation } from '@shared/hooks/useCreateMutation';
 import { useAuthStore } from '@features/auth/store/authStore';
 
 export const useCreateSnippet = (): UseCreateSnippetReturn => {
-  const queryClient = useQueryClient();
   const user = useAuthStore(state => state.user);
 
-  const mutation = useMutation({
+  const { isSubmitting, error, create } = useCreateMutation<void, PostSnippetRequest>({
     mutationFn: createSnippet,
-    onSuccess: async () => {
+    errorMessage: 'Failed to create snippet',
+    invalidateQueries: async queryClient => {
       await invalidateSnippetQueries(queryClient);
-
+    },
+    invalidateUserStats: async queryClient => {
       if (user?.id) {
         await queryClient.invalidateQueries({
           queryKey: ['userStatistics', user.id],
           exact: true,
-          refetchType: 'active',
         });
       }
     },
   });
 
   return {
-    isSubmitting: mutation.isPending,
-    error: mutation.error ? getErrorMessage(mutation.error, 'Failed to create snippet') : null,
+    isSubmitting,
+    error,
     createSnippet: async (request: PostSnippetRequest) => {
-      return await mutation.mutateAsync(request);
+      return await create(request);
     },
   };
 };

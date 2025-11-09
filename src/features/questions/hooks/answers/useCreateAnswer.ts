@@ -1,35 +1,32 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createAnswer } from '@features/questions/api/answersApi';
-import type { CreateAnswerRequest, UseCreateAnswerReturn } from '@features/questions/types';
-import { getErrorMessage } from '@shared/utils/errorHandler';
+import type { CreateAnswerRequest, UseCreateAnswerReturn, Answer } from '@features/questions/types';
+import { useCreateMutation } from '@shared/hooks/useCreateMutation';
 
 export const useCreateAnswer = (): UseCreateAnswerReturn => {
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
+  const { isSubmitting, error, create } = useCreateMutation<Answer, CreateAnswerRequest>({
     mutationFn: createAnswer,
-    onSuccess: async (newAnswer, variables) => {
+    errorMessage: 'Failed to create answer',
+    invalidateQueries: async (queryClient, _newAnswer, variables) => {
       await queryClient.invalidateQueries({
         queryKey: ['question', variables.questionId],
         exact: true,
-        refetchType: 'active',
       });
-
+    },
+    invalidateUserStats: async (queryClient, newAnswer) => {
       if (newAnswer.user?.id) {
         await queryClient.invalidateQueries({
           queryKey: ['userStatistics', newAnswer.user.id],
           exact: true,
-          refetchType: 'active',
         });
       }
     },
   });
 
   return {
-    isSubmitting: mutation.isPending,
-    error: mutation.error ? getErrorMessage(mutation.error, 'Failed to create answer') : null,
+    isSubmitting,
+    error,
     createAnswer: async (request: CreateAnswerRequest) => {
-      await mutation.mutateAsync(request);
+      await create(request);
     },
   };
 };

@@ -1,37 +1,37 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteQuestion } from '@features/questions/api/questionsApi';
-import { invalidateQuestionQueries } from '@features/questions/utils/queryUtils';
+import { invalidateQuestionQueries } from '@shared/utils/queryUtils';
 import type { UseDeleteQuestionReturn, Question } from '@features/questions/types';
-import { getErrorMessage } from '@shared/utils/errorHandler';
+import { useDeleteMutation } from '@shared/hooks/useDeleteMutation';
 import { useAuthStore } from '@features/auth/store/authStore';
+import { QueryClient } from '@tanstack/react-query';
 
 export const useDeleteQuestion = (): UseDeleteQuestionReturn => {
-  const queryClient = useQueryClient();
   const user = useAuthStore(state => state.user);
 
-  const mutation = useMutation({
+  const { isDeleting, error, deleteItem } = useDeleteMutation<number>({
     mutationFn: (id: number) => deleteQuestion(id),
-    onSuccess: async (_, id) => {
+    errorMessage: 'Failed to delete question',
+    invalidateQueries: async (queryClient: QueryClient, id: number) => {
+      await invalidateQuestionQueries(queryClient, id);
+    },
+    invalidateUserStats: async (queryClient: QueryClient, id: number) => {
       const question = queryClient.getQueryData<Question>(['question', id]);
       const userId = question?.user?.id || user?.id;
-
-      await invalidateQuestionQueries(queryClient, id);
 
       if (userId) {
         await queryClient.invalidateQueries({
           queryKey: ['userStatistics', userId],
           exact: true,
-          refetchType: 'active',
         });
       }
     },
   });
 
   return {
-    isDeleting: mutation.isPending,
-    error: mutation.error ? getErrorMessage(mutation.error, 'Failed to delete question') : null,
+    isDeleting,
+    error,
     deleteQuestion: async (id: number) => {
-      return await mutation.mutateAsync(id);
+      return await deleteItem(id);
     },
   };
 };

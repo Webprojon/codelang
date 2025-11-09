@@ -203,32 +203,49 @@ describe('AuthForm', () => {
       expect(submitButton).toBeDisabled();
     });
 
-    it('should display error message when login fails', () => {
+    it('should display error message when login fails', async () => {
+      const user = userEvent.setup();
+      const mockMutate = jest.fn((_data, options) => {
+        if (options?.onError) {
+          options.onError(new Error('Invalid credentials'));
+        }
+      });
+
       mockUseAuth.mockReturnValue({
         loginMutation: {
           ...mockLoginMutation,
-          error: new Error('Invalid credentials'),
-        } as UseMutationResult<LoginResponse, Error, LoginRequest>,
+          mutate: mockMutate,
+        } as unknown as UseMutationResult<LoginResponse, Error, LoginRequest>,
         registerMutation: mockRegisterMutation as UseMutationResult<
           RegisterResponse,
           Error,
           RegisterRequest
         >,
         logoutMutation: mockLogoutMutation as UseMutationResult<void, Error, void>,
-        login: mockLoginMutation.mutate,
+        login: mockMutate,
         register: mockRegisterMutation.mutate,
         logout: mockLogoutMutation.mutate,
         isLoggingIn: false,
         isRegistering: false,
         isLoggingOut: false,
-        loginError: new Error('Invalid credentials'),
+        loginError: null,
         registerError: null,
         logoutError: null,
       });
 
       customRender(<AuthForm type="login" />);
 
-      expect(screen.getByText('Invalid credentials')).toBeInTheDocument();
+      const usernameInput = screen.getByPlaceholderText('Enter your username');
+      const passwordInput = screen.getByPlaceholderText('Enter your password');
+      const submitButton = screen.getByRole('button', { name: /sign in/i });
+
+      await user.type(usernameInput, 'testuser');
+      await user.type(passwordInput, 'password123');
+      await user.click(submitButton);
+
+      await waitFor(() => {
+        expect(screen.getByText('Invalid credentials')).toBeInTheDocument();
+      });
     });
   });
 

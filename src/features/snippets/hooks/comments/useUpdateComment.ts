@@ -1,25 +1,34 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateComment } from '@features/snippets/api/snippetApi';
-import type { UpdateCommentRequest, UseUpdateCommentReturn } from '@features/snippets/types';
-import { invalidateSnippetQueries } from '@features/snippets/utils/queryUtils';
-import { getErrorMessage } from '@shared/utils/errorHandler';
+import type {
+  UpdateCommentRequest,
+  UseUpdateCommentReturn,
+  UpdateCommentResponse,
+} from '@features/snippets/types';
+import { invalidateSnippetQueries } from '@shared/utils/queryUtils';
+import { useUpdateMutation } from '@shared/hooks/useUpdateMutation';
+
+interface UpdateCommentVariables {
+  id: number;
+  request: UpdateCommentRequest;
+}
 
 export const useUpdateComment = (snippetId: number): UseUpdateCommentReturn => {
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: ({ id, request }: { id: number; request: UpdateCommentRequest }) =>
-      updateComment(id, request),
-    onSuccess: async () => {
+  const { isUpdating, error, update } = useUpdateMutation<
+    UpdateCommentResponse,
+    UpdateCommentVariables
+  >({
+    mutationFn: ({ id, request }) => updateComment(id, request),
+    errorMessage: 'Failed to update comment',
+    invalidateQueries: async queryClient => {
       await invalidateSnippetQueries(queryClient, snippetId);
     },
   });
 
   return {
-    isUpdating: mutation.isPending,
-    error: mutation.error ? getErrorMessage(mutation.error, 'Failed to update comment') : null,
+    isUpdating,
+    error,
     updateComment: async (id: number, request: UpdateCommentRequest): Promise<void> => {
-      await mutation.mutateAsync({ id, request });
+      await update({ id, request });
     },
   };
 };

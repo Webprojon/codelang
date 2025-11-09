@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Button from '@shared/components/ui/Button';
 import { SNIPPET_STYLES } from '@features/snippets/utils/styles';
+import { ANSWER_CONTENT_VALIDATION } from '@shared/utils/validations';
 import type { AnswerFormData } from '@features/questions/types';
 
 interface AnswerFormProps {
@@ -62,14 +63,8 @@ export default function AnswerForm({
             id="content"
             placeholder="Write your answer here..."
             rows={6}
-            className={`form-input-standard ${errors.content ? 'border-red-500' : 'border-gray-300'}`}
-            {...register('content', {
-              required: 'Answer content is required',
-              minLength: {
-                value: 10,
-                message: 'Answer must be at least 10 characters',
-              },
-            })}
+            className={`form-input-standard ${errors.content ? 'input-border-error' : 'input-border-default'}`}
+            {...register('content', ANSWER_CONTENT_VALIDATION)}
           />
           {errors.content && <p className="mt-1 text-sm text-red-600">{errors.content.message}</p>}
         </div>

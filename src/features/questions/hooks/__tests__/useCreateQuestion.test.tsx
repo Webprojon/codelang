@@ -6,7 +6,7 @@ import type { ReactNode } from 'react';
 
 // Mock dependencies
 jest.mock('@features/questions/api/questionsApi');
-jest.mock('@features/questions/utils/queryUtils', () => ({
+jest.mock('@shared/utils/queryUtils', () => ({
   invalidateQuestionQueries: jest.fn().mockResolvedValue(undefined),
 }));
 
@@ -52,7 +52,7 @@ describe('useCreateQuestion', () => {
 
     await result.current.createQuestion(request);
 
-    expect(mockCreateQuestion).toHaveBeenCalledWith(request, expect.objectContaining({}));
+    expect(mockCreateQuestion).toHaveBeenCalledWith(request);
   });
 
   it('should set isSubmitting to true during mutation', async () => {

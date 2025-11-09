@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { BsFillSendFill } from 'react-icons/bs';
 import Button from '@shared/components/ui/Button';
+import Input from '@shared/components/ui/Input';
 
 interface CommentFormProps {
   onSubmit: (content: string) => Promise<void>;
@@ -27,11 +28,7 @@ export default function CommentForm({ onSubmit, isSubmitting, error }: CommentFo
 
   return (
     <form onSubmit={handleSubmit} className="relative border-t border-gray-300 p-4">
-      {error && (
-        <div className="mb-3 p-2 bg-red-100 border border-red-400 text-red-700 rounded text-sm">
-          {error}
-        </div>
-      )}
+      {error && <div className="mb-3 error-message">{error}</div>}
       <div className="relative min-h-[60px]">
         <label
           htmlFor="comment-input"
@@ -51,14 +48,15 @@ export default function CommentForm({ onSubmit, isSubmitting, error }: CommentFo
         />
 
         <div className="pt-8 px-2 pb-2 pr-12">
-          <input
+          <Input
+            id="comment-input"
             type="text"
             placeholder="Write here..."
-            id="comment-input"
             value={content}
             disabled={isSubmitting}
             onChange={e => setContent(e.target.value)}
-            className="comment-input"
+            inputClassName="comment-input"
+            containerClassName=""
           />
         </div>
       </div>

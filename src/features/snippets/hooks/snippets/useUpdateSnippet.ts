@@ -1,25 +1,31 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateSnippet } from '@features/snippets/api/snippetApi';
-import type { UpdateSnippetRequest, UseUpdateSnippetReturn } from '@features/snippets/types';
-import { invalidateSnippetQueries } from '@features/snippets/utils/queryUtils';
-import { getErrorMessage } from '@shared/utils/errorHandler';
+import type {
+  UpdateSnippetRequest,
+  UseUpdateSnippetReturn,
+  ApiSnippet,
+} from '@features/snippets/types';
+import { invalidateSnippetQueries } from '@shared/utils/queryUtils';
+import { useUpdateMutation } from '@shared/hooks/useUpdateMutation';
+
+interface UpdateSnippetVariables {
+  id: number;
+  request: UpdateSnippetRequest;
+}
 
 export const useUpdateSnippet = (): UseUpdateSnippetReturn => {
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: ({ id, request }: { id: number; request: UpdateSnippetRequest }) =>
-      updateSnippet(id, request),
-    onSuccess: async (_, variables) => {
+  const { isUpdating, error, update } = useUpdateMutation<ApiSnippet, UpdateSnippetVariables>({
+    mutationFn: ({ id, request }) => updateSnippet(id, request),
+    errorMessage: 'Failed to update snippet',
+    invalidateQueries: async (queryClient, _, variables) => {
       await invalidateSnippetQueries(queryClient, variables.id);
     },
   });
 
   return {
-    isUpdating: mutation.isPending,
-    error: mutation.error ? getErrorMessage(mutation.error, 'Failed to update snippet') : null,
+    isUpdating,
+    error,
     updateSnippet: async (id: number, request: UpdateSnippetRequest) => {
-      return await mutation.mutateAsync({ id, request });
+      return await update({ id, request });
     },
   };
 };

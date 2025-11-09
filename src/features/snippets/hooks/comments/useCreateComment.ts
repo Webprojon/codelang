@@ -1,32 +1,37 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createComment } from '@features/snippets/api/snippetApi';
-import type { CreateCommentRequest, UseCreateCommentReturn } from '@features/snippets/types';
-import { invalidateSnippetQueries } from '@features/snippets/utils/queryUtils';
-import { getErrorMessage } from '@shared/utils/errorHandler';
+import type {
+  CreateCommentRequest,
+  UseCreateCommentReturn,
+  CreateCommentResponse,
+} from '@features/snippets/types';
+import { invalidateSnippetQueries } from '@shared/utils/queryUtils';
+import { useCreateMutation } from '@shared/hooks/useCreateMutation';
 
 export const useCreateComment = (): UseCreateCommentReturn => {
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
+  const { isSubmitting, error, create } = useCreateMutation<
+    CreateCommentResponse,
+    CreateCommentRequest
+  >({
     mutationFn: createComment,
-    onSuccess: async (newComment, variables) => {
+    errorMessage: 'Failed to create comment',
+    invalidateQueries: async (queryClient, _newComment, variables) => {
       await invalidateSnippetQueries(queryClient, variables.snippetId);
-
+    },
+    invalidateUserStats: async (queryClient, newComment) => {
       if (newComment?.user?.id) {
         await queryClient.invalidateQueries({
           queryKey: ['userStatistics', newComment.user.id],
           exact: true,
-          refetchType: 'active',
         });
       }
     },
   });
 
   return {
-    isSubmitting: mutation.isPending,
-    error: mutation.error ? getErrorMessage(mutation.error, 'Failed to create comment') : null,
+    isSubmitting,
+    error,
     createComment: async (request: CreateCommentRequest) => {
-      return await mutation.mutateAsync(request);
+      return await create(request);
     },
   };
 };
