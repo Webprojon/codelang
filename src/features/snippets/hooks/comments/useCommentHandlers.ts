@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import type { ApiComment } from '@features/snippets/types';
 import { useUpdateComment, useDeleteComment } from '@features/snippets/hooks/comments';
 import { useConfirmModal } from '@shared/hooks/useConfirmModal';
@@ -6,39 +6,27 @@ import { useCommentStore } from '@features/snippets/store/commentStore';
 import toast from 'react-hot-toast';
 
 interface UseCommentHandlersProps {
-  comments: ApiComment[];
   snippetId: number;
 }
 
 interface UseCommentHandlersReturn {
+  handleEditClick: (comment: ApiComment) => void;
+  handleDelete: (commentId: string) => void;
+  handleSaveEdit: (commentId: string) => void;
+  handleCancelEdit: () => void;
+  handleEditContentChange: (content: string) => void;
   confirmModal: ReturnType<typeof useConfirmModal>;
+  isUpdating: boolean;
+  isDeleting: boolean;
 }
 
 export const useCommentHandlers = ({
-  comments,
   snippetId,
 }: UseCommentHandlersProps): UseCommentHandlersReturn => {
   const { updateComment, isUpdating } = useUpdateComment(snippetId);
   const { deleteComment, isDeleting } = useDeleteComment(snippetId);
   const confirmModal = useConfirmModal();
-  const {
-    editContent,
-    setEditingCommentId,
-    setEditContent,
-    setIsUpdating,
-    setIsDeleting,
-    setOnEditClick,
-    setOnDeleteClick,
-    setOnSaveEdit,
-    setOnCancelEdit,
-    setOnEditContentChange,
-  } = useCommentStore();
-
-  const handleEditClickRef = useRef<(commentId: string) => void | undefined>(undefined);
-  const handleDeleteRef = useRef<(commentId: string) => void | undefined>(undefined);
-  const handleSaveEditRef = useRef<(commentId: string) => void | undefined>(undefined);
-  const handleCancelEditRef = useRef<() => void | undefined>(undefined);
-  const handleEditContentChangeRef = useRef<(content: string) => void | undefined>(undefined);
+  const { editContent, setEditingCommentId, setEditContent } = useCommentStore();
 
   const handleEditClick = useCallback(
     (comment: ApiComment) => {
@@ -88,65 +76,21 @@ export const useCommentHandlers = ({
     [confirmModal, deleteComment]
   );
 
-  // Update refs when callbacks change
-  handleEditClickRef.current = (commentId: string) => {
-    const comment = comments.find(c => c.id === commentId);
-    if (comment) handleEditClick(comment);
-  };
-  handleDeleteRef.current = (commentId: string) => {
-    handleDelete(commentId).catch(console.error);
-  };
-  handleSaveEditRef.current = (commentId: string) => {
-    handleSaveEdit(commentId).catch(console.error);
-  };
-  handleCancelEditRef.current = handleCancelEdit;
-  handleEditContentChangeRef.current = setEditContent;
-
-  useEffect(() => {
-    setIsUpdating(isUpdating);
-  }, [isUpdating, setIsUpdating]);
-
-  useEffect(() => {
-    setIsDeleting(isDeleting);
-  }, [isDeleting, setIsDeleting]);
-
-  useEffect(() => {
-    setOnEditClick((commentId: string) => {
-      handleEditClickRef.current?.(commentId);
-    });
-    setOnDeleteClick((commentId: string) => {
-      handleDeleteRef.current?.(commentId);
-    });
-    setOnSaveEdit((commentId: string) => {
-      handleSaveEditRef.current?.(commentId);
-    });
-    setOnCancelEdit(() => {
-      handleCancelEditRef.current?.();
-    });
-    setOnEditContentChange((content: string) => {
-      handleEditContentChangeRef.current?.(content);
-    });
-
-    return () => {
-      setOnEditClick(null);
-      setOnDeleteClick(null);
-      setOnSaveEdit(null);
-      setOnCancelEdit(null);
-      setOnEditContentChange(null);
-      setEditingCommentId(null);
-      setEditContent('');
-    };
-  }, [
-    setOnEditClick,
-    setOnDeleteClick,
-    setOnSaveEdit,
-    setOnCancelEdit,
-    setOnEditContentChange,
-    setEditingCommentId,
-    setEditContent,
-  ]);
+  const handleEditContentChange = useCallback(
+    (content: string) => {
+      setEditContent(content);
+    },
+    [setEditContent]
+  );
 
   return {
+    handleEditClick,
+    handleDelete,
+    handleSaveEdit,
+    handleCancelEdit,
+    handleEditContentChange,
     confirmModal,
+    isUpdating,
+    isDeleting,
   };
 };

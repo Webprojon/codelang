@@ -61,9 +61,6 @@ export default function QuestionForm({
     await onSubmit({ ...data, attachedCode });
   };
 
-  const inputClasses =
-    'w-full px-4 py-3 bg-white border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 resize-none';
-
   return (
     <div>
       {submitError && <div className={SNIPPET_STYLES.errorMessage}>{submitError}</div>}
@@ -75,7 +72,7 @@ export default function QuestionForm({
               id="title"
               type="text"
               placeholder="Question title"
-              className={`${inputClasses} ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
+              className={`form-input-standard ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
               {...register('title', {
                 required: 'Title is required',
                 minLength: {
@@ -92,7 +89,7 @@ export default function QuestionForm({
               id="description"
               placeholder="Question description"
               rows={3}
-              className={`${inputClasses} ${errors.description ? 'border-red-500' : 'border-gray-300'}`}
+              className={`form-input-standard ${errors.description ? 'border-red-500' : 'border-gray-300'}`}
               {...register('description', {
                 required: 'Description is required',
                 minLength: {

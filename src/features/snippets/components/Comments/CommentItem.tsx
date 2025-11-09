@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import type { ApiComment } from '@features/snippets/types';
 import CommentEditForm from '@features/snippets/components/Comments/CommentEditForm';
 import CommentHeader from '@features/snippets/components/Comments/CommentHeader';
@@ -7,17 +6,27 @@ import { useCommentStore } from '@features/snippets/store/commentStore';
 interface CommentItemProps {
   comment: ApiComment;
   isOwner: boolean;
+  onEditClick: (comment: ApiComment) => void;
+  onDeleteClick: (commentId: string) => void;
+  onSaveEdit: (commentId: string) => void;
+  onCancelEdit: () => void;
+  onEditContentChange: (content: string) => void;
+  isUpdating: boolean;
+  isDeleting: boolean;
 }
 
-function CommentItem({ comment, isOwner }: CommentItemProps) {
-  const {
-    editingCommentId,
-    editContent,
-    isUpdating,
-    onSaveEdit,
-    onCancelEdit,
-    onEditContentChange,
-  } = useCommentStore();
+function CommentItem({
+  comment,
+  isOwner,
+  onEditClick,
+  onDeleteClick,
+  onSaveEdit,
+  onCancelEdit,
+  onEditContentChange,
+  isUpdating,
+  isDeleting,
+}: CommentItemProps) {
+  const { editingCommentId, editContent } = useCommentStore();
 
   const isEditing = editingCommentId === comment.id;
 
@@ -30,13 +39,17 @@ function CommentItem({ comment, isOwner }: CommentItemProps) {
           commentId={comment.id}
           isOwner={isOwner}
           isEditing={isEditing}
+          onEditClick={() => onEditClick(comment)}
+          onDeleteClick={() => onDeleteClick(comment.id)}
+          isUpdating={isUpdating}
+          isDeleting={isDeleting}
         />
         {isEditing ? (
           <CommentEditForm
             content={editContent}
-            onContentChange={content => onEditContentChange?.(content)}
-            onSave={() => onSaveEdit?.(comment.id)}
-            onCancel={() => onCancelEdit?.()}
+            onContentChange={onEditContentChange}
+            onSave={() => onSaveEdit(comment.id)}
+            onCancel={onCancelEdit}
             isSaving={isUpdating}
           />
         ) : (
@@ -47,11 +60,4 @@ function CommentItem({ comment, isOwner }: CommentItemProps) {
   );
 }
 
-export default memo(CommentItem, (prevProps, nextProps) => {
-  return (
-    prevProps.comment.id === nextProps.comment.id &&
-    prevProps.comment.content === nextProps.comment.content &&
-    prevProps.comment.user.id === nextProps.comment.user.id &&
-    prevProps.isOwner === nextProps.isOwner
-  );
-});
+export default CommentItem;

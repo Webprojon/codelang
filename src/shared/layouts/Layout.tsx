@@ -1,18 +1,18 @@
 import Sidebar from '@shared/layouts/Sidebar';
 import Navbar from '@shared/layouts/Navbar';
 import { Outlet } from 'react-router-dom';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 export default function Layout() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
-  const toggleMobileSidebar = useCallback(() => {
+  const toggleMobileSidebar = () => {
     setIsMobileSidebarOpen(prev => !prev);
-  }, []);
+  };
 
-  const closeMobileSidebar = useCallback(() => {
+  const closeMobileSidebar = () => {
     setIsMobileSidebarOpen(false);
-  }, []);
+  };
 
   return (
     <div className="h-screen flex flex-col overflow-x-hidden w-full">

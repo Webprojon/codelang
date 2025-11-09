@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import type { ApiComment, ApiSnippet } from '@features/snippets/types';
 
 export interface UseCommentsReturn {
@@ -7,10 +6,7 @@ export interface UseCommentsReturn {
 }
 
 export const useComments = (snippet: ApiSnippet | null | undefined): UseCommentsReturn => {
-  const comments = useMemo(() => {
-    if (!snippet) return [];
-    return snippet.comments || [];
-  }, [snippet]);
+  const comments = snippet?.comments || [];
 
   return {
     comments,

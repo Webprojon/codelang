@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { FaUser } from 'react-icons/fa';
 import { RiCodeBoxLine } from 'react-icons/ri';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -9,7 +8,6 @@ import toast from 'react-hot-toast';
 import { useConfirmModal } from '@shared/hooks/useConfirmModal';
 import { ConfirmModal } from '@shared/components/feedback';
 import EditDeleteActions from '@shared/components/ui/EditDeleteActions';
-import { useSnippetStore } from '@features/snippets/store/snippetStore';
 
 interface CardHeaderProps {
   username: string;
@@ -20,19 +18,9 @@ interface CardHeaderProps {
 
 export default function CardHeader({ username, language, snippetId, userId }: CardHeaderProps) {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { pathname } = useLocation();
   const { deleteSnippet, isDeleting } = useDeleteSnippet();
   const confirmModal = useConfirmModal();
-  const setShowActions = useSnippetStore(state => state.setShowActions);
-  const showActions = useSnippetStore(state => state.showActions);
-
-  useEffect(() => {
-    if (location.pathname === '/my-snippets') {
-      setShowActions(true);
-    } else {
-      setShowActions(false);
-    }
-  }, [location.pathname, setShowActions]);
 
   const handleDelete = async () => {
     confirmModal.showConfirm('Are you sure you want to delete this snippet?', async () => {
@@ -58,7 +46,7 @@ export default function CardHeader({ username, language, snippetId, userId }: Ca
           <span>{username}</span>
         </Link>
         <div className="flex items-center text-sm gap-2">
-          {showActions && (
+          {pathname === '/my-snippets' && (
             <EditDeleteActions
               onEdit={handleEdit}
               onDelete={handleDelete}

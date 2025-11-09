@@ -1,4 +1,3 @@
-import { memo, useCallback, useMemo } from 'react';
 import { IoLanguage } from 'react-icons/io5';
 import { HiMenu } from 'react-icons/hi';
 import Logo from '@shared/components/ui/Logo';
@@ -18,23 +17,23 @@ function Navbar({ onMenuClick }: NavbarProps) {
   const isInitializing = useAuthStore(state => state.isInitializing);
   const { logoutMutation, isLoggingOut } = useAuth();
 
-  const handleLogout = useCallback(() => {
+  const handleLogout = () => {
     logoutMutation.mutate(undefined, {
       onSuccess: () => {
         navigate('/');
       },
     });
-  }, [logoutMutation, navigate]);
+  };
 
-  const handleLogin = useCallback(() => {
+  const handleLogin = () => {
     navigate('/login');
-  }, [navigate]);
+  };
 
-  const handleAskQuestion = useCallback(() => {
+  const handleAskQuestion = () => {
     navigate('/ask-question');
-  }, [navigate]);
+  };
 
-  const isQuestionsPage = useMemo(() => pathname === '/questions', [pathname]);
+  const isQuestionsPage = pathname === '/questions';
 
   return (
     <nav
@@ -103,6 +102,4 @@ function Navbar({ onMenuClick }: NavbarProps) {
   );
 }
 
-export default memo(Navbar, (prevProps, nextProps) => {
-  return prevProps.onMenuClick === nextProps.onMenuClick;
-});
+export default Navbar;

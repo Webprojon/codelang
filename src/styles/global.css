@@ -50,6 +50,12 @@
   .hover\:bg-brand2-500:hover {
     background-color: var(--brand2-500);
   }
+  .border-brand-500 {
+    border-color: var(--brand-500);
+  }
+  .focus\:border-brand-500:focus {
+    border-color: var(--brand-500);
+  }
 
   /* Shadow utilities */
   .shadow-auth {
@@ -57,5 +63,29 @@
       rgba(0, 0, 0, 0.4) 0px 2px 4px,
       rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
       rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  }
+
+  /* AuthForm component */
+  .form-label {
+    @apply text-gray-700 text-sm;
+  }
+
+  .form-input {
+    @apply text-gray-800 placeholder:text-gray-400;
+  }
+
+  .form-input:focus {
+    border-color: var(--brand-500);
+  }
+
+  .form-input-standard {
+    @apply w-full px-4 py-3 bg-white border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 resize-none;
+  }
+
+  .form-input-account {
+    @apply text-black placeholder:text-gray-400 border border-gray-400 rounded px-3 py-[10px];
+  }
+  .comment-input {
+    @apply border-b border-blue-500 py-2 w-full bg-transparent outline-none text-sm text-gray-800 placeholder:text-gray-400 disabled:opacity-50;
   }
 }

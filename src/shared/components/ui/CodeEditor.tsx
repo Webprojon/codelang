@@ -73,9 +73,7 @@ export default function CodeEditor({
   const viewRef = useRef<EditorView | null>(null);
   const onChangeRef = useRef(onChange);
 
-  useEffect(() => {
-    onChangeRef.current = onChange;
-  }, [onChange]);
+  onChangeRef.current = onChange;
 
   const editorKeymap = useMemo(
     () =>

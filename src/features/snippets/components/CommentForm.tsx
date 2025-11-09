@@ -58,7 +58,7 @@ export default function CommentForm({ onSubmit, isSubmitting, error }: CommentFo
             value={content}
             disabled={isSubmitting}
             onChange={e => setContent(e.target.value)}
-            className="border-b border-blue-500 py-2 w-full bg-transparent outline-none text-sm text-gray-800 placeholder:text-gray-400 disabled:opacity-50"
+            className="comment-input"
           />
         </div>
       </div>

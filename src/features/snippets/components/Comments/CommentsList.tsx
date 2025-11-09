@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import type { ApiComment } from '@features/snippets/types';
 import { ConfirmModal } from '@shared/components/feedback';
 import CommentItem from '@features/snippets/components/Comments/CommentItem';
@@ -13,8 +12,17 @@ interface CommentsListProps {
 }
 
 export default function CommentsList({ comments, currentUserId, snippetId }: CommentsListProps) {
-  const { confirmModal } = useCommentHandlers({ comments, snippetId });
-  const sortedComments = useMemo(() => sortCommentsById(comments), [comments]);
+  const {
+    handleEditClick,
+    handleDelete,
+    handleSaveEdit,
+    handleCancelEdit,
+    handleEditContentChange,
+    confirmModal,
+    isUpdating,
+    isDeleting,
+  } = useCommentHandlers({ snippetId });
+  const sortedComments = sortCommentsById(comments);
 
   if (sortedComments.length === 0) {
     return <CommentsEmptyState />;
@@ -29,7 +37,20 @@ export default function CommentsList({ comments, currentUserId, snippetId }: Com
         <div className="divide-y divide-gray-200">
           {sortedComments.map(comment => {
             const isOwner = isCommentOwner(comment, currentUserId);
-            return <CommentItem key={comment.id} comment={comment} isOwner={isOwner} />;
+            return (
+              <CommentItem
+                key={comment.id}
+                comment={comment}
+                isOwner={isOwner}
+                onEditClick={handleEditClick}
+                onDeleteClick={handleDelete}
+                onSaveEdit={handleSaveEdit}
+                onCancelEdit={handleCancelEdit}
+                onEditContentChange={handleEditContentChange}
+                isUpdating={isUpdating}
+                isDeleting={isDeleting}
+              />
+            );
           })}
         </div>
       </div>
