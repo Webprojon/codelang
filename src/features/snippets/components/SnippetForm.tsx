@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Select from '@shared/components/ui/Select';
 import CodeEditor from '@shared/components/ui/CodeEditor';
@@ -28,12 +28,10 @@ export default function SnippetForm({
   const [code, setCode] = useState('');
   const { languages, isLoading: isLoadingLanguages } = useLanguages();
 
-  const languageOptions = useMemo(() => {
-    return languages.map(lang => ({
-      value: lang,
-      label: lang,
-    }));
-  }, [languages]);
+  const languageOptions = languages.map(lang => ({
+    value: lang,
+    label: lang,
+  }));
 
   const {
     register,

@@ -1,4 +1,3 @@
-import { memo, useCallback } from 'react';
 import { useMarkSnippet } from '@features/snippets/hooks/useMarkSnippet';
 import type { Snippet } from '@features/snippets/types';
 import { MarkType } from '@features/snippets/types';
@@ -15,18 +14,15 @@ interface SnippetCardProps {
   snippet: Snippet;
 }
 
-function SnippetCard({ snippet }: SnippetCardProps) {
+export default function SnippetCard({ snippet }: SnippetCardProps) {
   const { markSnippet, isMarking } = useMarkSnippet();
 
   const username = snippet.username || DEFAULT_USERNAME;
   const language = snippet.language || DEFAULT_LANGUAGE;
 
-  const handleMark = useCallback(
-    (mark: MarkType) => {
-      markSnippet({ id: snippet.id, mark });
-    },
-    [markSnippet, snippet.id]
-  );
+  const handleMark = (mark: MarkType) => {
+    markSnippet({ id: snippet.id, mark });
+  };
 
   return (
     <div className={SNIPPET_STYLES.card}>
@@ -41,14 +37,3 @@ function SnippetCard({ snippet }: SnippetCardProps) {
     </div>
   );
 }
-
-export default memo(SnippetCard, (prevProps, nextProps) => {
-  return (
-    prevProps.snippet.id === nextProps.snippet.id &&
-    prevProps.snippet.likes === nextProps.snippet.likes &&
-    prevProps.snippet.dislikes === nextProps.snippet.dislikes &&
-    prevProps.snippet.comments === nextProps.snippet.comments &&
-    prevProps.snippet.currentUserMark === nextProps.snippet.currentUserMark &&
-    prevProps.snippet.content === nextProps.snippet.content
-  );
-});

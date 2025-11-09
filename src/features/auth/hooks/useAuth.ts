@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { loginUser, registerUser, logoutUser, getCurrentUser } from '@features/auth/api/authApi';
+import { loginUser, registerUser, logoutUser } from '@features/auth/api/authApi';
 import { useAuthStore } from '@features/auth/store/authStore';
 import type {
   LoginRequest,
@@ -13,22 +13,18 @@ export const useAuth = () => {
   const setUser = useAuthStore(state => state.setUser);
   const logout = useAuthStore(state => state.logout);
 
-  const fetchAndSetUser = async () => {
-    try {
-      const user = await getCurrentUser();
-      setUser(user);
-      return user;
-    } catch (error) {
-      setUser(null);
-      throw error;
-    }
-  };
-
   const loginMutation = useMutation<LoginResponse, Error, LoginRequest>({
-    mutationFn: loginUser,
+    mutationFn: async credentials => {
+      const loginResponse = await loginUser(credentials);
+      setUser({
+        id: loginResponse.id,
+        username: loginResponse.username,
+        role: loginResponse.role,
+      });
+      return loginResponse;
+    },
     mutationKey: ['login'],
-    onSuccess: async () => {
-      await fetchAndSetUser();
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
       queryClient.invalidateQueries({ queryKey: ['auth'] });
     },

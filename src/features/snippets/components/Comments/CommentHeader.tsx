@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { getFirstLetter } from '@shared/utils/userUtils';
 import EditDeleteActions from '@shared/components/ui/EditDeleteActions';
-import { useCommentStore } from '@features/snippets/store/commentStore';
 
 interface CommentHeaderProps {
   username: string;
@@ -9,17 +8,22 @@ interface CommentHeaderProps {
   commentId: string;
   isOwner: boolean;
   isEditing: boolean;
+  onEditClick: () => void;
+  onDeleteClick: () => void;
+  isUpdating: boolean;
+  isDeleting: boolean;
 }
 
 export default function CommentHeader({
   username,
   userId,
-  commentId,
   isOwner,
   isEditing,
+  onEditClick,
+  onDeleteClick,
+  isUpdating,
+  isDeleting,
 }: CommentHeaderProps) {
-  const { isUpdating, isDeleting, onEditClick, onDeleteClick } = useCommentStore();
-
   return (
     <div className="flex justify-between">
       <Link to={`/users/${userId}`} className="w-fit flex gap-2 font-bold text-gray-500">
@@ -28,10 +32,10 @@ export default function CommentHeader({
         </div>
         <span>{username}</span>
       </Link>
-      {isOwner && !isEditing && onEditClick && onDeleteClick && (
+      {isOwner && !isEditing && (
         <EditDeleteActions
-          onEdit={() => onEditClick(commentId)}
-          onDelete={() => onDeleteClick(commentId)}
+          onEdit={onEditClick}
+          onDelete={onDeleteClick}
           isDeleting={isDeleting}
           isUpdating={isUpdating}
           editTitle="Edit comment"

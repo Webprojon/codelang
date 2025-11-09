@@ -64,12 +64,12 @@ export default function EditQuestionPage() {
     );
   }
 
-  const error = queryError ? 'Failed to load question' : null;
-
-  if (error || !question) {
+  if (queryError || !question) {
     return (
       <div className={SNIPPET_STYLES.errorContainer}>
-        <p className="text-red-600">{error || 'Question not found'}</p>
+        <p className="text-red-600">
+          {queryError ? 'Failed to load question' : 'Question not found'}
+        </p>
         <Button onClick={() => navigate('/questions')} color="primary" size="md">
           Go to Questions
         </Button>

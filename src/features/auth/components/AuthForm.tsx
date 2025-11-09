@@ -1,5 +1,4 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Button from '@shared/components/ui/Button';
 import Input from '@shared/components/ui/Input';
@@ -24,8 +23,7 @@ const FORM_DEFAULT_VALUES: FormData = {
 
 export default function AuthForm({ type }: AuthFormProps) {
   const navigate = useNavigate();
-  const { loginMutation, registerMutation, isLoggingIn, isRegistering, loginError, registerError } =
-    useAuth();
+  const { loginMutation, registerMutation, isLoggingIn, isRegistering } = useAuth();
 
   const {
     register,
@@ -45,19 +43,15 @@ export default function AuthForm({ type }: AuthFormProps) {
     validate: (value?: string) => value === password || 'Passwords do not match',
   };
 
-  useEffect(() => {
-    const error = type === 'register' ? registerError : loginError;
-    if (error) {
-      setError('root', { message: error.message });
-    }
-  }, [registerError, loginError, type, setError]);
-
   const handleRegister = (data: FormData) => {
     registerMutation.mutate(
       { username: data.username, password: data.password },
       {
         onSuccess: () => {
           navigate('/login');
+        },
+        onError: error => {
+          setError('root', { message: error.message });
         },
       }
     );
@@ -69,6 +63,9 @@ export default function AuthForm({ type }: AuthFormProps) {
       {
         onSuccess: () => {
           navigate('/');
+        },
+        onError: error => {
+          setError('root', { message: error.message });
         },
       }
     );
@@ -84,21 +81,17 @@ export default function AuthForm({ type }: AuthFormProps) {
 
   const isSubmittingForm = isSubmitting || (type === 'register' ? isRegistering : isLoggingIn);
 
-  const labelClasses = 'text-gray-700 text-sm';
-  const inputClasses = 'text-gray-800 placeholder:text-gray-400 focus:border-brand-500';
-
-  const titleText = type === 'login' ? 'Welcome Back' : 'Create Account';
-  const subtitleText =
-    type === 'login'
-      ? 'Sign in to your Codelang account'
-      : 'Sign up to create your Codelang account';
-  const buttonText = isSubmittingForm ? 'Processing...' : type === 'login' ? 'Sign In' : 'Sign Up';
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
       <div className="mb-6">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2 font-sans">{titleText}</h2>
-        <p className="text-sm text-gray-600 font-sans">{subtitleText}</p>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-2 font-sans">
+          {type === 'login' ? 'Welcome Back' : 'Create Account'}
+        </h2>
+        <p className="text-sm text-gray-600 font-sans">
+          {type === 'login'
+            ? 'Sign in to your Codelang account'
+            : 'Sign up to create your Codelang account'}
+        </p>
       </div>
 
       <div className="space-y-4">
@@ -108,8 +101,8 @@ export default function AuthForm({ type }: AuthFormProps) {
           type="text"
           placeholder="Enter your username"
           error={errors.username?.message}
-          labelClassName={labelClasses}
-          inputClassName={inputClasses}
+          labelClassName="form-label"
+          inputClassName="form-input"
           {...register('username', USERNAME_VALIDATION)}
         />
 
@@ -119,8 +112,8 @@ export default function AuthForm({ type }: AuthFormProps) {
           type="password"
           placeholder="Enter your password"
           error={errors.password?.message}
-          labelClassName={labelClasses}
-          inputClassName={inputClasses}
+          labelClassName="form-label"
+          inputClassName="form-input"
           {...register('password', PASSWORD_VALIDATION)}
         />
 
@@ -131,8 +124,8 @@ export default function AuthForm({ type }: AuthFormProps) {
             type="password"
             placeholder="Confirm your password"
             error={errors.confirmPassword?.message}
-            labelClassName={labelClasses}
-            inputClassName={inputClasses}
+            labelClassName="form-label"
+            inputClassName="form-input"
             {...register('confirmPassword', confirmPasswordValidation)}
           />
         )}
@@ -151,7 +144,7 @@ export default function AuthForm({ type }: AuthFormProps) {
           disabled={isSubmittingForm}
           className="font-medium font-sans"
         >
-          {buttonText}
+          {isSubmittingForm ? 'Processing...' : type === 'login' ? 'Sign In' : 'Sign Up'}
         </Button>
       </div>
 

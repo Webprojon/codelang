@@ -1,5 +1,5 @@
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { useCallback, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { HiX } from 'react-icons/hi';
 import { sidebarNavigationLinks } from '@shared/utils/navigation';
@@ -21,9 +21,9 @@ export default function Sidebar({ onClose }: SidebarProps) {
 
   const isSnippetDetailPage = /^\/snippets\/[^/]+$/.test(location.pathname);
 
-  const handleCollapse = useCallback(() => {
+  const handleCollapse = () => {
     setIsCollapsed(prev => !prev);
-  }, []);
+  };
 
   const handleLogout = () => {
     logoutMutation.mutate(undefined, {

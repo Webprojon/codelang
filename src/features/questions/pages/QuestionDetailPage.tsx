@@ -68,8 +68,6 @@ export default function QuestionDetailPage() {
     );
   }
 
-  const hasCode = Boolean(question.attachedCode?.trim());
-
   return (
     <div className="space-y-8">
       <div className="space-y-6">
@@ -80,7 +78,7 @@ export default function QuestionDetailPage() {
           <p className="italic leading-relaxed text-sm text-gray-500">{question.description}</p>
         </div>
 
-        {hasCode && (
+        {Boolean(question.attachedCode?.trim()) && (
           <div className="space-y-2">
             <h2 className="text-sm font-semibold text-gray-600">Attached Code</h2>
             <div className="border border-gray-200 rounded-lg overflow-hidden">

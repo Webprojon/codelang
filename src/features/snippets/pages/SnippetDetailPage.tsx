@@ -1,5 +1,4 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useCallback, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useMarkSnippet } from '@features/snippets/hooks/useMarkSnippet';
 import { useCreateComment } from '@features/snippets/hooks/comments';
@@ -42,44 +41,35 @@ export default function SnippetDetailPage() {
     error: commentError,
   } = useCreateComment();
 
-  const handleMark = useCallback(
-    async (mark: MarkType) => {
-      if (snippet && id) {
-        try {
-          await markSnippet({ id: parseInt(snippet.id, 10), mark });
-        } catch (err) {
-          console.error('Failed to mark snippet:', err);
-        }
-      }
-    },
-    [snippet, id, markSnippet]
-  );
-
-  const handleCommentSubmit = useCallback(
-    async (content: string) => {
-      if (!snippet || !id) {
-        return;
-      }
-
+  const handleMark = async (mark: MarkType) => {
+    if (snippet && id) {
       try {
-        await createCommentHandler({
-          content,
-          snippetId: parseInt(id, 10),
-        });
+        await markSnippet({ id: parseInt(snippet.id, 10), mark });
       } catch (err) {
-        console.error('Failed to create comment:', err);
-        throw err;
+        console.error('Failed to mark snippet:', err);
       }
-    },
-    [snippet, id, createCommentHandler]
-  );
+    }
+  };
+
+  const handleCommentSubmit = async (content: string) => {
+    if (!snippet || !id) {
+      return;
+    }
+
+    try {
+      await createCommentHandler({
+        content,
+        snippetId: parseInt(id, 10),
+      });
+    } catch (err) {
+      console.error('Failed to create comment:', err);
+      throw err;
+    }
+  };
 
   const username = snippet?.user?.username || DEFAULT_USERNAME;
   const language = snippet?.language || DEFAULT_LANGUAGE;
-  const snippetForFooter = useMemo(
-    () => (snippet ? createSnippetForFooter(snippet, currentUserId) : null),
-    [snippet, currentUserId]
-  );
+  const snippetForFooter = snippet ? createSnippetForFooter(snippet, currentUserId) : null;
 
   if (isLoading) {
     return (
@@ -89,12 +79,12 @@ export default function SnippetDetailPage() {
     );
   }
 
-  const error = queryError ? 'Failed to load snippet' : null;
-
-  if (error || !snippet) {
+  if (queryError || !snippet) {
     return (
       <div className={SNIPPET_STYLES.errorContainer}>
-        <p className="text-red-600">{error || 'Snippet not found'}</p>
+        <p className="text-red-600">
+          {queryError ? 'Failed to load snippet' : 'Snippet not found'}
+        </p>
         <Button onClick={() => navigate('/')} color="primary" size="md">
           Go to Home
         </Button>

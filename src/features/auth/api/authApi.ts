@@ -1,5 +1,4 @@
 import apiClient from '@shared/api/client';
-import { handleApiError, createApiError } from '@shared/utils/errorHandler';
 import type {
   RegisterRequest,
   RegisterResponse,
@@ -14,40 +13,20 @@ const LOGOUT_ENDPOINT = '/auth/logout';
 const ME_ENDPOINT = '/me';
 
 export const registerUser = async (credentials: RegisterRequest): Promise<RegisterResponse> => {
-  try {
-    const response = await apiClient.post<RegisterResponse>(REGISTER_ENDPOINT, credentials);
-    return response.data;
-  } catch (error) {
-    const apiError = handleApiError(error);
-    throw createApiError(apiError);
-  }
+  const response = await apiClient.post<RegisterResponse>(REGISTER_ENDPOINT, credentials);
+  return response.data;
 };
 
 export const loginUser = async (credentials: LoginRequest): Promise<LoginResponse> => {
-  try {
-    const response = await apiClient.post<LoginResponse>(LOGIN_ENDPOINT, credentials);
-    return response.data;
-  } catch (error) {
-    const apiError = handleApiError(error);
-    throw createApiError(apiError);
-  }
+  const response = await apiClient.post<LoginResponse>(LOGIN_ENDPOINT, credentials);
+  return response.data;
 };
 
 export const logoutUser = async (): Promise<void> => {
-  try {
-    await apiClient.post(LOGOUT_ENDPOINT, {});
-  } catch (error) {
-    const apiError = handleApiError(error);
-    throw createApiError(apiError);
-  }
+  await apiClient.post(LOGOUT_ENDPOINT, {});
 };
 
 export const getCurrentUser = async (): Promise<User> => {
-  try {
-    const response = await apiClient.get<{ data: User }>(ME_ENDPOINT);
-    return response.data.data;
-  } catch (error) {
-    const apiError = handleApiError(error);
-    throw createApiError(apiError);
-  }
+  const response = await apiClient.get<{ data: User }>(ME_ENDPOINT);
+  return response.data.data;
 };

@@ -1,4 +1,3 @@
-import { memo, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@features/auth/store/authStore';
 import { useDeleteQuestion } from '@features/questions/hooks/questions';
@@ -24,7 +23,7 @@ function QuestionCard({ question }: QuestionCardProps) {
   const description = question.description || 'No description provided';
   const isCurrentUserQuestion = currentUser?.id === question.user?.id;
 
-  const handleDelete = useCallback(async () => {
+  const handleDelete = async () => {
     confirmModal.showConfirm('Are you sure you want to delete this question?', async () => {
       try {
         await deleteQuestion(question.id);
@@ -34,11 +33,11 @@ function QuestionCard({ question }: QuestionCardProps) {
         toast.error('Failed to delete question');
       }
     });
-  }, [confirmModal, deleteQuestion, question.id]);
+  };
 
-  const handleEdit = useCallback(() => {
+  const handleEdit = () => {
     navigate(`/questions/${question.id}/edit`);
-  }, [navigate, question.id]);
+  };
 
   return (
     <>
@@ -95,11 +94,4 @@ function QuestionCard({ question }: QuestionCardProps) {
   );
 }
 
-export default memo(QuestionCard, (prevProps, nextProps) => {
-  return (
-    prevProps.question.id === nextProps.question.id &&
-    prevProps.question.title === nextProps.question.title &&
-    prevProps.question.description === nextProps.question.description &&
-    prevProps.question.user?.id === nextProps.question.user?.id
-  );
-});
+export default QuestionCard;

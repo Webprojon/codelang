@@ -1,8 +1,7 @@
-import { memo } from 'react';
 import { PiCodeBold } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 
-function Logo() {
+export default function Logo() {
   return (
     <Link to="/" className="flex items-center gap-2" aria-label="Codelang">
       <PiCodeBold className="size-6 text-white" aria-hidden="true" focusable="false" />
@@ -10,4 +9,3 @@ function Logo() {
     </Link>
   );
 }
-export default memo(Logo);

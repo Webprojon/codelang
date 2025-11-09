@@ -49,15 +49,10 @@ export default function AnswerForm({
     }
   };
 
-  const inputClasses =
-    'w-full px-4 py-3 bg-white border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 resize-none';
-
-  const isEditing = !!initialAnswer;
-
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold text-slate-700">
-        {isEditing ? 'Edit Your Answer' : 'Your Answer'}
+        {initialAnswer ? 'Edit Your Answer' : 'Your Answer'}
       </h3>
       {submitError && <div className={SNIPPET_STYLES.errorMessage}>{submitError}</div>}
 
@@ -67,7 +62,7 @@ export default function AnswerForm({
             id="content"
             placeholder="Write your answer here..."
             rows={6}
-            className={`${inputClasses} ${errors.content ? 'border-red-500' : 'border-gray-300'}`}
+            className={`form-input-standard ${errors.content ? 'border-red-500' : 'border-gray-300'}`}
             {...register('content', {
               required: 'Answer content is required',
               minLength: {

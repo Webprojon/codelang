@@ -55,12 +55,12 @@ export default function EditSnippetPage() {
     );
   }
 
-  const error = queryError ? 'Failed to load snippet' : null;
-
-  if (error || !snippet) {
+  if (queryError || !snippet) {
     return (
       <div className={SNIPPET_STYLES.errorContainer}>
-        <p className="text-red-600">{error || 'Snippet not found'}</p>
+        <p className="text-red-600">
+          {queryError ? 'Failed to load snippet' : 'Snippet not found'}
+        </p>
         <Button onClick={() => navigate('/')} color="primary" size="md">
           Go to Home
         </Button>

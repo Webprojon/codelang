@@ -4,7 +4,6 @@ import { getSnippets } from '@features/snippets/api/snippetApi';
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@shared/constants';
 import type { UseHomeSnippetsReturn } from '@features/home/types';
 import { getErrorMessage } from '@shared/utils/errorHandler';
-import { getDefaultQueryConfig } from '@shared/hooks/useQueryConfig';
 
 export const useHomeSnippets = (
   initialPage: number = DEFAULT_PAGE,
@@ -15,10 +14,10 @@ export const useHomeSnippets = (
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['snippets', currentPage, limit],
     queryFn: () => getSnippets(currentPage, limit),
-    ...getDefaultQueryConfig({
-      staleTime: 2 * 60 * 1000,
-      refetchOnMount: false,
-    }),
+    staleTime: 2 * 60 * 1000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
 
   return {

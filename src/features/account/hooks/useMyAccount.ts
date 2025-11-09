@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '@features/auth/store/authStore';
@@ -12,6 +11,7 @@ import {
 import { logoutUser } from '@features/auth/api/authApi';
 import type { ChangeUsernameFormData, ChangePasswordFormData } from '@features/account/types';
 import { useConfirmModal } from '@shared/hooks/useConfirmModal';
+import type { UserWithStats } from '@features/users/types';
 
 export const useMyAccount = () => {
   const navigate = useNavigate();
@@ -21,17 +21,16 @@ export const useMyAccount = () => {
   const setUser = useAuthStore(state => state.setUser);
   const confirmModal = useConfirmModal();
 
-  const { data: userWithStats, isLoading } = useQuery({
+  const { data: userWithStats, isLoading } = useQuery<UserWithStats>({
     queryKey: ['userStatistics', user?.id],
     queryFn: () => getUserStatistics(user!.id),
     enabled: !!user?.id,
+    onSuccess: (data: UserWithStats) => {
+      if (data?.user) {
+        setUser(data.user);
+      }
+    },
   });
-
-  useEffect(() => {
-    if (userWithStats?.user) {
-      setUser(userWithStats.user);
-    }
-  }, [userWithStats?.user, setUser]);
 
   const deleteAccountMutation = useMutation({
     mutationFn: deleteAccount,

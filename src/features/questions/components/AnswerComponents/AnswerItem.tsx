@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { getFirstLetter } from '@shared/utils/userUtils';
 import EditDeleteActions from '@shared/components/ui/EditDeleteActions';
@@ -60,14 +59,4 @@ function AnswerItem({
   );
 }
 
-export default memo(AnswerItem, (prevProps, nextProps) => {
-  return (
-    prevProps.answer.id === nextProps.answer.id &&
-    prevProps.answer.content === nextProps.answer.content &&
-    prevProps.answer.user?.id === nextProps.answer.user?.id &&
-    prevProps.isCurrentUserAnswer === nextProps.isCurrentUserAnswer &&
-    prevProps.isEditing === nextProps.isEditing &&
-    prevProps.isDeleting === nextProps.isDeleting &&
-    prevProps.isUpdating === nextProps.isUpdating
-  );
-});
+export default AnswerItem;
