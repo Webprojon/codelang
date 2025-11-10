@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Button from '@shared/components/ui/Button';
 
 interface ConfirmModalProps {
@@ -38,7 +39,7 @@ export default function ConfirmModal({
 
   if (!isOpen) return null;
 
-  return (
+  const modalContent = (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 bg-opacity-50"
       onClick={onCancel}
@@ -59,4 +60,6 @@ export default function ConfirmModal({
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 }
