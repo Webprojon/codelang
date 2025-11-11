@@ -1,11 +1,8 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useMyAccount } from '../useMyAccount';
-import {
-  updateUsername,
-  updatePassword,
-  getUserStatistics,
-} from '@features/account/api/accountApi';
+import { updateUsername, updatePassword } from '@features/account/api/accountApi';
+import { getUserStatistics } from '@features/users/api/userApi';
 import { logoutUser } from '@features/auth/api/authApi';
 import { useAuthStore } from '@features/auth/store/authStore';
 import type { AuthState } from '@features/auth/store/authStore';
@@ -14,6 +11,7 @@ import type { ReactNode } from 'react';
 
 // Mock dependencies
 jest.mock('@features/account/api/accountApi');
+jest.mock('@features/users/api/userApi');
 jest.mock('@features/auth/api/authApi');
 jest.mock('@features/auth/store/authStore');
 jest.mock('@shared/hooks/useConfirmModal');

@@ -1,6 +1,6 @@
 import apiClient from '@shared/api/client';
-import { handleApiError, createApiError } from '@shared/utils/errorHandler';
-import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@shared/constants';
+import { DEFAULT_PAGE, DEFAULT_LIMIT, DEFAULT_META } from '@shared/constants';
+import { transformPaginatedResponse } from '@shared/utils/apiUtils';
 import type { PaginationMeta } from '@shared/types/api';
 import type { User } from '@features/auth/types';
 import type { UserStatisticsResponse } from '@features/account/types';
@@ -24,38 +24,38 @@ export interface UserResponse {
   data: User;
 }
 
-const DEFAULT_META: PaginationMeta = {
-  itemsPerPage: 0,
-  totalItems: 0,
-  currentPage: 1,
-  totalPages: 1,
-};
+export const getUsers = async (
+  page: number = DEFAULT_PAGE,
+  limit: number = DEFAULT_LIMIT
+): Promise<UsersResponse> => {
+  const response = await apiClient.get<ApiUsersResponse | { data: User[] }>(USERS_ENDPOINT, {
+    params: {
+      page,
+      limit,
+    },
+  });
 
-const parseUsersResponse = (
-  responseData: ApiUsersResponse | { data: User[] } | User[]
-): { users: User[]; meta?: PaginationMeta } => {
-  if (responseData && 'data' in responseData) {
-    const apiResponse = responseData as ApiUsersResponse;
-    if (apiResponse.data && 'data' in apiResponse.data && 'meta' in apiResponse.data) {
-      return {
-        users: apiResponse.data.data,
-        meta: apiResponse.data.meta,
-      };
-    }
-  }
-
-  if (Array.isArray(responseData)) {
+  if (Array.isArray(response.data)) {
     return {
-      users: responseData,
+      users: response.data,
       meta: DEFAULT_META,
     };
   }
 
-  if (responseData && typeof responseData === 'object' && 'data' in responseData) {
-    const data = (responseData as { data: User[] }).data;
-    if (Array.isArray(data)) {
+  if (response.data && 'data' in response.data) {
+    const apiResponse = response.data as ApiUsersResponse;
+    if (apiResponse.data && 'data' in apiResponse.data && 'meta' in apiResponse.data) {
+      const { items, meta } = transformPaginatedResponse(apiResponse, (user: User) => user);
       return {
-        users: data,
+        users: items,
+        meta,
+      };
+    }
+
+    // Handle simple nested: { data: User[] }
+    if (Array.isArray(apiResponse.data)) {
+      return {
+        users: apiResponse.data,
         meta: DEFAULT_META,
       };
     }
@@ -67,71 +67,38 @@ const parseUsersResponse = (
   };
 };
 
-export const getUsers = async (
-  page: number = DEFAULT_PAGE,
-  limit: number = DEFAULT_LIMIT
-): Promise<UsersResponse> => {
-  try {
-    const response = await apiClient.get<ApiUsersResponse | { data: User[] }>(USERS_ENDPOINT, {
-      params: {
-        page,
-        limit,
-      },
-    });
-
-    const { users, meta } = parseUsersResponse(response.data);
-    return {
-      users,
-      meta: meta || DEFAULT_META,
-    };
-  } catch (error) {
-    const apiError = handleApiError(error);
-    throw createApiError(apiError);
-  }
-};
-
 export const getUserById = async (id: number): Promise<User> => {
-  try {
-    const response = await apiClient.get<UserResponse | { data: User }>(`${USERS_ENDPOINT}/${id}`);
+  const response = await apiClient.get<UserResponse | { data: User }>(`${USERS_ENDPOINT}/${id}`);
 
-    if (response.data && 'data' in response.data) {
-      return response.data.data;
-    }
-
-    return response.data as unknown as User;
-  } catch (error) {
-    const apiError = handleApiError(error);
-    throw createApiError(apiError);
+  if (response.data && 'data' in response.data) {
+    return response.data.data;
   }
+
+  return response.data as unknown as User;
 };
 
 export const getUserStatistics = async (userId: number): Promise<UserWithStats> => {
-  try {
-    const response = await apiClient.get<UserStatisticsResponse>(
-      `${USERS_ENDPOINT}/${userId}/statistic`
-    );
-    const data = response.data.data;
-    const statistic = data.statistic;
+  const response = await apiClient.get<UserStatisticsResponse>(
+    `${USERS_ENDPOINT}/${userId}/statistic`
+  );
+  const data = response.data.data;
+  const statistic = data.statistic;
 
-    return {
-      user: {
-        id: data.id,
-        username: data.username,
-        role: data.role,
-      },
-      stats: {
-        rating: statistic.rating,
-        snippets: statistic.snippetsCount,
-        comments: statistic.commentsCount,
-        likes: statistic.likesCount,
-        dislikes: statistic.dislikesCount,
-        questions: statistic.questionsCount,
-        correctAnswers: statistic.correctAnswersCount,
-        regularAnswers: statistic.regularAnswersCount,
-      },
-    };
-  } catch (error) {
-    const apiError = handleApiError(error);
-    throw createApiError(apiError);
-  }
+  return {
+    user: {
+      id: data.id,
+      username: data.username,
+      role: data.role,
+    },
+    stats: {
+      rating: statistic.rating,
+      snippets: statistic.snippetsCount,
+      comments: statistic.commentsCount,
+      likes: statistic.likesCount,
+      dislikes: statistic.dislikesCount,
+      questions: statistic.questionsCount,
+      correctAnswers: statistic.correctAnswersCount,
+      regularAnswers: statistic.regularAnswersCount,
+    },
+  };
 };
