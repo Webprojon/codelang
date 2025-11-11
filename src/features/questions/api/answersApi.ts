@@ -1,5 +1,4 @@
 import apiClient from '@shared/api/client';
-import { handleApiError, createApiError } from '@shared/utils/errorHandler';
 import type {
   Answer,
   ApiAnswer,
@@ -19,33 +18,15 @@ const transformApiAnswer = (apiAnswer: ApiAnswer): Answer => {
 };
 
 export const createAnswer = async (request: CreateAnswerRequest): Promise<Answer> => {
-  try {
-    const response = await apiClient.post<{ data: ApiAnswer }>(ANSWERS_ENDPOINT, request);
-    return transformApiAnswer(response.data.data);
-  } catch (error) {
-    const apiError = handleApiError(error);
-    throw createApiError(apiError);
-  }
+  const response = await apiClient.post<{ data: ApiAnswer }>(ANSWERS_ENDPOINT, request);
+  return transformApiAnswer(response.data.data);
 };
 
 export const updateAnswer = async (id: number, request: UpdateAnswerRequest): Promise<Answer> => {
-  try {
-    const response = await apiClient.patch<{ data: ApiAnswer }>(
-      `${ANSWERS_ENDPOINT}/${id}`,
-      request
-    );
-    return transformApiAnswer(response.data.data);
-  } catch (error) {
-    const apiError = handleApiError(error);
-    throw createApiError(apiError);
-  }
+  const response = await apiClient.patch<{ data: ApiAnswer }>(`${ANSWERS_ENDPOINT}/${id}`, request);
+  return transformApiAnswer(response.data.data);
 };
 
 export const deleteAnswer = async (id: number): Promise<void> => {
-  try {
-    await apiClient.delete(`${ANSWERS_ENDPOINT}/${id}`);
-  } catch (error) {
-    const apiError = handleApiError(error);
-    throw createApiError(apiError);
-  }
+  await apiClient.delete(`${ANSWERS_ENDPOINT}/${id}`);
 };

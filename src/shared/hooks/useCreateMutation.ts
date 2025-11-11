@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient, QueryClient } from '@tanstack/react-query';
-import { getErrorMessage } from '@shared/utils/errorHandler';
+import { QueryClient } from '@tanstack/react-query';
+import { useBaseMutation } from './useBaseMutation';
 
 export interface CreateMutationOptions<TData, TVariables> {
   mutationFn: (variables: TVariables) => Promise<TData>;
@@ -30,37 +30,11 @@ export interface UseCreateMutationReturn<TData, TVariables> {
 export function useCreateMutation<TData, TVariables>(
   options: CreateMutationOptions<TData, TVariables>
 ): UseCreateMutationReturn<TData, TVariables> {
-  const queryClient = useQueryClient();
-  const { mutationFn, errorMessage, onSuccess, invalidateQueries, invalidateUserStats } = options;
-
-  const mutation = useMutation({
-    mutationFn,
-    onSuccess: async (data, variables) => {
-      const invalidationPromises: Promise<void>[] = [];
-
-      if (invalidateQueries) {
-        const result = invalidateQueries(queryClient, data, variables);
-        invalidationPromises.push(result ? result : Promise.resolve());
-      }
-
-      if (invalidateUserStats) {
-        const result = invalidateUserStats(queryClient, data, variables);
-        invalidationPromises.push(result ? result : Promise.resolve());
-      }
-
-      await Promise.all(invalidationPromises);
-
-      if (onSuccess) {
-        await onSuccess(data, variables, queryClient);
-      }
-    },
-  });
+  const { isPending, error, mutateAsync } = useBaseMutation(options);
 
   return {
-    isSubmitting: mutation.isPending,
-    error: mutation.error ? getErrorMessage(mutation.error, errorMessage) : null,
-    create: async (variables: TVariables) => {
-      return await mutation.mutateAsync(variables);
-    },
+    isSubmitting: isPending,
+    error,
+    create: mutateAsync,
   };
 }

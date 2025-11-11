@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient, QueryClient } from '@tanstack/react-query';
-import { getErrorMessage } from '@shared/utils/errorHandler';
+import { QueryClient } from '@tanstack/react-query';
+import { useBaseMutationWithoutData } from './useBaseMutation';
 
 export interface DeleteMutationOptions<TVariables> {
   mutationFn: (variables: TVariables) => Promise<void>;
@@ -18,37 +18,11 @@ export interface UseDeleteMutationReturn<TVariables> {
 export function useDeleteMutation<TVariables>(
   options: DeleteMutationOptions<TVariables>
 ): UseDeleteMutationReturn<TVariables> {
-  const queryClient = useQueryClient();
-  const { mutationFn, errorMessage, onSuccess, invalidateQueries, invalidateUserStats } = options;
-
-  const mutation = useMutation({
-    mutationFn,
-    onSuccess: async (_, variables) => {
-      const invalidationPromises: Promise<void>[] = [];
-
-      if (invalidateQueries) {
-        const result = invalidateQueries(queryClient, variables);
-        invalidationPromises.push(result ? result : Promise.resolve());
-      }
-
-      if (invalidateUserStats) {
-        const result = invalidateUserStats(queryClient, variables);
-        invalidationPromises.push(result ? result : Promise.resolve());
-      }
-
-      await Promise.all(invalidationPromises);
-
-      if (onSuccess) {
-        await onSuccess(variables, queryClient);
-      }
-    },
-  });
+  const { isPending, error, mutateAsync } = useBaseMutationWithoutData(options);
 
   return {
-    isDeleting: mutation.isPending,
-    error: mutation.error ? getErrorMessage(mutation.error, errorMessage) : null,
-    deleteItem: async (variables: TVariables) => {
-      return await mutation.mutateAsync(variables);
-    },
+    isDeleting: isPending,
+    error,
+    deleteItem: mutateAsync,
   };
 }
