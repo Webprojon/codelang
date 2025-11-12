@@ -25,7 +25,7 @@ export default function Pagination({
   });
 
   return (
-    <div className={`flex justify-center items-center gap-4 ${className}`}>
+    <div className={`hidden md:flex justify-center items-center gap-4 ${className}`}>
       <Button
         onClick={handlePrevious}
         disabled={isPreviousDisabled}

@@ -15,6 +15,8 @@ export interface UseUsersReturn {
   currentPage: number;
   totalPages: number;
   setCurrentPage: (page: number) => void;
+  loadNextPage: () => void;
+  hasMore: boolean;
   refetch: () => Promise<unknown>;
 }
 

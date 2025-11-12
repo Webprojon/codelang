@@ -1,25 +1,16 @@
-import { LoadingSpinner } from '@shared/components/feedback';
+import { LoadingContainer } from '@shared/components/feedback';
 import UserCard from '@features/users/components/UserCard';
 import type { User } from '@features/auth/types';
 import Button from '@shared/components/ui/Button';
 
 interface UsersListProps {
   users: User[];
-  isLoading: boolean;
   isError: boolean;
   error: string | null;
   onRefetch?: () => Promise<unknown>;
 }
 
-export default function UsersList({ users, isLoading, isError, error, onRefetch }: UsersListProps) {
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center py-12">
-        <LoadingSpinner size="lg" />
-      </div>
-    );
-  }
-
+export default function UsersList({ users, isError, error, onRefetch }: UsersListProps) {
   if (isError && error) {
     return (
       <div className="flex flex-col justify-center items-center py-12 gap-4">
@@ -34,11 +25,7 @@ export default function UsersList({ users, isLoading, isError, error, onRefetch 
   }
 
   if (users.length === 0) {
-    return (
-      <div className="flex justify-center items-center py-12">
-        <p className="text-gray-500 text-lg">No users found</p>
-      </div>
-    );
+    return <LoadingContainer />;
   }
 
   return (

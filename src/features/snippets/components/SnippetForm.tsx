@@ -91,7 +91,7 @@ export default function SnippetForm({
 
   if (isLoadingLanguages) {
     return (
-      <div className={SNIPPET_STYLES.loadingContainer}>
+      <div className="flex justify-center items-center py-8">
         <LoadingSpinner size="lg" />
       </div>
     );

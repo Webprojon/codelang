@@ -1,22 +1,13 @@
 import QuestionCard from '@features/questions/components/QuestionComponents/QuestionCard';
-import { LoadingSpinner } from '@shared/components/feedback';
+import { LoadingContainer } from '@shared/components/feedback';
 import type { Question } from '@features/questions/types';
 
 interface QuestionsListProps {
   questions: Question[];
-  isLoading: boolean;
   error: string | null;
 }
 
-export default function QuestionsList({ questions, isLoading, error }: QuestionsListProps) {
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center py-8">
-        <LoadingSpinner size="lg" />
-      </div>
-    );
-  }
-
+export default function QuestionsList({ questions, error }: QuestionsListProps) {
   if (error) {
     return (
       <div className="flex justify-center items-center py-8">
@@ -26,11 +17,7 @@ export default function QuestionsList({ questions, isLoading, error }: Questions
   }
 
   if (questions.length === 0) {
-    return (
-      <div className="flex justify-center items-center py-8">
-        <p className="text-gray-500">No questions found</p>
-      </div>
-    );
+    return <LoadingContainer />;
   }
 
   return (

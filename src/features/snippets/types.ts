@@ -119,6 +119,8 @@ export interface UseMySnippetsReturn {
   currentPage: number;
   totalPages: number;
   setCurrentPage: (page: number) => void;
+  loadNextPage: () => void;
+  hasMore: boolean;
   refetch: () => Promise<unknown>;
 }
 
