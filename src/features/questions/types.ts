@@ -96,6 +96,8 @@ export interface UseQuestionsReturn {
   currentPage: number;
   totalPages: number;
   setCurrentPage: (page: number) => void;
+  loadNextPage: () => void;
+  hasMore: boolean;
   refetch: () => Promise<unknown>;
 }
 

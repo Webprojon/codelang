@@ -1,22 +1,13 @@
 import SnippetCard from '@features/snippets/components/SnippetCard';
-import { LoadingSpinner } from '@shared/components/feedback';
 import type { Snippet } from '@features/snippets/types';
+import { LoadingContainer } from '@shared/components/feedback';
 
 interface SnippetsListProps {
   snippets: Snippet[];
-  isLoading: boolean;
   error: string | null;
 }
 
-export default function SnippetsList({ snippets, isLoading, error }: SnippetsListProps) {
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center py-8">
-        <LoadingSpinner size="lg" />
-      </div>
-    );
-  }
-
+export default function SnippetsList({ snippets, error }: SnippetsListProps) {
   if (error) {
     return (
       <div className="flex justify-center items-center py-8">
@@ -26,11 +17,7 @@ export default function SnippetsList({ snippets, isLoading, error }: SnippetsLis
   }
 
   if (snippets.length === 0) {
-    return (
-      <div className="flex justify-center items-center py-8">
-        <p className="text-gray-500">No snippets found</p>
-      </div>
-    );
+    return <LoadingContainer />;
   }
 
   return (
