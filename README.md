@@ -1,4 +1,4 @@
-# [Codelang](https://my-codelang.vercel.app)
+# Codelang
 
 A modern code sharing and Q&A platform built with React and TypeScript. Share code snippets, ask programming questions, and collaborate with developers worldwide.
 
